@@ -1,6 +1,6 @@
 package com.pearadmin.common.plugins.security.domain;
 
-import com.pearadmin.modules.sys.domain.SysUser;
+import com.pearadmin.modules.system.domain.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;

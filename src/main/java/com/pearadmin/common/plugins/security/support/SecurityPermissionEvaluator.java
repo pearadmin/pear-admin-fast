@@ -1,8 +1,8 @@
 package com.pearadmin.common.plugins.security.support;
 
 import com.pearadmin.common.plugins.security.domain.SecurityUserDetails;
-import com.pearadmin.modules.sys.domain.SysPower;
-import com.pearadmin.modules.sys.mapper.SysPowerMapper;
+import com.pearadmin.modules.system.domain.SysPower;
+import com.pearadmin.modules.system.mapper.SysPowerMapper;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
