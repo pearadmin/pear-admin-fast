@@ -1,0 +1,105 @@
+package ${packageName}.controller;
+
+import java.util.List;
+import com.pearadmin.common.tools.text.Convert;
+import com.pearadmin.common.web.base.BaseController;
+import com.pearadmin.common.web.domain.response.Result;
+import com.pearadmin.common.web.domain.response.ResultTable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ${packageName}.service.I${ClassName}Service;
+
+/**
+ * ${functionName}Controller
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("/${moduleName}/${businessName}")
+public class ${ClassName}Controller extends BaseController
+{
+    private String prefix = "${moduleName}/${businessName}";
+
+    @Autowired
+    private I${ClassName}Service ${className}Service;
+
+    @GetMapping("/main")
+    public String main()
+    {
+        return prefix + "/main";
+    }
+
+    /**
+     * 查询${functionName}列表
+     */
+    @GetMapping("/list")
+    @ResponseBody
+    public ResultTable list(${ClassName} ${className})
+    {
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        return dataTable(list);
+    }
+
+    /**
+     * 新增${functionName}
+     */
+    @GetMapping("/add")
+    public String add()
+    {
+        return prefix + "/add";
+    }
+
+    /**
+     * 新增保存${functionName}
+     */
+    @PostMapping("/save")
+    @ResponseBody
+    public Result save(${ClassName} ${className})
+    {
+        return decide(${className}Service.insert${ClassName}(${className}));
+    }
+
+    /**
+     * 修改${functionName}
+     */
+    @GetMapping("/edit}")
+    public ModelAndView edit(${pkColumn.javaType} ${pkColumn.javaField}, ModelMap mmap)
+    {
+        ${ClassName} ${className} = ${className}Service.select${ClassName}ById(${pkColumn.javaField});
+        mmap.put("${className}", ${className});
+        return JumpPage(prefix + "/edit");
+    }
+
+    /**
+     * 修改保存${functionName}
+     */
+    @PutMapping("/update")
+    @ResponseBody
+    public Result update(${ClassName} ${className})
+    {
+        return decide(${className}Service.update${ClassName}(${className}));
+    }
+
+    /**
+     * 删除${functionName}
+     */
+    @PostMapping( "/remove")
+    @ResponseBody
+    public Result remove(String ids)
+    {
+        return decide(${className}Service.delete${ClassName}ByIds(Convert.toStrArray(ids)));
+    }
+
+    /**
+     * 删除
+     */
+    @GetMapping("/remove/{${pkColumn.javaField}}")
+    @ResponseBody
+    public AjaxResult remove(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
+    {
+        return decide(${className}Service.delete${ClassName}ById(${pkColumn.javaField}));
+    }
+}
