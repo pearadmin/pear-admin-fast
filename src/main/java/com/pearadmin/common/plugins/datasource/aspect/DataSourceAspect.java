@@ -27,10 +27,16 @@ public class DataSourceAspect
 {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * 切 点
+     * */
     @Pointcut("@annotation(com.pearadmin.common.plugins.datasource.annotation.DataSource) || @within(com.pearadmin.common.plugins.datasource.annotation.DataSource)")
     public void dsPointCut()
     { }
 
+    /**
+     * 环 绕 通 知
+     * */
     @Around("dsPointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable
     {

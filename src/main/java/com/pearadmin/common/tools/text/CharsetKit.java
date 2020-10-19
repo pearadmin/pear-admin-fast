@@ -5,8 +5,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 字符集工具类
- */
+ * Describe: 字 符 集 工 具 类
+ * Author: 就 眠 仪 式
+ * CreateTime: 2019/10/23
+ * */
 public class CharsetKit
 {
     /** ISO-8859-1 */
