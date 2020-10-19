@@ -32,8 +32,14 @@ import java.util.List;
 @RequestMapping("/process/model/")
 public class ProModelController extends BaseController {
 
+    /**
+     * 基础路径
+     * */
     private String modelPath = "process/model/";
 
+    /**
+     * 引入服务
+     * */
     @Resource
     private RepositoryService repositoryService;
 
@@ -117,6 +123,11 @@ public class ProModelController extends BaseController {
         return success("创建成功", model.getId());
     }
 
+    /**
+     * Describe: 创建流程图节点
+     * Param: createModelParam
+     * Return: Result
+     * */
     private void createObjectNode(String modelId){
         ObjectNode editorNode = objectMapper.createObjectNode();
         editorNode.put("id", "canvas");

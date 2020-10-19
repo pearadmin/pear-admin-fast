@@ -18,7 +18,7 @@ import org.springframework.ui.Model;
  * */
 @RestController
 @RequestMapping
-public class EntranceController extends BaseController {
+public class SysHomeController extends BaseController {
 
     /**
      * Describe: 获取登录视图

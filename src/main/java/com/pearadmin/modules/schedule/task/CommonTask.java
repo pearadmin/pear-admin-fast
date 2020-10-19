@@ -16,12 +16,9 @@ import java.util.Date;
 @Component("commonTask")
 public class CommonTask implements BaseTaskService {
 
-    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
-
     @Override
     public void run(String params) {
         log.info("Params === >> " + params);
-        log.info("当前时间::::" + format.format(new Date()));
-        System.out.println("执行成功");
+        log.info("当前时间::::" + new Date());
     }
 }
