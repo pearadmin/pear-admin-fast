@@ -32,7 +32,7 @@ public class ResultTable extends BaseDomain {
     private Object data;
 
     /**
-     * 构 建
+     * 构 建 分 页 表 格 数 据
      * */
     public static ResultTable pageTable(long count,Object data){
         ResultTable resultTable = new ResultTable();
@@ -42,6 +42,9 @@ public class ResultTable extends BaseDomain {
         return resultTable;
     }
 
+    /**
+     * 构 建 数 据 表 格 数 据
+     * */
     public static ResultTable dataTable(Object data){
         ResultTable resultTable = new ResultTable();
         resultTable.setData(data);

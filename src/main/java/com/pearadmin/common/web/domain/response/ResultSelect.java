@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * CxSelect树结构实体类
- * 
- * @author ruoyi
+ * CxSelect 树结构实体类
  */
 public class ResultSelect implements Serializable
 {
@@ -27,8 +25,12 @@ public class ResultSelect implements Serializable
      */
     private List<ResultSelect> s;
 
+    /**
+     * 构 造 函 数
+     * */
     public ResultSelect()
     {
+
     }
 
     public ResultSelect(String v, String n)
