@@ -25,6 +25,8 @@
     </a>
 </p>
 
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1019/104805_042b888c_4835367.png "show.png")
+
 #### 项目介绍  :jack_o_lantern: 
 
 Spring Boot + Security + MyBatis + Thymeleaf + Activiti 快速开发平台
