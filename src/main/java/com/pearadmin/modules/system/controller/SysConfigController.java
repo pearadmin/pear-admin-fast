@@ -8,6 +8,7 @@ import com.pearadmin.common.web.domain.response.Result;
 import com.pearadmin.common.web.domain.response.ResultTable;
 import com.pearadmin.modules.system.domain.SysConfig;
 import com.pearadmin.modules.system.service.ISysConfigService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -117,6 +118,19 @@ public class SysConfigController extends BaseController {
     @PreAuthorize("hasPermission('/system/config/remove','sys:config:remove')")
     public Result remove(@PathVariable("id")String id){
         Boolean result = sysConfigService.remove(id);
+        return decide(result);
+    }
+
+    /**
+     * Describe: 系统配置批量删除接口
+     * Param: ids
+     * Return: Result
+     * */
+    @DeleteMapping("batchRemove/{ids}")
+    @ApiOperation(value="批量删除系统配置数据")
+    @PreAuthorize("hasPermission('/system/config/remove','sys:config:remove')")
+    public Result batchRemove(@PathVariable String ids){
+        boolean result = sysConfigService.batchRemove(ids.split(","));
         return decide(result);
     }
 }
