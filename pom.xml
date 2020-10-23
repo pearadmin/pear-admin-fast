@@ -10,9 +10,9 @@
     </parent>
     <groupId>com.pearadmin</groupId>
     <artifactId>pear-admin-fast</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RELEASE</version>
     <name>pear-admin-fast</name>
-    <description>Demo project for Spring Boot</description>
+    <description>基于 Spring Boot 生态的快速开发框架</description>
 
     <!-- 版 本 管 理 -->
     <properties>
