@@ -1,8 +1,11 @@
 package ${packageName}.controller;
 
 import java.util.List;
+
+import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.tools.text.Convert;
 import com.pearadmin.common.web.base.BaseController;
+import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
 import com.pearadmin.common.web.domain.response.ResultTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,7 @@ import ${packageName}.service.I${ClassName}Service;
 
 /**
  * ${functionName}Controller
- *
+ * 
  * @author ${author}
  * @date ${datetime}
  */
@@ -39,10 +42,10 @@ public class ${ClassName}Controller extends BaseController
     @ResponseBody
     @GetMapping("/data")
     @PreAuthorize("hasPermission('/${moduleName}/${businessName}/data','${permissionPrefix}:data')")
-    public ResultTable list(${ClassName} ${className})
+    public ResultTable list(${ClassName} ${className}, PageDomain pageDomain)
     {
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        return dataTable(list);
+        PageInfo<${ClassName}> pageInfo = ${className}Service.select${ClassName}List(${className});
+        return pageTable(pageInfo.getList(),pageInfo.getTotal());
     }
 
     /**
@@ -61,7 +64,7 @@ public class ${ClassName}Controller extends BaseController
     @ResponseBody
     @PostMapping("/save")
     @PreAuthorize("hasPermission('/${moduleName}/${businessName}/add','${permissionPrefix}:add')")
-    public Result save(${ClassName} ${className})
+    public Result save(@RequestBody ${ClassName} ${className})
     {
         return decide(${className}Service.insert${ClassName}(${className}));
     }
@@ -69,7 +72,7 @@ public class ${ClassName}Controller extends BaseController
     /**
      * 修改${functionName}
      */
-    @GetMapping("/edit}")
+    @GetMapping("/edit")
     @PreAuthorize("hasPermission('/${moduleName}/${businessName}/edit','${permissionPrefix}:edit')")
     public ModelAndView edit(${pkColumn.javaType} ${pkColumn.javaField}, ModelMap mmap)
     {
@@ -84,7 +87,7 @@ public class ${ClassName}Controller extends BaseController
     @ResponseBody
     @PutMapping("/update")
     @PreAuthorize("hasPermission('/${moduleName}/${businessName}/edit','${permissionPrefix}:edit')")
-    public Result update(${ClassName} ${className})
+    public Result update(@RequestBody ${ClassName} ${className})
     {
         return decide(${className}Service.update${ClassName}(${className}));
     }
@@ -93,7 +96,7 @@ public class ${ClassName}Controller extends BaseController
      * 删除${functionName}
      */
     @ResponseBody
-    @PostMapping( "/batchRemove")
+    @DeleteMapping( "/batchRemove")
     @PreAuthorize("hasPermission('/${moduleName}/${businessName}/remove','${permissionPrefix}:remove')")
     public Result batchRemove(String ids)
     {
@@ -104,7 +107,7 @@ public class ${ClassName}Controller extends BaseController
      * 删除
      */
     @ResponseBody
-    @GetMapping("/remove/{${pkColumn.javaField}}")
+    @DeleteMapping("/remove/{${pkColumn.javaField}}")
     @PreAuthorize("hasPermission('/${moduleName}/${businessName}/remove','${permissionPrefix}:remove')")
     public Result remove(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
     {

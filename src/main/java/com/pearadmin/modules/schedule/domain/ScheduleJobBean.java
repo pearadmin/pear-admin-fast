@@ -1,5 +1,6 @@
 package com.pearadmin.modules.schedule.domain;
 
+import com.pearadmin.common.web.base.BaseDomain;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 

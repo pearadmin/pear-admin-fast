@@ -2,10 +2,8 @@ package com.pearadmin.common.tools.text;
 
 
 /**
- * Describe: 字 符 串 格 式 化
- * Author: 就 眠 仪 式
- * CreateTime: 2019/10/23
- * */
+ * 字符串格式化
+ */
 public class StrFormatter
 {
     public static final String EMPTY_JSON = "{}";

@@ -12,6 +12,7 @@ import java.util.zip.ZipOutputStream;
 import com.pearadmin.common.constant.Constants;
 import com.pearadmin.common.constant.GeneratorConstants;
 import com.pearadmin.common.exception.base.BusinessException;
+import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.tools.text.CharsetKit;
 import com.pearadmin.common.tools.text.Convert;
 import com.pearadmin.common.tools.text.StringUtils;
@@ -19,6 +20,8 @@ import com.pearadmin.modules.generator.domain.GenTable;
 import com.pearadmin.modules.generator.domain.GenTableColumn;
 import com.pearadmin.modules.generator.service.IGenTableService;
 import com.pearadmin.modules.generator.util.VelocityInitializer;
+import com.pearadmin.modules.generator.util.GenUtils;
+import com.pearadmin.modules.generator.util.VelocityUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
@@ -32,8 +35,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pearadmin.modules.generator.mapper.GenTableColumnMapper;
 import com.pearadmin.modules.generator.mapper.GenTableMapper;
-import com.pearadmin.modules.generator.util.GenUtils;
-import com.pearadmin.modules.generator.util.VelocityUtils;
 
 import javax.annotation.Resource;
 
@@ -60,7 +61,7 @@ public class GenTableServiceImpl implements IGenTableService
      * @return 业务信息
      */
     @Override
-    public GenTable selectGenTableById(Long id)
+    public GenTable selectGenTableById(String id)
     {
         GenTable genTable = genTableMapper.selectGenTableById(id);
         setTableFromOptions(genTable);
@@ -146,8 +147,8 @@ public class GenTableServiceImpl implements IGenTableService
     @Transactional
     public void deleteGenTableByIds(String ids)
     {
-        genTableMapper.deleteGenTableByIds(Convert.toLongArray(ids));
-        genTableColumnMapper.deleteGenTableColumnByIds(Convert.toLongArray(ids));
+        genTableMapper.deleteGenTableByIds(Convert.toStrArray(ids));
+        genTableColumnMapper.deleteGenTableColumnByIds(Convert.toStrArray(ids));
     }
 
     /**
@@ -169,10 +170,10 @@ public class GenTableServiceImpl implements IGenTableService
                 int row = genTableMapper.insertGenTable(table);
                 if (row > 0)
                 {
-                    // 保存列信息
                     List<GenTableColumn> genTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
                     for (GenTableColumn column : genTableColumns)
                     {
+                        column.setColumnId(SequenceUtil.makeStringId());
                         GenUtils.initColumnField(column, table);
                         genTableColumnMapper.insertGenTableColumn(column);
                     }
@@ -192,7 +193,7 @@ public class GenTableServiceImpl implements IGenTableService
      * @return 预览数据列表
      */
     @Override
-    public Map<String, String> previewCode(Long tableId)
+    public Map<String, String> previewCode(String tableId)
     {
         Map<String, String> dataMap = new LinkedHashMap<>();
         // 查询表信息
@@ -433,7 +434,6 @@ public class GenTableServiceImpl implements IGenTableService
             String treeName = paramsObj.getString(GeneratorConstants.TREE_NAME);
             String parentMenuId = paramsObj.getString(GeneratorConstants.PARENT_MENU_ID);
             String parentMenuName = paramsObj.getString(GeneratorConstants.PARENT_MENU_NAME);
-            
             genTable.setTreeCode(treeCode);
             genTable.setTreeParentCode(treeParentCode);
             genTable.setTreeName(treeName);

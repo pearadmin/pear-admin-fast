@@ -8,10 +8,8 @@ import java.text.NumberFormat;
 import java.util.Set;
 
 /**
- * Describe: 类 型 转 换 器
- * Author: 就 眠 仪 式
- * CreateTime: 2019/10/23
- * */
+ * 类型转换器
+ */
 public class Convert
 {
     /**

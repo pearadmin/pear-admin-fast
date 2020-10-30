@@ -2,9 +2,9 @@ package com.pearadmin.modules.system.service;
 
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
+import com.pearadmin.modules.system.domain.SysMenu;
 import com.pearadmin.modules.system.domain.SysRole;
 import com.pearadmin.modules.system.domain.SysUser;
-import com.pearadmin.modules.system.domain.SysMenu;
 
 import java.util.List;
 
@@ -69,7 +69,7 @@ public interface ISysUserService {
      * Param: SysUser
      * Return: 操作结果
      * */
-    boolean saveUserRole(String userId,List<String> roleIds);
+    boolean saveUserRole(String userId, List<String> roleIds);
 
     /**
      * Describe: 获取用户角色数据

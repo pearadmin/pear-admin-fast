@@ -6,4 +6,14 @@ package com.pearadmin.common.constant;
  * CreateTime: 2019/10/23
  * */
 public class SystemConstant {
+
+    /**
+     * Windows 系统常量标识
+     * */
+    public static String WINDOWS = "windows";
+
+    /**
+     * Linux 系统常量标识
+     * */
+    private static String Linux = "linux";
 }

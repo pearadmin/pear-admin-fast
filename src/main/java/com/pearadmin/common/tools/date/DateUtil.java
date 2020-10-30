@@ -12,6 +12,9 @@ import java.util.Date;
  */
 public class DateUtil extends org.apache.commons.lang3.time.DateUtils
 {
+    public static String YYYY = "yyyy";
+
+    public static String YYYY_MM = "yyyy-MM";
 
     public static String YYYY_MM_DD = "yyyy-MM-dd";
 

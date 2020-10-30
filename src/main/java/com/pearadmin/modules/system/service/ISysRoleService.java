@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.system.domain.SysPower;
 import com.pearadmin.modules.system.domain.SysRole;
+
 import java.util.List;
 
 /**
@@ -61,7 +62,7 @@ public interface ISysRoleService {
      * Param: roleId , powerIds
      * Return: 操作结果
      * */
-    Boolean saveRolePower(String roleId,List<String> powerIds);
+    Boolean saveRolePower(String roleId, List<String> powerIds);
 
     /**
      * Describe: 根据 id 删除角色数据

@@ -133,4 +133,5 @@ public class SysConfigController extends BaseController {
         boolean result = sysConfigService.batchRemove(ids.split(","));
         return decide(result);
     }
+
 }

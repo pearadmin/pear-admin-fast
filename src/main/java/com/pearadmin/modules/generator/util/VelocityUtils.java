@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import com.pearadmin.common.constant.GeneratorConstants;
 import com.pearadmin.common.tools.date.DateUtil;
+import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.tools.text.StringUtils;
 import com.pearadmin.modules.generator.config.GenConfig;
 import com.pearadmin.modules.generator.domain.GenTable;
@@ -43,6 +44,7 @@ public class VelocityUtils
         String packageName = genTable.getPackageName();
         String tplCategory = genTable.getTplCategory();
         String functionName = genTable.getFunctionName();
+        List<String> ids = SequenceUtil.makeStringIds(10);
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("tplCategory", genTable.getTplCategory());
         velocityContext.put("tableName", genTable.getTableName());
@@ -60,6 +62,7 @@ public class VelocityUtils
         velocityContext.put("permissionPrefix", getPermissionPrefix(moduleName, businessName));
         velocityContext.put("columns", genTable.getColumns());
         velocityContext.put("table", genTable);
+        velocityContext.put("ids", ids);
         setMenuVelocityContext(velocityContext, genTable);
         if (GeneratorConstants.TPL_TREE.equals(tplCategory))
         {
@@ -71,8 +74,10 @@ public class VelocityUtils
     public static void setMenuVelocityContext(VelocityContext context, GenTable genTable)
     {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSONObject.parseObject(options);
-        String parentMenuId = getParentMenuId(paramsObj);
+        // 说明，parentMenu没有保存在options中
+        //        JSONObject paramsObj = JSONObject.parseObject(options);
+        //        String parentMenuId = getParentMenuId(paramsObj);
+        String parentMenuId = genTable.getParentMenuId();
         context.put("parentMenuId", parentMenuId);
     }
 
@@ -269,7 +274,6 @@ public class VelocityUtils
     public static String getPermissionPrefix(String moduleName, String businessName)
     {
         return StringUtils.format("{}:{}", moduleName, businessName);
-
     }
 
     /**

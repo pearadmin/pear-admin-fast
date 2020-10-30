@@ -55,4 +55,5 @@ public interface SysConfigMapper {
      * */
     Integer deleteByIds(String[] id);
 
+
 }

@@ -1,8 +1,8 @@
 package com.pearadmin.modules.system.service.impl;
 
-import com.pearadmin.modules.system.service.ISysPowerService;
 import com.pearadmin.modules.system.domain.SysPower;
 import com.pearadmin.modules.system.mapper.SysPowerMapper;
+import com.pearadmin.modules.system.service.ISysPowerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
