@@ -24,5 +24,4 @@ public class SysCaptchaController extends BaseController {
     public void generate(HttpServletRequest request, HttpServletResponse response) throws Exception {
         CaptchaUtil.out(request, response);
     }
-
 }
