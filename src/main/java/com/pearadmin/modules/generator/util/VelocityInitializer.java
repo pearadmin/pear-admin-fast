@@ -22,7 +22,6 @@ public class VelocityInitializer
         {
             p.setProperty("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             p.setProperty(Velocity.ENCODING_DEFAULT, Constants.UTF8);
-            p.setProperty(Velocity.OUTPUT_ENCODING, Constants.UTF8);
             Velocity.init(p);
         }
         catch (Exception e)
