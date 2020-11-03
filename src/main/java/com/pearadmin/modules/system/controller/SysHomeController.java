@@ -5,6 +5,9 @@ import com.pearadmin.common.plugins.logging.enums.BusinessType;
 import com.pearadmin.common.tools.security.SecurityUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.modules.system.domain.SysUser;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +30,13 @@ public class SysHomeController extends BaseController {
      * */
     @GetMapping("login")
     public ModelAndView login(){
-        return JumpPage("login");
+        // if security session eq s-id is not null to index
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return JumpPage("index");
+        }else{
+            return JumpPage("login");
+        }
     }
 
     /**
