@@ -20,7 +20,8 @@
         <result property="createTime" column="create_time"></result>
         <result property="createBy" column="create_by"></result>
         <result property="updateTime" column="update_time"></result>
-        <result property="updateBy" column="updateTime"></result>
+        <result property="updateBy" column="update_by"></result>
+        <result property="lastTime" column="last_time"></result>
         <result property="remark" column="remark"></result>
     </resultMap>
 
@@ -88,6 +89,9 @@
             <if test="remark!=null">
                 remark,
             </if>
+            <if test="status!=null">
+                status,
+            </if>
             <if test="enable">
                 enable,
             </if>
@@ -122,6 +126,9 @@
             </if>
             <if test="remark!=null">
                 #{remark},
+            </if>
+             <if test="status!=null and status!=''">
+                #{status},
             </if>
             <if test="enable!=null and enable!=''">
                 #{enable},
@@ -160,6 +167,9 @@
              <if test="deptId!=null and deptId!=''">
                  dept_id = #{deptId},
              </if>
+             <if test="lastTime!=null">
+                 last_time = #{lastTime},
+             </if>
          </set>
          where user_id = #{userId}
     </update>
@@ -177,4 +187,20 @@
            </foreach>
     </delete>
 
+    <!-- 根据部门字段清空部门字段 -->
+    <update id="resetDeptByDeptId" parameterType="string">
+        update sys_user
+        set dept_id = ""
+        where dept_id = #{deptId}
+    </update>
+
+    <!-- 根据部门字段清空部门字段 -->
+    <update id="resetDeptByDeptIds" parameterType="string">
+        update sys_user
+        set dept_id = ""
+        where dept_id in
+        <foreach collection ="deptIds" item="deptId" separator =",">
+        #{deptId}
+    </foreach >
+    </update>
 </mapper>

@@ -31,5 +31,7 @@ layui.config({
 	button: "button",
 	design: "design",
 	common: "common",
-	eleTree: "eleTree"
+	eleTree: "eleTree",
+	dictionary: 'dictionary',
+	json: 'json'
 });

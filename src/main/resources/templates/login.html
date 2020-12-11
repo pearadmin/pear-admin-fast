@@ -22,10 +22,10 @@
     </div>
     <div class="layui-form-item">
         <input placeholder="验证码 : " name="captcha" hover class="code layui-input layui-input-inline"  />
-        <img src="/system/captcha/generate" class="captchaImage" id="captchaImage"/>
+        <img src="/system/captcha/generate" class="codeImage" id="captchaImage"/>
     </div>
     <div class="layui-form-item">
-        <input type="checkbox" name="" title="记住密码" lay-skin="primary" checked>
+        <input type="checkbox" name="remember-me" title="记住密码" lay-skin="primary">
     </div>
     <div class="layui-form-item">
         <button class="pear-btn pear-btn-success login" lay-submit lay-filter="login">
@@ -65,20 +65,52 @@
             return false;
         });
 
-        $("#codeImage").click(function(){
+        $("#captchaImage").click(function(){
             document.getElementById("captchaImage").src="/system/captcha/generate?"+Math.random();
         })
-
-        // 定时验证码刷新
         setInterval(function(){
             document.getElementById("captchaImage").src="/system/captcha/generate?"+Math.random();
-        },30000)
+        },30000);
+
+        validateKickout();
 
     })
+
+
 </script>
 <!-- Session 过期处理 -->
 <script>
     if(window!=top){ top.location.href = location.href; }
+
+    function validateKickout() {
+        if (getParam("kickout") == 1) {
+            layer.alert("<font color='red'>您已在别处登录，请您修改密码或重新登录</font>", {
+                    icon: 0,
+                    title: "系统提示"
+                },
+                function(index) {
+                    //关闭弹窗
+                    layer.close(index);
+                });
+        }else if(getParam("sessionout") == 1){
+            layer.alert("<font color='red'>登录已过期，请重新登录</font>", {
+                    icon: 0,
+                    title: "系统提示"
+                },
+                function(index) {
+                    //关闭弹窗
+                    layer.close(index);
+                });
+        }
+    }
+
+    function getParam(paramName) {
+        var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]);
+        return null;
+    }
+
 </script>
 
 </body>

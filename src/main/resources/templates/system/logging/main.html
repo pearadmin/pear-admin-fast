@@ -14,10 +14,10 @@
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <table style="margin-top: 10px;" id="log-login-table" lay-filter="user-table"></table>
+                    <table style="margin-top: 10px;" id="log-login-table" lay-filter="log-login-table"></table>
                 </div>
                 <div class="layui-tab-item">
-                    <table style="margin-top: 10px;" id="log-operate-table" lay-filter="user-table"></table>
+                    <table style="margin-top: 10px;" id="log-operate-table" lay-filter="log-operate-table"></table>
                 </div>
             </div>
         </div>
@@ -34,7 +34,9 @@
 </script>
 
 <script type="text/html" id="log-bar">
-    <button class="pear-btn pear-btn-sm pear-btn-primary"  lay-event="details"><i class="pear-icon pear-icon-edit"></i></button>
+    <button class="pear-btn pear-btn-sm pear-btn-primary" lay-event="details">
+        <i class="pear-icon pear-icon-edit"></i>
+    </button>
 </script>
 
 <script type="text/html" id="log-createTime">
@@ -100,25 +102,30 @@
             });
         }
 
-        table.on('toolbar(log-operate-table)', function (obj) {
+        table.on('tool(log-operate-table)', function (obj) {
             if (obj.event === 'details') {
                 window.details(obj);
             }
         });
 
-        table.on('toolbar(log-login-table)', function (obj) {
+        table.on('tool(log-login-table)', function (obj) {
             if (obj.event === 'details') {
                 window.details(obj);
             }
         });
 
-        window.details = function(obj){
+        window.details = function (obj) {
+            console.log(obj.data)
             layer.open({
                 type: 2,
                 title: '详细信息',
                 shade: 0,
-                area: ['450px', '550px'],
-                content: MODULE_PATH + "details?id="+obj.data['id']
+                area: ['400px', '400px'],
+                content: MODULE_PATH + "details",
+                success: function (layero) {
+                    let iframeWin = window[layero.find('iframe')[0]['name']];
+                    iframeWin.show(obj.data);
+                }
             });
         }
     })

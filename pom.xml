@@ -52,6 +52,17 @@
         <apache.xmlgraphics.version>1.13</apache.xmlgraphics.version>
         <!-- 模 板 引 擎 版 本 -->
         <velocity.version>1.7</velocity.version>
+        <!-- security thymeleaf -->
+        <thymeleaf-extras.version>3.0.4.RELEASE</thymeleaf-extras.version>
+        <!-- dynamic 动态数据库  -->
+        <dynamic.verion>3.2.1</dynamic.verion>
+        <!-- jackson -->
+        <jackson.version>2.9.9</jackson.version>
+        <!-- spring boot version -->
+        <spring.boot.version>2.3.4.RELEASE</spring.boot.version>
+        <!-- Maven 配置 -->
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
     </properties>
 
     <!-- 依 赖 管 理 -->
@@ -61,12 +72,6 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
-            </dependency>
-            <!-- 数 据 库 连 接 池 -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
             </dependency>
             <!-- 数 据 库 操 作 框 架 -->
             <dependency>
@@ -223,6 +228,32 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
+            </dependency>
+            <!-- Redis 操作 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+            </dependency>
+            <!-- 权 限 标 签 依 赖 -->
+            <dependency>
+                <groupId>org.thymeleaf.extras</groupId>
+                <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+                <version>${thymeleaf-extras.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic.verion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- lettuce pool 缓存连接池 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
             </dependency>
         </dependencies>
 

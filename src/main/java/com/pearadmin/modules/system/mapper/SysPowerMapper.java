@@ -1,7 +1,7 @@
 package com.pearadmin.modules.system.mapper;
 
-import com.pearadmin.modules.system.domain.SysPower;
 import com.pearadmin.modules.system.domain.SysMenu;
+import com.pearadmin.modules.system.domain.SysPower;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -45,12 +45,6 @@ public interface SysPowerMapper {
      * */
     List<SysMenu> selectMenuByUsername(String username);
 
-    /**
-     * Describe: 根据 ParentId 查询子菜单
-     * Param: parentId
-     * Return: ResuMenu
-     * */
-    List<SysMenu> selectMenuByParentId(@Param("username") String username, @Param("parentId") String parentId);
 
     /**
      * Describe: 修改权限信息

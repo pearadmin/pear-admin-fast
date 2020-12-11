@@ -4,14 +4,15 @@ import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.plugins.logging.annotation.Logging;
 import com.pearadmin.common.plugins.logging.enums.BusinessType;
 import com.pearadmin.common.plugins.repeat.annotation.RepeatSubmit;
+import com.pearadmin.common.tools.security.SecurityUtil;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.tools.servlet.ServletUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
 import com.pearadmin.common.web.domain.response.ResultTable;
-import com.pearadmin.modules.system.domain.SysUser;
 import com.pearadmin.modules.system.domain.SysMenu;
+import com.pearadmin.modules.system.domain.SysUser;
 import com.pearadmin.modules.system.service.ISysRoleService;
 import com.pearadmin.modules.system.service.ISysUserService;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -106,6 +108,7 @@ public class SysUserController extends BaseController {
     public Result save(@RequestBody SysUser sysUser){
         sysUser.setLogin("0");
         sysUser.setEnable("1");
+        sysUser.setStatus("1");
         sysUser.setUserId(SequenceUtil.makeStringId());
         sysUser.setCreateTime(LocalDateTime.now());
         sysUser.setPassword(new BCryptPasswordEncoder().encode(sysUser.getPassword()));
@@ -192,11 +195,13 @@ public class SysUserController extends BaseController {
      * Param: id
      * Return: ResuBean
      * */
+    @Transactional
     @DeleteMapping("remove/{id}")
     @ApiOperation(value="删除用户数据")
     @PreAuthorize("hasPermission('/system/user/remove','sys:user:remove')")
     @Logging(title = "删除用户",describe = "删除用户",type = BusinessType.REMOVE)
     public Result remove(@PathVariable String id){
+        // TODO remove userRole data
         boolean result  = sysUserService.remove(id);
         return decide(result);
     }
@@ -209,9 +214,9 @@ public class SysUserController extends BaseController {
     @GetMapping("getUserMenu")
     @ApiOperation(value = "获取用户菜单数据")
     public List<SysMenu> getUserMenu(){
-        SysUser sysUser = (SysUser) ServletUtil.getSession().getAttribute("currentUser");
+        SysUser sysUser = (SysUser) SecurityUtil.currentUser().getPrincipal();
         List<SysMenu> menus = sysUserService.getUserMenu(sysUser.getUsername());
-        return menus;
+        return sysUserService.toUserMenu(menus,"0");
     }
 
     /**
@@ -248,7 +253,7 @@ public class SysUserController extends BaseController {
     @GetMapping("center")
     @ApiOperation(value = "个人资料")
     public ModelAndView center(Model model){
-        SysUser sysUser = (SysUser) ServletUtil.getSession().getAttribute("currentUser");
+        SysUser sysUser = (SysUser) SecurityUtil.currentUser().getPrincipal();
         model.addAttribute("userInfo",sysUserService.getById(sysUser.getUserId()));
         return JumpPage(MODULE_PATH + "center");
     }

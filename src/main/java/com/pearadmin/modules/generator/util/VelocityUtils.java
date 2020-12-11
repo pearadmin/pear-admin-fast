@@ -3,7 +3,7 @@ package com.pearadmin.modules.generator.util;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import com.pearadmin.common.constant.GeneratorConstants;
+import com.pearadmin.common.constant.GeneratorConstant;
 import com.pearadmin.common.tools.date.DateUtil;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.tools.text.StringUtils;
@@ -34,8 +34,6 @@ public class VelocityUtils
 
     /**
      * 设置模板变量信息
-     * 
-     * @return 模板列表
      */
     public static VelocityContext prepareContext(GenTable genTable)
     {
@@ -64,7 +62,7 @@ public class VelocityUtils
         velocityContext.put("table", genTable);
         velocityContext.put("ids", ids);
         setMenuVelocityContext(velocityContext, genTable);
-        if (GeneratorConstants.TPL_TREE.equals(tplCategory))
+        if (GeneratorConstant.TPL_TREE.equals(tplCategory))
         {
             setTreeVelocityContext(velocityContext, genTable);
         }
@@ -74,9 +72,6 @@ public class VelocityUtils
     public static void setMenuVelocityContext(VelocityContext context, GenTable genTable)
     {
         String options = genTable.getOptions();
-        // 说明，parentMenu没有保存在options中
-        //        JSONObject paramsObj = JSONObject.parseObject(options);
-        //        String parentMenuId = getParentMenuId(paramsObj);
         String parentMenuId = genTable.getParentMenuId();
         context.put("parentMenuId", parentMenuId);
     }
@@ -93,13 +88,13 @@ public class VelocityUtils
         context.put("treeParentCode", treeParentCode);
         context.put("treeName", treeName);
         context.put("expandColumn", getExpandColumn(genTable));
-        if (paramsObj.containsKey(GeneratorConstants.TREE_PARENT_CODE))
+        if (paramsObj.containsKey(GeneratorConstant.TREE_PARENT_CODE))
         {
-            context.put("tree_parent_code", paramsObj.getString(GeneratorConstants.TREE_PARENT_CODE));
+            context.put("tree_parent_code", paramsObj.getString(GeneratorConstant.TREE_PARENT_CODE));
         }
-        if (paramsObj.containsKey(GeneratorConstants.TREE_NAME))
+        if (paramsObj.containsKey(GeneratorConstant.TREE_NAME))
         {
-            context.put("tree_name", paramsObj.getString(GeneratorConstants.TREE_NAME));
+            context.put("tree_name", paramsObj.getString(GeneratorConstant.TREE_NAME));
         }
     }
 
@@ -117,11 +112,11 @@ public class VelocityUtils
         templates.add("vm/java/serviceImpl.java.vm");
         templates.add("vm/java/controller.java.vm");
         templates.add("vm/xml/mapper.xml.vm");
-        if (GeneratorConstants.TPL_CRUD.equals(tplCategory))
+        if (GeneratorConstant.TPL_CRUD.equals(tplCategory))
         {
             templates.add("vm/html/list.html.vm");
         }
-        else if (GeneratorConstants.TPL_TREE.equals(tplCategory))
+        else if (GeneratorConstant.TPL_TREE.equals(tplCategory))
         {
             templates.add("vm/html/tree.html.vm");
             templates.add("vm/html/list-tree.html.vm");
@@ -156,7 +151,7 @@ public class VelocityUtils
         {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, className);
         }
-        if (template.contains("sub-domain.java.vm") && StringUtils.equals(GeneratorConstants.TPL_SUB, genTable.getTplCategory()))
+        if (template.contains("sub-domain.java.vm") && StringUtils.equals(GeneratorConstant.TPL_SUB, genTable.getTplCategory()))
         {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, genTable.getSubTable().getClassName());
         }
@@ -252,11 +247,11 @@ public class VelocityUtils
         }
         for (GenTableColumn column : columns)
         {
-            if (!column.isSuperColumn() && GeneratorConstants.TYPE_DATE.equals(column.getJavaType()))
+            if (!column.isSuperColumn() && GeneratorConstant.TYPE_DATE.equals(column.getJavaType()))
             {
                 importList.add("java.util.Date");
             }
-            else if (!column.isSuperColumn() && GeneratorConstants.TYPE_BIGDECIMAL.equals(column.getJavaType()))
+            else if (!column.isSuperColumn() && GeneratorConstant.TYPE_BIGDECIMAL.equals(column.getJavaType()))
             {
                 importList.add("java.math.BigDecimal");
             }
@@ -283,9 +278,9 @@ public class VelocityUtils
      */
     public static String getParentMenuId(JSONObject paramsObj)
     {
-        if (StringUtils.isNotEmpty(paramsObj) && paramsObj.containsKey(GeneratorConstants.PARENT_MENU_ID))
+        if (StringUtils.isNotEmpty(paramsObj) && paramsObj.containsKey(GeneratorConstant.PARENT_MENU_ID))
         {
-            return paramsObj.getString(GeneratorConstants.PARENT_MENU_ID);
+            return paramsObj.getString(GeneratorConstant.PARENT_MENU_ID);
         }
         return DEFAULT_PARENT_MENU_ID;
     }
@@ -297,9 +292,9 @@ public class VelocityUtils
      */
     public static String getTreecode(JSONObject paramsObj)
     {
-        if (paramsObj.containsKey(GeneratorConstants.TREE_CODE))
+        if (paramsObj.containsKey(GeneratorConstant.TREE_CODE))
         {
-            return StringUtils.toCamelCase(paramsObj.getString(GeneratorConstants.TREE_CODE));
+            return StringUtils.toCamelCase(paramsObj.getString(GeneratorConstant.TREE_CODE));
         }
         return StringUtils.EMPTY;
     }
@@ -311,9 +306,9 @@ public class VelocityUtils
      */
     public static String getTreeParentCode(JSONObject paramsObj)
     {
-        if (paramsObj.containsKey(GeneratorConstants.TREE_PARENT_CODE))
+        if (paramsObj.containsKey(GeneratorConstant.TREE_PARENT_CODE))
         {
-            return StringUtils.toCamelCase(paramsObj.getString(GeneratorConstants.TREE_PARENT_CODE));
+            return StringUtils.toCamelCase(paramsObj.getString(GeneratorConstant.TREE_PARENT_CODE));
         }
         return StringUtils.EMPTY;
     }
@@ -325,9 +320,9 @@ public class VelocityUtils
      */
     public static String getTreeName(JSONObject paramsObj)
     {
-        if (paramsObj.containsKey(GeneratorConstants.TREE_NAME))
+        if (paramsObj.containsKey(GeneratorConstant.TREE_NAME))
         {
-            return StringUtils.toCamelCase(paramsObj.getString(GeneratorConstants.TREE_NAME));
+            return StringUtils.toCamelCase(paramsObj.getString(GeneratorConstant.TREE_NAME));
         }
         return StringUtils.EMPTY;
     }
@@ -342,7 +337,7 @@ public class VelocityUtils
     {
         String options = genTable.getOptions();
         JSONObject paramsObj = JSONObject.parseObject(options);
-        String treeName = paramsObj.getString(GeneratorConstants.TREE_NAME);
+        String treeName = paramsObj.getString(GeneratorConstant.TREE_NAME);
         int num = 0;
         for (GenTableColumn column : genTable.getColumns())
         {

@@ -7,6 +7,5 @@ package com.pearadmin.modules.schedule.handler.base;
  * */
 public interface BaseTaskService {
 
-    void run(String params) ;
-
+    void run(String params);
 }

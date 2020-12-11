@@ -145,9 +145,9 @@
     </div>
     <div class="bottom">
         <div class="button-container">
-            <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="btn-save" id="btn-save">保存
+            <button class="pear-btn pear-btn-sm pear-btn-primary" lay-submit lay-filter="btn-save" id="btn-save">保存
             </button>
-            <button class="pear-btn pear-btn-md " type="button" onclick="closeItem()">关闭</button>
+            <button class="pear-btn pear-btn-sm close" type="button">关闭</button>
         </div>
     </div>
 </form>
@@ -155,12 +155,14 @@
 <script th:inline="javascript">
     let prefix = "/generator";
     let menuTree;
-    layui.use(['dtree', 'common', 'table', 'form'], function () {
+    layui.use(['dtree', 'common', 'table', 'form','tab','layer'], function () {
 
         let $ = layui.jquery,
             common = layui.common,
             form = layui.form,
             dtree = layui.dtree,
+            tab = layui.tab,
+            layer = layui.layer,
             table = layui.table;
 
         form.render();
@@ -173,14 +175,18 @@
                 data: data.field,
                 async: false,
                 success: function (data) {
-                    layui.layer.alert(data.msg);
-                    if (data.code == 0) {
-                        window.location.href = prefix;
+                    if (data.code == 200) {
+                        console.log("保存成功");
+                        layui.layer.msg("保存成功",{icon:1,time:1000})
                     }
                 }
             });
             return false;
         });
+
+        $(".close").click(function(){
+            parent.layui.tab.delCurrentTabByElem('content',function(id){})
+        })
 
         dtree.renderSelect({
             elem: "#selectParent",

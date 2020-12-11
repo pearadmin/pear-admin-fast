@@ -4,8 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.ResultTable;
-import com.pearadmin.modules.schedule.domain.ScheduleLogBean;
 import com.pearadmin.modules.schedule.service.IScheduleLogService;
+import com.pearadmin.modules.schedule.domain.ScheduleLogBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,5 +50,4 @@ public class ScheduleLogController extends BaseController {
         PageInfo<ScheduleLogBean> pageInfo = scheduleLogService.page(scheduleLogBean,pageDomain);
         return pageTable(pageInfo.getList(),pageInfo.getTotal());
     }
-
 }

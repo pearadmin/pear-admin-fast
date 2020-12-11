@@ -7,9 +7,10 @@ import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.system.domain.SysPower;
 import com.pearadmin.modules.system.domain.SysRole;
 import com.pearadmin.modules.system.domain.SysRolePower;
-import com.pearadmin.modules.system.mapper.SysPowerMapper;
 import com.pearadmin.modules.system.mapper.SysRoleMapper;
+import com.pearadmin.modules.system.mapper.SysPowerMapper;
 import com.pearadmin.modules.system.mapper.SysRolePowerMapper;
+import com.pearadmin.modules.system.mapper.SysUserRoleMapper;
 import com.pearadmin.modules.system.service.ISysRoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,13 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * */
     @Resource
     private SysRolePowerMapper sysRolePowerMapper;
+
+    /**
+     * 引入用户角色服务
+     * */
+    @Resource
+    private SysUserRoleMapper sysUserRoleMapper;
+
 
     /**
      * Describe: 查询角色数据
@@ -155,9 +163,12 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * Return: Boolean
      * */
     @Override
+    @Transactional
     public Boolean remove(String id) {
-        int result = sysRoleMapper.deleteById(id);
-        if(result>0){
+        int roleResult = sysRoleMapper.deleteById(id);
+        int userRoleResult = sysUserRoleMapper.deleteByRoleId(id);
+        int rolePowerResult = sysRolePowerMapper.deleteByRoleId(id);
+        if(roleResult>0 && userRoleResult>0 && rolePowerResult>0){
             return true;
         }else{
             return false;
@@ -170,9 +181,12 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * Return: Boolean
      * */
     @Override
+    @Transactional
     public boolean batchRemove(String[] ids) {
-        int result = sysRoleMapper.deleteByIds(ids);
-        if(result>0){
+        int roleResult = sysRoleMapper.deleteByIds(ids);
+        int userRoleResult = sysUserRoleMapper.deleteByRoleIds(ids);
+        int rolePowerResult = sysRolePowerMapper.deleteByRoleIds(ids);
+        if(roleResult>0 && userRoleResult>0 && rolePowerResult>0){
             return true;
         }else{
             return false;

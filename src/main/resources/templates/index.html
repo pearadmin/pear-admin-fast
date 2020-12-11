@@ -15,20 +15,18 @@
         <!-- 顶 部 左 侧 功 能 -->
         <ul class="layui-nav layui-layout-left">
             <li class="collaspe layui-nav-item"><a href="#" class="layui-icon layui-icon-shrink-right"></a></li>
-            <li class="refresh layui-nav-item"><a href="#" class="layui-icon layui-icon-refresh-1" loading=600></a></li>
+            <li class="refresh layui-nav-item"><a href="#" class="layui-icon layui-icon-refresh-1" title="刷新页面" loading=600></a></li>
         </ul>
         <!-- 顶 部 右 侧 菜 单 -->
         <div id="control" class="layui-layout-control"></div>
         <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item layui-hide-xs"><a href="#"
-                                                        class="fullScreen layui-icon layui-icon-screen-full"></a></li>
-            <li class="layui-nav-item layui-hide-xs"><a href="http://www.pearadmin.com"
-                                                        class="layui-icon layui-icon-website"></a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="#" class="fullScreen layui-icon layui-icon-screen-full"></a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="http://www.pearadmin.com" class="layui-icon layui-icon-website"></a></li>
             <li class="layui-nav-item">
                 <!-- 头 像 -->
                 <a href="javascript:;">
-                    <img src="admin/images/avatar.jpg" class="layui-nav-img">
-                    <span>就眠仪式</span>
+                    <img src="" id="headImg" class="layui-nav-img">
+                    <span th:text="${#authentication.principal.getRealName()}"></span>
                 </a>
                 <!-- 功 能 菜 单 -->
                 <dl class="layui-nav-child">
@@ -63,11 +61,13 @@
 </div>
 <!-- 依 赖 脚 本 -->
 <th:block th:include="include :: footer"/>
+<script th:src="@{/admin/js/headImg.js}"></script>
 <script th:inline="javascript">
     layui.use(['admin'], function () {
         let admin = layui.admin;
-
         admin.render();
+
+        $('#headImg').attr("src",makeHeadImgByUserName([[${#authentication.principal.getRealName()}]]));
     })
 </script>
 </body>

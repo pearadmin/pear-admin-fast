@@ -9,6 +9,7 @@ import com.pearadmin.common.tools.security.SecurityUtil;
 import com.pearadmin.common.tools.servlet.ServletUtil;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -20,28 +21,20 @@ import java.util.List;
 @Service
 public class LoggingServiceImpl implements LoggingService {
 
-    /**
-     * 日 志 服 务
-     * */
     @Resource
     private LoggingMapper loggingMapper;
 
-    /**
-     * 执 行 插 入 操 作
-     * @param logging 日志实体
-     * @return 执行结果
-     * */
     @Override
     public boolean save(Logging logging) {
         logging.setOperateAddress(ServletUtil.getRemoteHost());
         logging.setMethod(ServletUtil.getRequestURI());
-        logging.setCreateTime(new Date());
+        logging.setCreateTime(LocalDateTime.now());
         logging.setRequestMethod(RequestMethod.valueOf(ServletUtil.getMethod()));
         logging.setOperateUrl(ServletUtil.getRequestURI());
         logging.setBrowser(ServletUtil.getBrowser());
         logging.setRequestBody(ServletUtil.getQueryParam());
         logging.setSystemOs(ServletUtil.getSystem());
-        logging.setOperateName(SecurityUtil.currentUser().getName());
+        logging.setOperateName(null != SecurityUtil.currentUser() ? SecurityUtil.currentUser().getName() : "未登录用户");
         int result = loggingMapper.insert(logging);
         if(result>0){
             return true;
@@ -50,13 +43,13 @@ public class LoggingServiceImpl implements LoggingService {
         }
     }
 
-    /**
-     * 执 行 查 询 操 作
-     * @param loggingType 日志类型
-     * @return 执行结果
-     * */
     @Override
     public List<Logging> data(LoggingType loggingType) {
         return loggingMapper.selectList(loggingType);
+    }
+
+    @Override
+    public Logging getById(String id) {
+        return loggingMapper.getById(id);
     }
 }

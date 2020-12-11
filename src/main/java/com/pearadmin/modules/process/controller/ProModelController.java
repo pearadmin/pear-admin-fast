@@ -32,14 +32,8 @@ import java.util.List;
 @RequestMapping("/process/model/")
 public class ProModelController extends BaseController {
 
-    /**
-     * 基础路径
-     * */
     private String modelPath = "process/model/";
 
-    /**
-     * 引入服务
-     * */
     @Resource
     private RepositoryService repositoryService;
 
@@ -124,9 +118,9 @@ public class ProModelController extends BaseController {
     }
 
     /**
-     * Describe: 创建流程图节点
-     * Param: createModelParam
-     * Return: Result
+     * Describe: 创建流程图节点信息
+     * Param: modelId
+     * Return: null
      * */
     private void createObjectNode(String modelId){
         ObjectNode editorNode = objectMapper.createObjectNode();
@@ -181,5 +175,4 @@ public class ProModelController extends BaseController {
             return failure("部署异常");
         }
     }
-
 }

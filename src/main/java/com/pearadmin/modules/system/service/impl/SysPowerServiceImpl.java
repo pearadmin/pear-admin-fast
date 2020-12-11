@@ -2,8 +2,10 @@ package com.pearadmin.modules.system.service.impl;
 
 import com.pearadmin.modules.system.domain.SysPower;
 import com.pearadmin.modules.system.mapper.SysPowerMapper;
+import com.pearadmin.modules.system.mapper.SysRolePowerMapper;
 import com.pearadmin.modules.system.service.ISysPowerService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,6 +24,12 @@ public class SysPowerServiceImpl implements ISysPowerService {
      * */
     @Resource
     private SysPowerMapper sysPowerMapper;
+
+    /**
+     * 引入角色权限服务
+     * */
+    @Resource
+    private SysRolePowerMapper sysRolePowerMapper;
 
     /**
      * Describe: 查询权限列表
@@ -79,9 +87,11 @@ public class SysPowerServiceImpl implements ISysPowerService {
      * Return: 执行结果
      * */
     @Override
+    @Transactional
     public boolean remove(String id) {
-        int result = sysPowerMapper.deleteById(id);
-        if(result > 0){
+        int powerResult = sysPowerMapper.deleteById(id);
+        int rolePowerResult = sysRolePowerMapper.deleteByPowerId(id);
+        if(powerResult > 0 && rolePowerResult>0){
             return true;
         }else{
             return false;

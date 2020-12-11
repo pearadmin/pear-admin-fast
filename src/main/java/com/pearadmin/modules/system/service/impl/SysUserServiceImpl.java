@@ -2,18 +2,21 @@ package com.pearadmin.modules.system.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.config.proprety.SecurityProperty;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.system.domain.SysMenu;
 import com.pearadmin.modules.system.domain.SysRole;
 import com.pearadmin.modules.system.domain.SysUser;
 import com.pearadmin.modules.system.domain.SysUserRole;
-import com.pearadmin.modules.system.mapper.SysPowerMapper;
 import com.pearadmin.modules.system.mapper.SysRoleMapper;
+import com.pearadmin.modules.system.mapper.SysPowerMapper;
 import com.pearadmin.modules.system.mapper.SysUserMapper;
 import com.pearadmin.modules.system.mapper.SysUserRoleMapper;
 import com.pearadmin.modules.system.service.ISysUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +52,12 @@ public class SysUserServiceImpl implements ISysUserService {
      * */
     @Resource
     private SysPowerMapper sysPowerMapper;
+
+    /**
+     * 超级管理员配置
+     * */
+    @Resource
+    private SecurityProperty securityProperty;
 
     /**
      * Describe: 根据条件查询用户列表数据
@@ -89,9 +98,11 @@ public class SysUserServiceImpl implements ISysUserService {
      * Return: Boolean
      * */
     @Override
+    @Transactional
     public boolean remove(String id) {
-        int result = sysUserMapper.deleteById(id);
-        if(result>0){
+        int userRoleResult = sysUserRoleMapper.deleteByUserId(id);
+        int userResult = sysUserMapper.deleteById(id);
+        if(userRoleResult>0 && userResult>0){
             return true;
         }else{
             return false;
@@ -104,9 +115,11 @@ public class SysUserServiceImpl implements ISysUserService {
      * Return: Boolean
      * */
     @Override
+    @Transactional
     public boolean batchRemove(String[] ids) {
-        int result = sysUserMapper.deleteByIds(ids);
-        if(result>0){
+        int userResult = sysUserMapper.deleteByIds(ids);
+        int userRoleResult  = sysUserRoleMapper.deleteByUserIds(ids);
+        if(userResult>0 && userRoleResult>0){
             return true;
         }else{
             return false;
@@ -190,22 +203,24 @@ public class SysUserServiceImpl implements ISysUserService {
      * */
     @Override
     public List<SysMenu> getUserMenu(String username) {
-        List<SysMenu> menus = sysPowerMapper.selectMenuByUsername(username);
-        buildMenu(menus,username);
-        return menus;
+        String name = !(securityProperty.isSuperAuthOpen() && username.equals(securityProperty.getSuperAdmin()))?username:"";
+        return sysPowerMapper.selectMenuByUsername(name);
     }
-
     /**
-     * Describe: 菜单递归构建
-     * Param: menus username
-     * Return: null
+     * Describe: 递归获取菜单tree
+     * Param: sysMenus
+     * Return: 操作结果
      * */
-    private void buildMenu(List<SysMenu> menus, String username){
-        if(menus.size()<=0) return;
-        for (SysMenu menu : menus) {
-            menu.setChildren(sysPowerMapper.selectMenuByParentId(username,menu.getId()));
-            buildMenu(menu.getChildren(),username);
+    @Override
+    public List<SysMenu> toUserMenu(List<SysMenu> sysMenus,String parentId) {
+        List<SysMenu> list = new ArrayList<>();
+        for (SysMenu menu : sysMenus) {
+            if (parentId.equals(menu.getParentId())) {
+                menu.setChildren(toUserMenu(sysMenus, menu.getId()));
+                list.add(menu);
+            }
         }
+        return list;
     }
 
 }

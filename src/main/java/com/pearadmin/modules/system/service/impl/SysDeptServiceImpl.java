@@ -5,19 +5,21 @@ import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.system.domain.SysDept;
 import com.pearadmin.modules.system.mapper.SysDeptMapper;
+import com.pearadmin.modules.system.mapper.SysUserMapper;
 import com.pearadmin.modules.system.service.ISysDeptService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class SysDeptServiceImpl implements ISysDeptService {
 
-    /**
-     * 注入部门服务
-     * */
     @Resource
     private SysDeptMapper sysDeptMapper;
+
+    @Resource
+    private SysUserMapper sysUserMapper;
 
     /**
      * Describe: 查询部门数据
@@ -87,9 +89,11 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * Return: Boolean
      * */
     @Override
+    @Transactional
     public Boolean remove(String id) {
-        int result = sysDeptMapper.deleteById(id);
-        if(result>0){
+        int deptResult = sysDeptMapper.deleteById(id);
+        int deptUserResult = sysUserMapper.resetDeptByDeptId(id);
+        if(deptResult>0 && deptUserResult>0){
             return true;
         }else{
             return false;
@@ -103,8 +107,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * */
     @Override
     public boolean batchRemove(String[] ids) {
-        int result = sysDeptMapper.deleteByIds(ids);
-        if(result>0){
+        int deptResult = sysDeptMapper.deleteByIds(ids);
+        int deptUserResult = sysUserMapper.resetDeptByDeptIds(ids);
+        if(deptResult>0 && deptUserResult>0){
             return true;
         }else{
             return false;

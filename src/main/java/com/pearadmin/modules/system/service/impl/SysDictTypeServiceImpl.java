@@ -4,8 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.system.domain.SysDictType;
-import com.pearadmin.modules.system.mapper.SysDictTypeMapper;
 import com.pearadmin.modules.system.service.ISysDictTypeService;
+import com.pearadmin.modules.system.mapper.SysDictDataMapper;
+import com.pearadmin.modules.system.mapper.SysDictTypeMapper;
+import com.pearadmin.modules.system.service.ISysDictDataService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,6 +23,12 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
 
     @Resource
     private SysDictTypeMapper sysDictTypeMapper;
+
+    @Resource
+    ISysDictDataService iSysDictDataService;
+
+    @Resource
+    private SysDictDataMapper sysDictDataMapper;
 
     /**
      * Describe: 根据条件查询用户列表数据
@@ -53,6 +61,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     public Boolean save(SysDictType sysDictType) {
         Integer result = sysDictTypeMapper.insert(sysDictType);
         if(result > 0){
+            iSysDictDataService.refreshChcheTypeCode(sysDictType.getTypeCode());
             return true;
         }else{
             return false;
@@ -79,6 +88,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     public Boolean updateById(SysDictType sysDictType) {
         int result = sysDictTypeMapper.updateById(sysDictType);
         if(result > 0){
+            iSysDictDataService.refreshChcheTypeCode(sysDictType.getTypeCode());
             return true;
         }else{
             return false;
@@ -92,8 +102,17 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * */
     @Override
     public Boolean remove(String id) {
-        Integer result = sysDictTypeMapper.deleteById(id);
-        if(result>0){
+        SysDictType sysDictType =  sysDictTypeMapper.selectById(id);
+
+        Integer dictTypeResult = 0;
+        Integer dictDataResult = 0;
+
+        if(sysDictType!=null) {
+             dictTypeResult = sysDictTypeMapper.deleteById(id);
+             dictDataResult = sysDictDataMapper.deleteByCode(sysDictType.getTypeCode());
+        }
+        if(dictDataResult>0 && dictTypeResult>0){
+            iSysDictDataService.refreshChcheTypeCode(sysDictType.getTypeCode());
             return true;
         }else{
             return false;
