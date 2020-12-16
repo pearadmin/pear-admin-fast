@@ -68,7 +68,9 @@
 }
 
 body {
+	background-repeat:no-repeat;
 	background-color: whitesmoke;
+	background-size: 100%;
 	height: 100%;
 }
 
