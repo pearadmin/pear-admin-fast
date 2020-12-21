@@ -16,4 +16,5 @@ public enum LoggingType {
      * 登 录 日 志
      * */
     LOGIN
+
 }

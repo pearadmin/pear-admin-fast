@@ -1,9 +1,9 @@
 package com.pearadmin.common.config.proprety;
 
-import com.pearadmin.common.constant.SystemConstant;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import com.pearadmin.common.constant.SystemConstant;
 
 /**
  * Describe: 接 口 文 档 配 置 类

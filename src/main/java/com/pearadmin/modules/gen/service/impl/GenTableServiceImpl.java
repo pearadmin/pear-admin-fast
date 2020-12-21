@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import com.pearadmin.common.constant.Constants;
 import com.pearadmin.common.constant.GeneratorConstant;
 import com.pearadmin.common.exception.base.BusinessException;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
@@ -35,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pearadmin.modules.gen.util.GenUtils;
-
+import com.pearadmin.common.constant.SystemConstant;
 import javax.annotation.Resource;
 
 /**
@@ -212,7 +211,7 @@ public class GenTableServiceImpl implements IGenTableService
         {
             // 渲染模板
             StringWriter sw = new StringWriter();
-            Template tpl = Velocity.getTemplate(template, Constants.UTF8);
+            Template tpl = Velocity.getTemplate(template, SystemConstant.UTF8);
             tpl.merge(context, sw);
             dataMap.put(template, sw.toString());
         }
@@ -261,7 +260,7 @@ public class GenTableServiceImpl implements IGenTableService
             if (!StringUtils.contains(template, "sql.vm"))
             {
                 StringWriter sw = new StringWriter();
-                Template tpl = Velocity.getTemplate(template, Constants.UTF8);
+                Template tpl = Velocity.getTemplate(template, SystemConstant.UTF8);
                 tpl.merge(context, sw);
                 try
                 {
@@ -274,7 +273,7 @@ public class GenTableServiceImpl implements IGenTableService
                 }
             }else  if (StringUtils.contains(template, "sql.vm")){
                 StringWriter sw = new StringWriter();
-                Template tpl = Velocity.getTemplate(template, Constants.UTF8);
+                Template tpl = Velocity.getTemplate(template, SystemConstant.UTF8);
                 tpl.merge(context, sw);
                 System.out.println("生成的sql:--------\n"+sw);
             }
@@ -319,12 +318,12 @@ public class GenTableServiceImpl implements IGenTableService
         for (String template : templates)
         {
             StringWriter sw = new StringWriter();
-            Template tpl = Velocity.getTemplate(template, Constants.UTF8);
+            Template tpl = Velocity.getTemplate(template, SystemConstant.UTF8);
             tpl.merge(context, sw);
             try
             {
                 zip.putNextEntry(new ZipEntry(VelocityUtils.getFileName(template, table)));
-                IOUtils.write(sw.toString(), zip, Constants.UTF8);
+                IOUtils.write(sw.toString(), zip, SystemConstant.UTF8);
                 IOUtils.closeQuietly(sw);
                 zip.flush();
                 zip.closeEntry();

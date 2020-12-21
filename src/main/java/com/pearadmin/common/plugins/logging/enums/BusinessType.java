@@ -36,4 +36,5 @@ public enum  BusinessType {
      * 其他
      * */
      OTHER;
+
 }
