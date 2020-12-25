@@ -49,7 +49,6 @@ public class ScheduleHandler {
      * */
     public static void createJob (Scheduler scheduler, ScheduleJobBean scheduleJob){
         try {
-            // 构建定时器
             JobDetail jobDetail = JobBuilder.newJob(ScheduleContext.class).withIdentity(getJobKey(Long.parseLong(scheduleJob.getJobId()))).build() ;
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder
                     .cronSchedule(scheduleJob.getCronExpression())
