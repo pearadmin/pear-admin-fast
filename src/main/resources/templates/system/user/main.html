@@ -10,7 +10,6 @@
             height: calc(100vh - 247px);
             margin-top: 20px;
         }
-
         .button{
             margin-top: 10px;
             width: 94%;
@@ -31,18 +30,14 @@
             -webkit-appearance: none;
             box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
         }
-
         .button-primary{
             background-color: #5FB878;
             color: white;
         }
-
         .button-default{
             color: #2f495e;
             background-color: #edf2f7;
         }
-    </style>
-    <style>
         .user-main{
             width: calc(100% - 312px);
             float: right;
@@ -148,11 +143,13 @@
 
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['table', 'dtree','form', 'jquery'], function () {
+    layui.use(['table', 'dtree','form', 'jquery','popup','common'], function () {
         let table = layui.table;
         let form = layui.form;
         let $ = layui.jquery;
         let dtree = layui.dtree;
+        let popup = layui.popup;
+        let common = layui.common;
 
         let MODULE_PATH = "/system/user/";
 
@@ -250,14 +247,12 @@
 
         form.on('switch(user-enable)', function (obj) {
             let operate;
-
             if (obj.elem.checked) {
                 operate = "enable";
             } else {
                 operate = "disable";
             }
-            let loading = layer.load()
-
+            let loading = layer.load();
             $.ajax({
                 url: '/system/user/' + operate,
                 data: JSON.stringify({userId: this.value}),
@@ -267,10 +262,9 @@
                 success: function (result) {
                     layer.close(loading);
                     if (result.success) {
-                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
-                        });
+                        popup.success(result.msg);
                     } else {
-                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        popup.failure(result.msg);
                     }
                 }
             })
@@ -307,11 +301,11 @@
                     success: function (result) {
                         layer.close(loading);
                         if (result.success) {
-                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            popup.success(result.msg,function(){
                                 obj.del();
                             });
                         } else {
-                            layer.msg(result.msg, {icon: 2, time: 1000});
+                            popup.failure(result.msg);
                         }
                     }
                 })
@@ -319,16 +313,12 @@
         }
 
         window.batchRemove = function (obj) {
-            let data = table.checkStatus(obj.config.id).data;
-            if (data.length === 0) {
-                layer.msg("未选中数据", {icon: 3, time: 1000});
-                return false;
+            let ids = common.checkField(obj,'userId');
+            if (common.isEmpty(ids)) {
+                popup.warning("未选中数据",function(){
+                    return false;
+                });
             }
-            let ids = "";
-            for (let i = 0; i < data.length; i++) {
-                ids += data[i].userId + ",";
-            }
-            ids = ids.substr(0, ids.length - 1);
             layer.confirm('确定要删除这些用户', {icon: 3, title: '提示'}, function (index) {
                 layer.close(index);
                 let loading = layer.load();
@@ -339,11 +329,11 @@
                     success: function (result) {
                         layer.close(loading);
                         if (result.success) {
-                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            popup.success(result.msg,function(){
                                 table.reload('user-table');
-                            });
+                            })
                         } else {
-                            layer.msg(result.msg, {icon: 2, time: 1000});
+                            popup.failure(result.msg);
                         }
                     }
                 })

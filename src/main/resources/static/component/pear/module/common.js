@@ -1,8 +1,25 @@
-;
-"use strict";
-layui.define(["layer", "jquery"], function (exports) {
-    var $ = layui.jquery;
-    var obj = {
+layui.define(["layer", "jquery",'table'], function (exports) {
+    let $ = layui.jquery;
+    let table = layui.table;
+
+    let common = {
+        /**
+         * 获取当前表格选中字段
+         * @param obj 表格回调参数
+         * @param field 要获取的字段
+         * */
+        checkField: function(obj, field) {
+            let data = table.checkStatus(obj.config.id).data;
+            if (data.length === 0) {
+                return "";
+            }
+            let ids = "";
+            for (let i = 0; i < data.length; i++) {
+                ids += data[i][field] + ",";
+            }
+            ids = ids.substr(0, ids.length - 1);
+            return ids;
+        },
         resizeTable:function(tableId){
             layui.table.resize(tableId);
         }
@@ -219,5 +236,5 @@ layui.define(["layer", "jquery"], function (exports) {
             }
         }
     };
-    exports('common', obj);
+    exports('common', common);
 });

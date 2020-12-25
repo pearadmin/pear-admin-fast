@@ -199,7 +199,7 @@
         update sys_user
         set dept_id = ""
         where dept_id in
-        <foreach collection ="deptIds" item="deptId" separator =",">
+        <foreach collection ="deptIds" item="deptId"  separator ="," open="(" close=")">
         #{deptId}
     </foreach >
     </update>
