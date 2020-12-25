@@ -33,11 +33,7 @@
 	height: 44px !important;
 	line-height: 44px !important;
 	padding-left: 15px !important;
-	border-radius: 3px !important;
-}
-
-.layui-input:focus {
-	box-shadow: 0px 0px 3px 1px #5FB878 !important;
+	border-radius: 4px !important;
 }
 
 .logo {
@@ -85,5 +81,6 @@ body {
 .codeImage {
 	float: right;
 	height: 42px;
-	border: #e6e6e6 1px solid;
+	border: whitesmoke 1px solid;
+	border-radius: 4px;
 }
