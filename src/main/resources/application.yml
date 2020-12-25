@@ -17,6 +17,7 @@ spring:
   profiles:
     # 运 行 环 境
     active: datasource
+  ## 工作流 配置
   activiti:
     # 是 否 检 查 流 程 定 义 文 件
     check-process-definitions: false
@@ -96,6 +97,3 @@ logging:
   level:
     # 日 志 包 配 置
     com.pearadmin.*: DEBUG
-
-
-

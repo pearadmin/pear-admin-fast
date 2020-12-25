@@ -2,15 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!-- 核 心 依 赖 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.4.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
+    <!-- 仓 库 地 址 -->
     <groupId>com.pearadmin</groupId>
     <artifactId>pear-admin-fast</artifactId>
     <version>1.0.0-RELEASE</version>
+    <!-- 项 目 描 述 -->
     <name>pear-admin-fast</name>
     <description>基于 Spring Boot 生态的快速开发框架</description>
 
@@ -66,7 +69,7 @@
     </properties>
 
     <!-- 依 赖 管 理 -->
-        <dependencies>
+    <dependencies>
             <!-- 数 据 库 连 接 工 具 -->
             <dependency>
                 <groupId>mysql</groupId>
@@ -240,6 +243,7 @@
                 <artifactId>thymeleaf-extras-springsecurity5</artifactId>
                 <version>${thymeleaf-extras.version}</version>
             </dependency>
+            <!-- 动 态 数 据 源 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
@@ -256,7 +260,6 @@
                 <artifactId>commons-pool2</artifactId>
             </dependency>
         </dependencies>
-
 
     <!-- 构建工具 -->
     <build>
@@ -284,5 +287,4 @@
             </resource>
         </resources>
     </build>
-
 </project>
