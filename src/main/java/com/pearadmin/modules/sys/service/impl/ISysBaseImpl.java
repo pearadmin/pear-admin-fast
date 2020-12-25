@@ -33,7 +33,8 @@ import java.util.List;
  * */
 @Service
 public class ISysBaseImpl implements ISysBaseAPI {
-    @Autowired
+
+    @Resource
     LoggingService loggingService;
     @Resource
     private SysUserMapper sysUserMapper;
@@ -87,7 +88,6 @@ public class ISysBaseImpl implements ISysBaseAPI {
                 }
                 sysUserModel.setPowerList(sysPowerModelList);
             }
-
         }
         return sysUserModel;
     }

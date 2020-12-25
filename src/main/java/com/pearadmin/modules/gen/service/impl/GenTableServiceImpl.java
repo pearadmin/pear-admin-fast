@@ -22,6 +22,7 @@ import com.pearadmin.modules.gen.util.VelocityInitializer;
 import com.pearadmin.modules.gen.mapper.GenTableColumnMapper;
 import com.pearadmin.modules.gen.mapper.GenTableMapper;
 import com.pearadmin.modules.gen.util.VelocityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
@@ -42,11 +43,10 @@ import javax.annotation.Resource;
  * Author: 就眠仪式
  * CreateTime: 2019/10/23
  * */
+@Slf4j
 @Service
 public class GenTableServiceImpl implements IGenTableService
 {
-    private static final Logger log = LoggerFactory.getLogger(GenTableServiceImpl.class);
-
     @Resource
     private GenTableMapper genTableMapper;
 
@@ -305,15 +305,12 @@ public class GenTableServiceImpl implements IGenTableService
     private void generatorCode(String tableName, ZipOutputStream zip)
     {
         GenTable table = genTableMapper.selectGenTableByName(tableName);
-
         setSubTable(table);
-
         setPkColumn(table);
 
         VelocityInitializer.initVelocity();
         VelocityContext context = VelocityUtils.prepareContext(table);
 
-        // 获取模板列表
         List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
         for (String template : templates)
         {

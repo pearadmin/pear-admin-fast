@@ -1,6 +1,5 @@
 package com.pearadmin.modules.sys.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.plugins.logging.domain.Logging;
@@ -9,13 +8,11 @@ import com.pearadmin.common.plugins.logging.service.LoggingService;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.ResultTable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.annotation.Resource;
 
 /**
@@ -26,10 +23,6 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("system/logging")
 public class SysLoggingController extends BaseController {
-
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     /**
      * 引 入 日 志 组 件  的 日 志 服 务
