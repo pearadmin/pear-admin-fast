@@ -4,7 +4,6 @@ layui.define(['table', 'jquery', 'element', 'form', 'tab', 'menu', 'frame'],
 
 		var $ = layui.jquery,
 			form = layui.form,
-			element = layui.element,
 			pearTab = layui.tab,
 			pearMenu = layui.menu,
 			pearFrame = layui.frame;
