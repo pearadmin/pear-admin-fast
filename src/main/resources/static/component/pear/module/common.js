@@ -51,6 +51,12 @@ layui.define(["layer", "jquery",'table'], function (exports) {
             }
             return false;
         },
+        isNotEmpty: function(value){
+            if (typeof (value) === "undefined" || value == null || this.trim(value) == "") {
+                return false;
+            }
+            return true;
+        },
         // 如果空值返回kong
         formatNullStr: function (o) {
             if (this.isEmpty(o)) {

@@ -265,11 +265,10 @@
         window.batchRemove = function (obj) {
             let ids = common.checkField(obj,'userId');
             if (common.isEmpty(ids)) {
-                popup.warning("未选中数据",function(){
-                    return false;
-                });
+                popup.warning("未选中数据");
+                return false;
             }
-            layer.confirm('确定要删除这些用户', {icon: 3, title: '提示'}, function (index) {
+            layer.confirm('确定要删除选中用户', {icon: 3, title: '提示'}, function (index) {
                 layer.close(index);
                 let loading = layer.load();
                 $.ajax({
