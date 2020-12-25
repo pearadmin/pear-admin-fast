@@ -9,6 +9,7 @@ import com.pearadmin.modules.sys.mapper.SysDictDataMapper;
 import com.pearadmin.modules.sys.mapper.SysDictTypeMapper;
 import com.pearadmin.modules.sys.service.ISysDictDataService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -101,12 +102,11 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * Return: Boolean
      * */
     @Override
+    @Transactional
     public Boolean remove(String id) {
         SysDictType sysDictType =  sysDictTypeMapper.selectById(id);
-
         Integer dictTypeResult = 0;
         Integer dictDataResult = 0;
-
         if(sysDictType!=null) {
              dictTypeResult = sysDictTypeMapper.deleteById(id);
              dictDataResult = sysDictDataMapper.deleteByCode(sysDictType.getTypeCode());
