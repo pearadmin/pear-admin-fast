@@ -10,6 +10,7 @@ import com.pearadmin.common.web.domain.response.Result;
 import com.pearadmin.common.web.domain.response.ResultTable;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -105,6 +106,21 @@ public class SysFileController extends BaseController {
     public Result remove(@PathVariable("id") String id){
        boolean result = fileService.remove(id);
        return Result.decide(result,"删除成功","删除失败");
+    }
+
+    /**
+     * Describe: 文件删除接口
+     * Param: id
+     * Return: 文件流
+     * */
+    @Transactional
+    @DeleteMapping("batchRemove/{ids}")
+    @PreAuthorize("hasPermission('/system/file/remove','sys:file:remove')")
+    public Result batchRemove(@PathVariable("ids") String ids){
+        for (String id: ids.split(",")) {
+            fileService.remove(id);
+        }
+        return Result.success("删除成功");
     }
 
 }

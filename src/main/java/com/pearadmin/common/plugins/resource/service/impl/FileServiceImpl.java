@@ -137,6 +137,7 @@ public class FileServiceImpl implements IFileService {
      * Return: int
      * */
     @Override
+    @Transactional
     public boolean remove(String id) {
         File file = fileMapper.selectById(id);
         new java.io.File(file.getFilePath()).delete();
