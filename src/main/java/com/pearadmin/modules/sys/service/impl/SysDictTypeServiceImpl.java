@@ -105,17 +105,11 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     @Transactional
     public Boolean remove(String id) {
         SysDictType sysDictType =  sysDictTypeMapper.selectById(id);
-        Integer dictTypeResult = 0;
-        Integer dictDataResult = 0;
         if(sysDictType!=null) {
-             dictTypeResult = sysDictTypeMapper.deleteById(id);
-             dictDataResult = sysDictDataMapper.deleteByCode(sysDictType.getTypeCode());
+             sysDictTypeMapper.deleteById(id);
+             sysDictDataMapper.deleteByCode(sysDictType.getTypeCode());
         }
-        if(dictDataResult>0 && dictTypeResult>0){
-            iSysDictDataService.refreshChcheTypeCode(sysDictType.getTypeCode());
-            return true;
-        }else{
-            return false;
-        }
+        iSysDictDataService.refreshChcheTypeCode(sysDictType.getTypeCode());
+        return true;
     }
 }

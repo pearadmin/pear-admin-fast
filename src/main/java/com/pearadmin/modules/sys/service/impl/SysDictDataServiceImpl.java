@@ -28,7 +28,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
 
     @Resource
     private SysDictDataMapper sysDictDataMapper;
-    //字典缓存 10分钟失效
+
     public static LoadingCache<String, List<SysDictData>> loadingCacheSysDictData = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(600, TimeUnit.SECONDS).build(new CacheLoader<String,List<SysDictData>>() {
         @Override
         public List<SysDictData> load(String typeCode) {
@@ -58,7 +58,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
         try {
             loadingCacheSysDictData.refresh(typeCode);
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 
