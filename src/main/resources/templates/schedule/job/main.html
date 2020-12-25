@@ -68,11 +68,10 @@
 </script>
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['table', 'form', 'jquery', 'dtree'], function () {
+    layui.use(['table', 'form', 'jquery'], function () {
         let table = layui.table;
         let form = layui.form;
         let $ = layui.jquery;
-        let dtree = layui.dtree;
 
         let MODULE_PATH = "/schedule/job/";
 
