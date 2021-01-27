@@ -1,16 +1,15 @@
 package com.pearadmin.common.plugins.system.service;
 
-import com.pearadmin.common.plugins.logging.enums.BusinessType;
-import com.pearadmin.common.plugins.logging.enums.LoggingType;
+import com.pearadmin.common.plugins.logging.aop.enums.BusinessType;
+import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
 import com.pearadmin.common.plugins.system.domain.*;
 import java.util.List;
 
 /**
- * @Description: 底层共通业务API，提供其他独立模块调用
- * @Author: Songaw
- * @Date:2020年12月1日14:33:12
- * @Version:V1.0
- */
+ * Describe: 系统基础 API
+ * Author: 就 眠 仪 式
+ * CreateTime: 2019/10/23
+ * */
 public interface ISysBaseAPI {
 
 	/**
@@ -27,7 +26,7 @@ public interface ISysBaseAPI {
 	 * @param username
 	 * @return
 	 */
-	SysUserModel getUserByName(String username);
+	SysBaseUser getUserByName(String username);
 
 
 	/**
@@ -35,21 +34,21 @@ public interface ISysBaseAPI {
 	 * @param id
 	 * @return
 	 */
-	SysUserModel getUserById(String id);
+	SysBaseUser getUserById(String id);
 	
 	/**
 	 * 通过用户账号查询角色集合
 	 * @param username
 	 * @return
 	 */
-	List<SysRoleModel> getRolesByUsername(String username);
+	List<SysBaseRole> getRolesByUsername(String username);
 
 	/**
 	 * 根据字典code获取可用的字典列表数据
 	 * @param typeCode
 	 * @return
 	 */
-	List<SysDictDataModel> selectDictByCode(String typeCode);
+	List<SysBaseDictionary> selectDictByCode(String typeCode);
 
 	/**
 	 * 查询表字典通过查询指定table的 text code key 获取字典值
@@ -58,7 +57,7 @@ public interface ISysBaseAPI {
 	 * @param code value
 	 * @return
 	 */
-    List<SysDictDataModel> queryTableDictItemsByCode(String table, String text, String code);
+    List<SysBaseDictionary> queryTableDictItemsByCode(String table, String text, String code);
 
 
 	/**
@@ -68,7 +67,7 @@ public interface ISysBaseAPI {
 	 * @param code value
 	 * @return
 	 */
-	List<SysDictDataModel> queryTableDictItemsByCodeAndFilter(String table, String text, String code, String filterSql);
+	List<SysBaseDictionary> queryTableDictItemsByCodeAndFilter(String table, String text, String code, String filterSql);
 
 
 	/**
@@ -79,6 +78,6 @@ public interface ISysBaseAPI {
 	 * @param keyArray values
 	 * @return
 	 */
-	List<SysDictDataModel>queryTableDictByKeys(String table, String text, String code, String[] keyArray);
+	List<SysBaseDictionary>queryTableDictByKeys(String table, String text, String code, String[] keyArray);
 
 }

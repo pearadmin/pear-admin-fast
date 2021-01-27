@@ -1,7 +1,7 @@
 package com.pearadmin.common.plugins.logging.service;
 
 import com.pearadmin.common.plugins.logging.domain.Logging;
-import com.pearadmin.common.plugins.logging.enums.LoggingType;
+import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
 
 import java.util.List;
 
@@ -13,26 +13,30 @@ import java.util.List;
 public interface LoggingService {
 
     /**
-     * 执 行 插 入 操 作
-     *
-     * @param logging 日志实体
-     * @return 执行结果
+     * Describe: 执 行 插 入 操 作
+     * Param: logging
+     * Return: boolean
      */
     boolean save(Logging logging);
 
     /**
-     * 执 行 查 询 操 作
-     *
-     * @param loggingType 日志类型
-     * @return 执行结果
+     * Describe: 执 行 查 询 操 作
+     * Param: loggingType
+     * Return: 日志列表
      */
     List<Logging> data(LoggingType loggingType);
 
     /**
-     * 根据id查询日志
-     *
-     * @param id
-     * @return
+     * Describe: 根 据 id 查 询 日 志
+     * Param: id
+     * Return: Logging
      */
     Logging getById(String id);
+
+    /**
+     * Describe: 根据 operateName 查询日志
+     * Param: operateName
+     * Return: 日志列表
+     */
+    List<Logging> selectTopLoginLog(String operateName);
 }

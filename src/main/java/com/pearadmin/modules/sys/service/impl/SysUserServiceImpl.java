@@ -6,14 +6,14 @@ import com.pearadmin.common.config.proprety.SecurityProperty;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.sys.domain.SysMenu;
-import com.pearadmin.modules.sys.domain.SysRole;
 import com.pearadmin.modules.sys.domain.SysUser;
 import com.pearadmin.modules.sys.domain.SysUserRole;
-import com.pearadmin.modules.sys.mapper.SysRoleMapper;
 import com.pearadmin.modules.sys.mapper.SysPowerMapper;
+import com.pearadmin.modules.sys.mapper.SysRoleMapper;
 import com.pearadmin.modules.sys.mapper.SysUserMapper;
 import com.pearadmin.modules.sys.mapper.SysUserRoleMapper;
 import com.pearadmin.modules.sys.service.ISysUserService;
+import com.pearadmin.modules.sys.domain.SysRole;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

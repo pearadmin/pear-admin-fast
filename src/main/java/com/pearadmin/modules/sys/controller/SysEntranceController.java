@@ -1,13 +1,18 @@
 package com.pearadmin.modules.sys.controller;
 
-import com.pearadmin.common.plugins.logging.annotation.Logging;
-import com.pearadmin.common.plugins.logging.enums.BusinessType;
-import com.pearadmin.common.tools.security.SecurityUtil;
+import com.pearadmin.common.plugins.logging.aop.annotation.Logging;
+import com.pearadmin.common.plugins.logging.aop.enums.BusinessType;
+import com.pearadmin.common.secure.session.SecureSessionService;
+import com.pearadmin.common.tools.secure.SecurityUtil;
 import com.pearadmin.common.web.base.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Describe: 入 口 控 制 器
@@ -18,14 +23,18 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping
 public class SysEntranceController extends BaseController {
 
+    @Autowired
+    private SessionRegistry sessionRegistry;
+
     /**
      * Describe: 获取登录视图
      * Param: ModelAndView
      * Return: 登录视图
      * */
     @GetMapping("login")
-    public ModelAndView login( ){
+    public ModelAndView login(HttpServletRequest request){
         if (SecurityUtil.isAuthentication()) {
+            SecureSessionService.expiredSession(request, sessionRegistry);
             return JumpPage("index");
         }else{
             return JumpPage("login");

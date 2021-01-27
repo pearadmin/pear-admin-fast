@@ -46,9 +46,9 @@
 
         let layerIndex;
 
-        let demoListView = $('#demoList'),
-            uploadListIns = upload.render({
-              elem: '#testList'
+        let demoListView = $('#demoList')
+            , uploadListIns = upload.render({
+            elem: '#testList'
             , url: '/system/file/upload' //改成您自己的上传接口
             , accept: 'file'
             , method: 'post'
@@ -70,15 +70,16 @@
                     tr.find('.demo-reload').on('click', function () {
                         obj.upload(index, file);
                     });
+
                     tr.find('.demo-delete').on('click', function () {
                         delete files[index];
                         tr.remove();
-                        uploadListIns.config.elem.next()[0].value = '';
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
                     });
                     demoListView.append(tr);
                 });
-            },
-            done: function (res, index, upload) {
+            }
+            , done: function (res, index, upload) {
                 if (res.success) {
                     let tr = demoListView.find('tr#upload-' + index)
                         , tds = tr.children();
@@ -86,13 +87,13 @@
                     return delete this.files[index];
                 }
                 this.error(index, upload);
-            },
-            error: function (index) {
+            }
+            , error: function (index) {
                 let tr = demoListView.find('tr#upload-' + index)
                     , tds = tr.children();
                 tds.eq(2).find('.demo-reload').removeClass('layui-hide');
-            },
-            allDone: function () {
+            }
+            , allDone: function () {
                 layer.close(layerIndex);
                 layer.msg("上传成功", {icon: 1, time: 1200}, function () {
                     parent.layer.close(parent.layer.getFrameIndex(window.name));

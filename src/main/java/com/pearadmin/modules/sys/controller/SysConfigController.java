@@ -1,13 +1,14 @@
 package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
-import com.pearadmin.modules.sys.domain.SysConfig;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.sys.service.ISysConfigService;
+import com.pearadmin.modules.sys.domain.SysConfig;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
  * CreateTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("system/config")
+@RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "config")
 public class SysConfigController extends BaseController {
 
     /**

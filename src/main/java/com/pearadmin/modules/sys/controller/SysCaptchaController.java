@@ -37,8 +37,9 @@ public class SysCaptchaController extends BaseController {
     @RequestMapping("verify")
     public Result verify(HttpServletRequest request, String captcha){
         if(CaptchaUtil.ver(captcha,request)){
-            return success();
+            return success("验证成功");
         }
-        return failure();
+        return failure("验证失败");
     }
+
 }

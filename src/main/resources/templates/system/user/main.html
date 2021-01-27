@@ -9,7 +9,7 @@
     <div class="layui-card-body">
         <form class="layui-form" action="" lay-filter="user-query-form">
             <div class="layui-form-item">
-                <label class="layui-form-label">用户名</label>
+                <label class="layui-form-label">用户</label>
                 <div class="layui-input-inline">
                     <input type="text" name="realName" placeholder="" class="layui-input">
                 </div>
@@ -179,13 +179,8 @@
             } else if (obj.event === 'batchRemove') {
                 window.batchRemove(obj);
             } else if(obj.event == 'collasped'){
-                if($(".user-left").hasClass("user-collasped")){
-                    $(".user-left").removeClass("user-collasped");
-                    $(".user-main").removeClass("user-collasped");
-                }else{
-                    $(".user-left").addClass("user-collasped");
-                    $(".user-main").addClass("user-collasped");
-                }
+                $(".user-left").toggleClass("user-collasped");
+                $(".user-main").toggleClass("user-collasped");
                 table.resize();
             }
         });

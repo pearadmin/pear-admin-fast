@@ -2,17 +2,19 @@ package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.plugins.logging.domain.Logging;
-import com.pearadmin.common.plugins.logging.enums.LoggingType;
+import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
 import com.pearadmin.common.plugins.logging.service.LoggingService;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.annotation.Resource;
 
 /**
@@ -21,7 +23,7 @@ import javax.annotation.Resource;
  * CreateTime: 2019/10/23
  */
 @RestController
-@RequestMapping("system/logging")
+@RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "logging")
 public class SysLoggingController extends BaseController {
 
     /**
@@ -67,8 +69,13 @@ public class SysLoggingController extends BaseController {
         return pageTable(pageInfo.getList(), pageInfo.getTotal());
     }
 
-    @GetMapping("/details")
+    /**
+     * Describe: 日志详情
+     * Param: null
+     * Return: ModelAndView
+     */
+    @GetMapping("/info")
     public ModelAndView details(){
-        return JumpPage("system/logging/details");
+        return JumpPage("system/logging/info");
     }
 }

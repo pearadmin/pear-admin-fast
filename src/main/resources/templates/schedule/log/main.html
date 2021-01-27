@@ -30,6 +30,7 @@
     </div>
 </div>
 </body>
+
 <script type="text/html" id="log-bar">
     {{#if (d.status == 0) { }}
     <span style="color: green">成功</span>
@@ -37,9 +38,11 @@
     <span style="color: red">异常</span>
     {{# } }}
 </script>
+
 <script type="text/html" id="log-createTime">
     {{layui.util.toDateString(d.createTime,  "yyyy-MM-dd HH:mm:ss")}}
 </script>
+
 <th:block th:include="include :: footer"/>
 <script>
     layui.use(['table', 'form', 'jquery'], function () {
@@ -91,6 +94,60 @@
                 shade: 0,
                 area: ['450px', '350px'],
                 content: '<div class="pear-container"><div class="layui-card"><div class="layui-card-body">' + obj.data['error'] + '</div></div></div>'
+            });
+        }
+
+        window.remove = function (obj) {
+            layer.confirm('确定要删除该用户', {icon: 3, title: '提示'}, function (index) {
+                layer.close(index);
+                let loading = layer.load();
+                $.ajax({
+                    url: MODULE_PATH + "remove/" + obj.data['userId'],
+                    dataType: 'json',
+                    type: 'delete',
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.success) {
+                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                                obj.del();
+                            });
+                        } else {
+                            layer.msg(result.msg, {icon: 2, time: 1000});
+                        }
+                    }
+                })
+            });
+        }
+
+        window.batchRemove = function (obj) {
+            let data = table.checkStatus(obj.config.id).data;
+            if (data.length === 0) {
+                layer.msg("未选中数据", {icon: 3, time: 1000});
+                return false;
+            }
+            let ids = "";
+            for (let i = 0; i < data.length; i++) {
+                ids += data[i].userId + ",";
+            }
+            ids = ids.substr(0, ids.length - 1);
+            layer.confirm('确定要删除这些用户', {icon: 3, title: '提示'}, function (index) {
+                layer.close(index);
+                let loading = layer.load();
+                $.ajax({
+                    url: MODULE_PATH + "batchRemove/" + ids,
+                    dataType: 'json',
+                    type: 'delete',
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.success) {
+                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                                table.reload('user-table');
+                            });
+                        } else {
+                            layer.msg(result.msg, {icon: 2, time: 1000});
+                        }
+                    }
+                })
             });
         }
 

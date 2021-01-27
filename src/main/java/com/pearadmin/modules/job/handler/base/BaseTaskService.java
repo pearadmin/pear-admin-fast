@@ -7,5 +7,8 @@ package com.pearadmin.modules.job.handler.base;
  * */
 public interface BaseTaskService {
 
-    void run(String params);
+    /**
+     * 任 务 实 现
+     * */
+    void run(String params) ;
 }

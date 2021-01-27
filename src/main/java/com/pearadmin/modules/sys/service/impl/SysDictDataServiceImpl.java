@@ -7,9 +7,9 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.pearadmin.common.tools.spring.SpringUtil;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.modules.sys.domain.SysDictData;
 import com.pearadmin.modules.sys.mapper.SysDictDataMapper;
 import com.pearadmin.modules.sys.service.ISysDictDataService;
+import com.pearadmin.modules.sys.domain.SysDictData;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,7 +28,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
 
     @Resource
     private SysDictDataMapper sysDictDataMapper;
-
+    //字典缓存 10分钟失效
     public static LoadingCache<String, List<SysDictData>> loadingCacheSysDictData = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(600, TimeUnit.SECONDS).build(new CacheLoader<String,List<SysDictData>>() {
         @Override
         public List<SysDictData> load(String typeCode) {
@@ -99,15 +99,10 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     @Override
     public Boolean remove(String id) {
         SysDictData sysDictData=  sysDictDataMapper.selectById(id);
-        int result=0;
         if(sysDictData!=null) {
-             result = sysDictDataMapper.deleteById(id);
+             sysDictDataMapper.deleteById(id);
         }
-        if(result>0){
-            refreshChcheTypeCode(sysDictData.getTypeCode());
-            return true;
-        }else{
-            return false;
-        }
+        refreshChcheTypeCode(sysDictData.getTypeCode());
+        return true;
     }
 }

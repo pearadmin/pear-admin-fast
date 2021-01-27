@@ -137,9 +137,9 @@
                 success: function (result) {
                     layer.close(loading);
                     if (result.success) {
-                        popup.success(result.msg);
+                        layer.msg(result.msg, {icon: 1, time: 1000});
                     } else {
-                        popup.failure(result.msg);
+                        layer.msg(result.msg, {icon: 2, time: 1000});
                     }
                 }
             })
@@ -186,11 +186,11 @@
                     success: function (result) {
                         layer.close(loading);
                         if (result.success) {
-                            popup.success(result.msg,function(){
+                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
                                 obj.del();
                             });
                         } else {
-                            popup.failure(result.msg);
+                            layer.msg(result.msg, {icon: 2, time: 1000});
                         }
                     }
                 })
@@ -213,9 +213,9 @@
                     success: function (result) {
                         layer.close(loading);
                         if (result.success) {
-                            popup.success(result.msg,function(){
+                            popup.success(result.msg, function () {
                                 table.reload('role-table');
-                            })
+                            });
                         } else {
                             popup.failure(result.msg);
                         }

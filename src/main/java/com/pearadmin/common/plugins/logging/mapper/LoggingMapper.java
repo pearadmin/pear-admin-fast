@@ -1,7 +1,7 @@
 package com.pearadmin.common.plugins.logging.mapper;
 
 import com.pearadmin.common.plugins.logging.domain.Logging;
-import com.pearadmin.common.plugins.logging.enums.LoggingType;
+import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
@@ -23,16 +23,21 @@ public interface LoggingMapper {
     /**
      * Describe: 查询日志信息
      * Param: LoggingType
-     * Return: 日志信息列表
+     * Return: 日志列表
      * */
     List<Logging> selectList(LoggingType loggingType);
 
-
     /**
-     * 根据id查询日志
-     *
-     * @param id
-     * @return
+     * Describe: 根据 id 查询日志信息
+     * Param: id
+     * Return: Logging
      */
     Logging getById(String id);
+
+    /**
+     * Describe: 根据 operateName 查询日志
+     * Param: operateName
+     * Return 日志列表
+     */
+    List<Logging> selectTopLoginLog(String operateName);
 }

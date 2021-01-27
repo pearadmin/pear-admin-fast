@@ -1,11 +1,12 @@
 package com.pearadmin.modules.job.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.common.web.domain.response.ResultTable;
-import com.pearadmin.modules.job.service.IScheduleLogService;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.job.domain.ScheduleLogBean;
+import com.pearadmin.modules.job.service.IScheduleLogService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
  * createTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("schedule/log")
+@RequestMapping(ControllerConstant.API_SCHEDULE_PREFIX + "log")
 public class ScheduleLogController extends BaseController {
 
     /**

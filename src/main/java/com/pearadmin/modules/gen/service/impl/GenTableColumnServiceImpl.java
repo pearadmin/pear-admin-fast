@@ -1,11 +1,11 @@
 package com.pearadmin.modules.gen.service.impl;
 
 import java.util.List;
-import com.pearadmin.common.tools.text.Convert;
+import com.pearadmin.common.tools.string.Convert;
 import com.pearadmin.modules.gen.domain.GenTableColumn;
+import com.pearadmin.modules.gen.mapper.GenTableColumnMapper;
 import com.pearadmin.modules.gen.service.IGenTableColumnService;
 import org.springframework.stereotype.Service;
-import com.pearadmin.modules.gen.mapper.GenTableColumnMapper;
 
 import javax.annotation.Resource;
 

@@ -3,8 +3,8 @@ package com.pearadmin.modules.sys.service;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.sys.domain.SysMenu;
-import com.pearadmin.modules.sys.domain.SysRole;
 import com.pearadmin.modules.sys.domain.SysUser;
+import com.pearadmin.modules.sys.domain.SysRole;
 
 import java.util.List;
 

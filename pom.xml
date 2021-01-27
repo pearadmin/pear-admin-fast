@@ -63,6 +63,12 @@
         <jackson.version>2.9.9</jackson.version>
         <!-- spring boot version -->
         <spring.boot.version>2.3.4.RELEASE</spring.boot.version>
+        <!-- HuTool 工具类 -->
+        <hutool.version>5.5.7</hutool.version>
+        <!-- Xss 工具类 -->
+        <jsoup.version>1.9.2</jsoup.version>
+        <!-- yaml 解析 -->
+        <yaml.version>1.26</yaml.version>
         <!-- Maven 配置 -->
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
@@ -259,7 +265,35 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
             </dependency>
-        </dependencies>
+            <!-- Jackson 扩展包 -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--服务器信息-->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>3.9.1</version>
+            </dependency>
+            <!-- yaml 解析 -->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${yaml.version}</version>
+            </dependency>
+    </dependencies>
 
     <!-- 构建工具 -->
     <build>

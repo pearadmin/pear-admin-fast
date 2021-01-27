@@ -3,7 +3,6 @@ package com.pearadmin.modules.sys.service;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.sys.domain.SysConfig;
-
 import java.util.List;
 
 /**

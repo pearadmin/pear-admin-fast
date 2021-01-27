@@ -1,14 +1,15 @@
 package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
-import com.pearadmin.modules.sys.domain.SysDictType;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.sys.service.ISysDictDataService;
 import com.pearadmin.modules.sys.service.ISysDictTypeService;
+import com.pearadmin.modules.sys.domain.SysDictType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ import java.util.List;
  * CreateTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("system/dictType")
+@RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "dictType")
 public class SysDictTypeController extends BaseController {
 
     @Resource

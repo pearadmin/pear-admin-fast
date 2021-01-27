@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="admin/css/other/login.css" />
 </head>
 <!-- 代 码 结 构 -->
-<body background="admin/images/background2.svg">
+<body background="admin/images/login.svg">
 <form class="layui-form" action="javascript:void(0);">
     <div class="layui-form-item">
         <img class="logo" src="admin/images/logo.png" />
@@ -35,12 +35,12 @@
 </form>
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['form','jquery','layer','button'], function() {
+    layui.use(['form','jquery','layer','button','popup'], function() {
         let form = layui.form;
         let $ = layui.jquery;
         let layer = layui.layer;
         let button = layui.button;
-
+        let popup = layui.popup;
         let captchaPath = "/system/captcha/generate";
 
         form.on('submit(login)', function(data){
@@ -55,11 +55,11 @@
                     layer.close(loader);
                     btn.stop(function(){
                         if(result.success){
-                            layer.msg(result.msg,{icon:1,time:1000},function(){
+                            popup.success(result.msg,function(){
                                 location.href = "/index";
                             })
                         }else{
-                            layer.msg(result.msg,{icon:2,time:1000},function(){
+                            popup.failure(result.msg,function(){
                                 document.getElementById("captchaImage").src=captchaPath + "?" + Math.random();
                             });
                         }
@@ -69,30 +69,25 @@
             return false;
         });
 
-        // 手动刷新 Captcha 验证码
         $("#captchaImage").click(function(){
             document.getElementById("captchaImage").src= captchaPath + "?" + Math.random();
         })
-        // 自动刷新 Captcha 验证码
         setInterval(function(){
             document.getElementById("captchaImage").src= captchaPath + "?" + Math.random();
         },30 * 1000);
-        // 验证 Session 过期 (避免套娃)
         validateKickout();
     })
 </script>
-<!-- Session 过期处理 -->
 <script>
     if(window!=top){ top.location.href = location.href; }
 
     function validateKickout() {
-        if (getParam("kickout") == 1) {
+        if (getParam("abnormalout") == 1) {
             layer.alert("<font color='red'>您已在别处登录，请您修改密码或重新登录</font>", {
                     icon: 0,
                     title: "系统提示"
                 },
                 function(index) {
-                    //关闭弹窗
                     layer.close(index);
                 });
         }else if(getParam("sessionout") == 1){
@@ -101,7 +96,6 @@
                     title: "系统提示"
                 },
                 function(index) {
-                    //关闭弹窗
                     layer.close(index);
                 });
         }

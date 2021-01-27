@@ -1,6 +1,7 @@
 package com.pearadmin.modules.sys.domain;
 
 import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,5 +57,4 @@ public class SysMenu {
      * 用于参数传递
      * */
     private String username;
-
 }

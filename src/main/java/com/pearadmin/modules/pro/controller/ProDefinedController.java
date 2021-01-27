@@ -1,9 +1,10 @@
 package com.pearadmin.modules.pro.controller;
 
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.pro.domain.ProDefined;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -24,7 +25,7 @@ import java.util.List;
  * createTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("/process/defined")
+@RequestMapping(ControllerConstant.API_PROCESS_PREFIX + "defined")
 public class ProDefinedController extends BaseController {
 
     /**

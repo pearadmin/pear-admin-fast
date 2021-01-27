@@ -1,10 +1,11 @@
 package com.pearadmin.modules.sys.controller;
 
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
-import com.pearadmin.common.web.domain.response.ResuTree;
+import com.pearadmin.common.web.domain.response.module.ResultTree;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.sys.domain.SysDept;
 import com.pearadmin.modules.sys.service.ISysDeptService;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +21,7 @@ import java.util.List;
  * CreateTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("system/dept")
+@RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "dept")
 public class SysDeptController extends BaseController {
 
     /**
@@ -63,7 +64,7 @@ public class SysDeptController extends BaseController {
      * Return ModelAndView
      * */
     @GetMapping("tree")
-    public ResuTree tree(SysDept param){
+    public ResultTree tree(SysDept param){
         List<SysDept> data = sysDeptService.list(param);
         return dataTree(data);
     }

@@ -5,13 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.sys.domain.SysPower;
-import com.pearadmin.modules.sys.domain.SysRole;
 import com.pearadmin.modules.sys.domain.SysRolePower;
-import com.pearadmin.modules.sys.mapper.SysRoleMapper;
 import com.pearadmin.modules.sys.mapper.SysPowerMapper;
+import com.pearadmin.modules.sys.mapper.SysRoleMapper;
 import com.pearadmin.modules.sys.mapper.SysRolePowerMapper;
 import com.pearadmin.modules.sys.mapper.SysUserRoleMapper;
 import com.pearadmin.modules.sys.service.ISysRoleService;
+import com.pearadmin.modules.sys.domain.SysRole;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

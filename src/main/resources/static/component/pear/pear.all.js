@@ -5,7 +5,7 @@ window.rootPath = (function(src) {
 
 layui.config({
 	base: rootPath + "module/",
-	version: true
+	version: false
 }).extend({
 	admin: "admin",
 	menu: "menu",
@@ -33,5 +33,10 @@ layui.config({
 	common: "common",
 	eleTree: "eleTree",
 	dictionary: 'dictionary',
-	json: 'json'
+	json: 'json',
+	cropper:"cropper",
+	yaml: "yaml",
+	theme: "theme"
+}).use(['layer', 'theme'], function () {
+	layui.theme.changeTheme(window, false);
 });

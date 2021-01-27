@@ -1,15 +1,14 @@
 package com.pearadmin.common.plugins.logging.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pearadmin.common.plugins.logging.enums.BusinessType;
-import com.pearadmin.common.plugins.logging.enums.LoggingType;
-import com.pearadmin.common.plugins.logging.enums.RequestMethod;
+import com.pearadmin.common.plugins.logging.aop.enums.BusinessType;
+import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
+import com.pearadmin.common.plugins.logging.aop.enums.RequestMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +18,7 @@ import java.util.Map;
  * CreateTime: 2019/10/23
  */
 @Data
+@Alias("Logging")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Logging {

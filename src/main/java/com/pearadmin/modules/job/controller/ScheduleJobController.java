@@ -1,11 +1,12 @@
 package com.pearadmin.modules.job.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.job.domain.ScheduleJobBean;
 import com.pearadmin.modules.job.service.IScheduleJobService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
  * createTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("schedule/job")
+@RequestMapping(ControllerConstant.API_SCHEDULE_PREFIX + "job")
 public class ScheduleJobController extends BaseController {
 
     /**
