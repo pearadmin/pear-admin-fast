@@ -1,12 +1,13 @@
 package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.common.web.domain.response.ResuTree;
+import com.pearadmin.common.web.domain.response.module.ResultTree;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.sys.domain.SysRole;
 import com.pearadmin.modules.sys.service.ISysRoleService;
 import io.swagger.annotations.Api;
@@ -24,7 +25,7 @@ import java.util.Arrays;
  * CreateTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("system/role")
+@RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "role")
 @Api(value="角色controller",tags={"角色操作接口"})
 public class SysRoleController extends BaseController {
 
@@ -48,7 +49,7 @@ public class SysRoleController extends BaseController {
     @ApiOperation(value="获取角色列表视图")
     @PreAuthorize("hasPermission('/system/role/main','sys:role:main')")
     public ModelAndView main(){
-        return JumpPage(MODULE_PATH + "main");
+        return jumpPage(MODULE_PATH + "main");
     }
 
     /**
@@ -73,7 +74,7 @@ public class SysRoleController extends BaseController {
     @ApiOperation(value="获取角色新增视图")
     @PreAuthorize("hasPermission('/system/role/add','sys:role:add')")
     public ModelAndView add(){
-        return JumpPage(MODULE_PATH + "add");
+        return jumpPage(MODULE_PATH + "add");
     }
 
     /**
@@ -127,7 +128,7 @@ public class SysRoleController extends BaseController {
     @PreAuthorize("hasPermission('/system/role/power','sys:role:power')")
     public ModelAndView power(Model model, String roleId){
         model.addAttribute("roleId",roleId);
-        return JumpPage(MODULE_PATH + "power");
+        return jumpPage(MODULE_PATH + "power");
     }
 
     /**
@@ -151,7 +152,7 @@ public class SysRoleController extends BaseController {
     @GetMapping("getRolePower")
     @ApiOperation(value="获取角色权限数据")
     @PreAuthorize("hasPermission('/system/role/power','sys:role:power')")
-    public ResuTree getRolePower(String roleId){
+    public ResultTree getRolePower(String roleId){
         return dataTree(sysRoleService.getRolePower(roleId));
     }
 

@@ -35,11 +35,11 @@
         <i class="layui-icon layui-icon-add-1"></i>
         新增
     </button>
-    <button sec:authorize="hasPermission('/schedule/job/remove','sch:job:remove')" class="pear-btn pear-btn-danger pear-btn-md" lay-event="batchRemove">
+    <button sec:authorize="hasPermission('/schedule/job/remove','sch:job:remove')" class="pear-btn pear-btn-md" lay-event="batchRemove">
         <i class="layui-icon layui-icon-delete"></i>
         删除
     </button>
-    <button class="pear-btn pear-btn-warming pear-btn-md" lay-event="runLog">
+    <button class="pear-btn pear-btn-md" lay-event="runLog">
         <i class="layui-icon layui-icon-file"></i>
         日志
     </button>
@@ -68,10 +68,13 @@
 </script>
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['table', 'form', 'jquery'], function () {
+    layui.use(['table', 'form', 'jquery', 'dtree','common','popup'], function () {
         let table = layui.table;
         let form = layui.form;
         let $ = layui.jquery;
+        let dtree = layui.dtree;
+        let common = layui.common;
+        let popup = layui.popup;
 
         let MODULE_PATH = "/schedule/job/";
 
@@ -83,6 +86,7 @@
                 {title: '参数', field: 'params', align: 'center'},
                 {title: '表达式', field: 'cronExpression', align: 'center'},
                 {title: '状态', field: 'status', align: 'center', templet: '#job-status'},
+                {title: '描述', field: 'remark', align: 'center'},
                 {title: '操作', toolbar: '#job-bar', align: 'center', width: 220}
             ]
         ]
@@ -171,11 +175,11 @@
                 success: function (result) {
                     layer.close(loading);
                     if (result.success) {
-                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                        popup.success(result.msg, function () {
                             table.reload("job-table");
                         });
                     } else {
-                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        popup.failure(result.msg);
                     }
                 }
             })
@@ -191,11 +195,11 @@
                 success: function (result) {
                     layer.close(loading);
                     if (result.success) {
-                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                        popup.success(result.msg,  function () {
                             table.reload("job-table");
                         });
                     } else {
-                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        popup.failure(result.msg);
                     }
                 }
             })
@@ -211,9 +215,9 @@
                 success: function (result) {
                     layer.close(loading);
                     if (result.success) {
-                        layer.msg(result.msg, {icon: 1, time: 1000});
+                        popup.success(result.msg);
                     } else {
-                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        popup.failure(result.msg);
                     }
                 }
             })
@@ -242,17 +246,12 @@
         }
 
         window.batchRemove = function (obj) {
-            let data = table.checkStatus(obj.config.id).data;
-            if (data.length === 0) {
-                layer.msg("未选中数据", {icon: 3, time: 1000});
+            let ids = common.checkField(obj,'jobId');
+            if (common.isEmpty(ids)) {
+                popup.warning("未选中数据");
                 return false;
             }
-            let ids = "";
-            for (let i = 0; i < data.length; i++) {
-                ids += data[i].jobId + ",";
-            }
-            ids = ids.substr(0, ids.length - 1);
-            layer.confirm('确定要删除这些任务', {icon: 3, title: '提示'}, function (index) {
+            layer.confirm('确定要删除选中任务', {icon: 3, title: '提示'}, function (index) {
                 layer.close(index);
                 let loading = layer.load();
                 $.ajax({

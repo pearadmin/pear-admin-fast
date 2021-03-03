@@ -2,12 +2,13 @@ package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pearadmin.common.plugins.resource.domain.File;
-import com.pearadmin.common.plugins.resource.service.IFileService;
+import com.pearadmin.common.constant.ControllerConstant;
+import com.pearadmin.modules.sys.domain.SysFile;
+import com.pearadmin.modules.sys.service.ISysFileService;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
  * CreateTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("system/file")
+@RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "file")
 public class SysFileController extends BaseController {
 
     /**
@@ -34,7 +35,7 @@ public class SysFileController extends BaseController {
      * 移 除 服 务
      * */
     @Resource
-    private IFileService fileService;
+    private ISysFileService fileService;
 
     /**
      * Describe: 文件管理页面
@@ -44,7 +45,7 @@ public class SysFileController extends BaseController {
     @GetMapping("main")
     @PreAuthorize("hasPermission('/system/file/main','sys:file:main')")
     public ModelAndView main(){
-        return JumpPage(MODULE_PATH + "main");
+        return jumpPage(MODULE_PATH + "main");
     }
 
     /**
@@ -56,7 +57,7 @@ public class SysFileController extends BaseController {
     @PreAuthorize("hasPermission('/system/file/data','sys:file:data')")
     public ResultTable data(PageDomain pageDomain){
         PageHelper.startPage(pageDomain.getPage(),pageDomain.getLimit());
-        PageInfo<File> pageInfo = new PageInfo<>(fileService.data());
+        PageInfo<SysFile> pageInfo = new PageInfo<>(fileService.data());
         return pageTable(pageInfo.getList(),pageInfo.getTotal());
     }
 
@@ -68,7 +69,7 @@ public class SysFileController extends BaseController {
     @GetMapping("add")
     @PreAuthorize("hasPermission('/system/file/add','sys:file:add')")
     public ModelAndView add(){
-        return JumpPage(MODULE_PATH + "add");
+        return jumpPage(MODULE_PATH + "add");
     }
 
     /**
@@ -122,5 +123,4 @@ public class SysFileController extends BaseController {
         }
         return Result.success("删除成功");
     }
-
 }

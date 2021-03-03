@@ -1,12 +1,14 @@
 package com.pearadmin.modules.sys.controller;
 
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
-import com.pearadmin.common.web.domain.response.ResuTree;
+import com.pearadmin.common.web.domain.response.module.ResultTree;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.sys.domain.SysPower;
 import com.pearadmin.modules.sys.service.ISysPowerService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,7 @@ import java.util.List;
  * */
 
 @RestController
-@RequestMapping("system/power")
+@RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "power")
 public class SysPowerController extends BaseController {
 
     /**
@@ -45,7 +47,7 @@ public class SysPowerController extends BaseController {
     @GetMapping("main")
     @PreAuthorize("hasPermission('/system/power/main','sys:power:main')")
     public ModelAndView main(ModelAndView modelAndView){
-        return JumpPage(MODULE_PATH + "main");
+        return jumpPage(MODULE_PATH + "main");
     }
 
     /**
@@ -67,7 +69,7 @@ public class SysPowerController extends BaseController {
     @GetMapping("add")
     @PreAuthorize("hasPermission('/system/power/add','sys:power:add')")
     public ModelAndView add(){
-        return JumpPage(MODULE_PATH + "add");
+        return jumpPage(MODULE_PATH + "add");
     }
 
     /**
@@ -79,7 +81,7 @@ public class SysPowerController extends BaseController {
     @PreAuthorize("hasPermission('/system/power/edit','sys:power:edit')")
     public ModelAndView edit(Model model, String powerId){
         model.addAttribute("sysPower",sysPowerService.getById(powerId));
-        return JumpPage(MODULE_PATH + "edit");
+        return jumpPage(MODULE_PATH + "edit");
     }
 
     /**
@@ -90,6 +92,9 @@ public class SysPowerController extends BaseController {
     @PostMapping("save")
     @PreAuthorize("hasPermission('/system/power/add','sys:power:add')")
     public Result save(@RequestBody SysPower sysPower){
+        if(Strings.isBlank(sysPower.getParentId())){
+            return failure("请选择上级菜单");
+        }
         sysPower.setPowerId(SequenceUtil.makeStringId());
         boolean result = sysPowerService.save(sysPower);
         return decide(result);
@@ -103,6 +108,9 @@ public class SysPowerController extends BaseController {
     @PutMapping("update")
     @PreAuthorize("hasPermission('/system/power/edit','sys:power:edit')")
     public Result update(@RequestBody SysPower sysPower){
+        if(Strings.isBlank(sysPower.getParentId())){
+            return failure("请选择上级菜单");
+        }
         boolean result = sysPowerService.update(sysPower);
         return decide(result);
     }
@@ -125,7 +133,7 @@ public class SysPowerController extends BaseController {
      * Return ResuTree
      * */
     @GetMapping("selectParent")
-    public ResuTree selectParent(SysPower sysPower){
+    public ResultTree selectParent(SysPower sysPower){
         List<SysPower> list = sysPowerService.list(sysPower);
         SysPower basePower = new SysPower();
         basePower.setPowerName("顶级权限");

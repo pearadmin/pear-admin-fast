@@ -1,13 +1,9 @@
-layui.define(["layer", "jquery",'table'], function (exports) {
-    let $ = layui.jquery;
-    let table = layui.table;
-
-    let common = {
-        /**
-         * 获取当前表格选中字段
-         * @param obj 表格回调参数
-         * @param field 要获取的字段
-         * */
+;
+"use strict";
+layui.define(["layer", "jquery","table"], function (exports) {
+    var $ = layui.jquery;
+    var table = layui.table;
+    var obj = {
         checkField: function(obj, field) {
             let data = table.checkStatus(obj.config.id).data;
             if (data.length === 0) {
@@ -23,7 +19,6 @@ layui.define(["layer", "jquery",'table'], function (exports) {
         resizeTable:function(tableId){
             layui.table.resize(tableId);
         }
-        // 字符串格式化(%s )
         ,sprintf: function (str) {
             var args = arguments, flag = true, i = 1;
             str = str.replace(/%s/g, function () {
@@ -36,28 +31,18 @@ layui.define(["layer", "jquery",'table'], function (exports) {
             });
             return flag ? str : '';
         },
-        // 比较两个字符串（大小写敏感）
         equals: function (str, that) {
             return str == that;
         },
-        // 比较两个字符串（大小写不敏感）
         equalsIgnoreCase: function (str, that) {
             return String(str).toUpperCase() === String(that).toUpperCase();
         },
-        // 判断字符串是否为空
         isEmpty: function (value) {
             if (typeof (value) === "undefined" || value == null || this.trim(value) == "") {
                 return true;
             }
             return false;
         },
-        isNotEmpty: function(value){
-            if (typeof (value) === "undefined" || value == null || this.trim(value) == "") {
-                return false;
-            }
-            return true;
-        },
-        // 如果空值返回kong
         formatNullStr: function (o) {
             if (this.isEmpty(o)) {
                 return "";
@@ -65,7 +50,6 @@ layui.define(["layer", "jquery",'table'], function (exports) {
                 return o;
             }
         },
-        // 递归获取json中某个key的值数组
         getJsonArrayValue: function (array, key, keyChecked, keyId) {
             var aa = [];
             for (var a in array) {
@@ -84,22 +68,15 @@ layui.define(["layer", "jquery",'table'], function (exports) {
             }
             return aa;
         },
-        // 空格截取
         trim: function (value) {
             if (value == null) {
                 return "";
             }
             return value.toString().replace(/(^\s*)|(\s*$)|\r|\n/g, "");
         },
-        // 指定随机数返回
         random: function (min, max) {
             return Math.floor((Math.random() * max) + min);
         },
-        /**
-         * 提取形如{role[0]:'1',role[1]:'1'}这样的复选框的值
-         * @param json
-         * @param name
-         */
         getCheckValues: function (name) {
             var _items = $('input:checkbox[name*="' + name + '"]:checked');
             var _itemsStr = "";
@@ -111,11 +88,6 @@ layui.define(["layer", "jquery",'table'], function (exports) {
             }
             return "";
         },
-        /**
-         * 将array中的json对象中的key为key的合并为1,2,3的形式
-         * @param array
-         * @param key
-         */
         joinArray: function (array, key) {
             var _itemsStr = "";
             layui.each(array, function (i, n) {
@@ -160,7 +132,6 @@ layui.define(["layer", "jquery",'table'], function (exports) {
             });
         },
         ajax: {
-            // 提交数据
             submit: function (url, type, dataType, data, cb) {
                 var config = {
                     url: url,
@@ -180,11 +151,9 @@ layui.define(["layer", "jquery",'table'], function (exports) {
                 };
                 $.ajax(config)
             },
-            // post请求传输
             post: function (url, data, cb) {
                 obj.ajax.submit(url, "post", "json", data, cb);
             },
-            // get请求传输
             get: function (url, cb) {
                 obj.ajax.submit(url, "get", "json", "", cb);
             }
@@ -242,5 +211,5 @@ layui.define(["layer", "jquery",'table'], function (exports) {
             }
         }
     };
-    exports('common', common);
+    exports('common', obj);
 });

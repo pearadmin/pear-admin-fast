@@ -1,14 +1,12 @@
 package ${packageName}.controller;
 
-import java.util.List;
-
 import com.github.pagehelper.PageInfo;
 import ${packageName}.domain.${ClassName};
-import com.pearadmin.common.tools.text.Convert;
+import com.pearadmin.common.tools.string.Convert;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.ModelMap;
@@ -35,7 +33,7 @@ public class ${ClassName}Controller extends BaseController
     @PreAuthorize("hasPermission('/${moduleName}/${businessName}/main','${permissionPrefix}:main')")
     public ModelAndView main()
     {
-        return JumpPage(prefix + "/main");
+        return jumpPage(prefix + "/main");
     }
 
     /**
@@ -57,7 +55,7 @@ public class ${ClassName}Controller extends BaseController
     @PreAuthorize("hasPermission('/${moduleName}/${businessName}/add','${permissionPrefix}:add')")
     public ModelAndView add()
     {
-        return JumpPage(prefix + "/add");
+        return jumpPage(prefix + "/add");
     }
 
     /**
@@ -80,7 +78,7 @@ public class ${ClassName}Controller extends BaseController
     {
         ${ClassName} ${className} = ${className}Service.select${ClassName}ById(${pkColumn.javaField});
         mmap.put("${className}", ${className});
-        return JumpPage(prefix + "/edit");
+        return jumpPage(prefix + "/edit");
     }
 
     /**

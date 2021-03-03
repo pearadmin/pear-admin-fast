@@ -1,6 +1,7 @@
 package com.pearadmin.common.web.base;
 
 import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -34,12 +35,12 @@ public class BaseDomain implements Serializable {
     private LocalDateTime updateTime;
 
     /**
-     * 修改时间
+     * 修改人
      * */
     private String updateBy;
 
     /**
-     * 修改名称
+     * 修改人名称
      * */
     private String updateName;
 

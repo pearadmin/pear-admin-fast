@@ -1,7 +1,7 @@
 # Tomcat
 server:
   # 端 口
-  port: 8383
+  port: 8282
   # Servlet
   servlet:
     # Session
@@ -16,13 +16,13 @@ spring:
   # Druid Pool 运行环境
   profiles:
     # 运 行 环 境
-    active: datasource
-  ## 工作流 配置
+    active: dev
+  # 工 作 流 程
   activiti:
     # 是 否 检 查 流 程 定 义 文 件
     check-process-definitions: false
 
-# mybatis 配 置
+# Mybatis 配 置
 mybatis:
   # 配 置 扫 描
   mapper-locations: classpath*:**/xml/**.xml
@@ -31,49 +31,51 @@ mybatis:
 
 # Pear 插 件 配 置 信 息
 pear:
-    # Document 配 置 信 息
+  # Document 配 置 信 息
   swagger:
-      # 文 档 标 题
+    # 文 档 标 题
     title: Pear Admin API
-      # 是 否 开 启
+    # 是 否 开 启
     enable: true
-      # 描 述 信 息
+    # 描 述 信 息
     describe: 企 业 快 速 开 发 平 台
-      # 扫 包 路 径
+    # 扫 包 路 径
     scan-package: com.pearadmin
-      # 协 议
-    licence: apache
-      # 协 议 地 址
+    # 协 议
+    licence: MIT
+    # 协 议 地 址
     licence-url: https://gitee.com/pear_community
-      # 组 织 信 息
+    # 组 织 信 息
     terms-of-service-url: https://gitee.com/pear_community
-      # 版 本 信 息
+    # 版 本 信 息
     version: Release 2.0.0
-      # 扩 展 信 息
+    # 扩 展 信 息
     contact:
-        # 作 者
+      # 作 者
       name: 就 眠 仪 式
-        # 连 接
+      # 连 接
       url: www.pearadmin.cn
-        # 邮 箱
+      # 邮 箱
       email: Jmys1992@gmail.com
-
   # 权 限 配 置
   security:
-    #开启超级管理员账号--配置之后不需要验证权限
+    # 开 启 超 级 管 理 员 账 号 -- 不需要验证权限
     super-auth-open: true
-    #超级管理员账号--配置之后不需要验证权限
+    # 超 级 管 理 员 账 号 -- 不需要验证权限
     super-admin: admin
-    #记住密码key
-    remember-key: oanus_admins_2020_perar_admins_springboot
+    # 允 许 同 一 账 号 多 端 登 录 个 数
+    maximum: 1
+    # 记 住 密 码 KEY
+    remember-key: PEAR_REMEMBER
     # 不 需 要 权 限 拦 截 的 接 口 配 置
     open-api:
-      - /login/**  # 开放 登录 接口
-      - /system/captcha/** # 开放 验证码生成 接口
-      - /assets/** # 开放 静态资源
-      - /admin/** # 开放 静态资源
-      - /component/** # 开放 静态资源
-      - /favicon.ico # 开放 Logo
+      - /login/**  # 开放登录接口
+      - /system/captcha/** # 开放验证码接口
+      - /assets/** # 开放静态资源
+      - /admin/** # 开放静态资源
+      - /component/** # 开放静态资源
+      - /favicon.ico # 开放FAVICON
+
   # 上 传 配 置
   upload:
     # 当前系统环境
@@ -83,6 +85,7 @@ pear:
     # linux 上传路径
     linux-path: /home/uploads/
 
+
 # Page Helper
 pagehelper:
   # 方 言
@@ -91,9 +94,8 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
 
-# logging 配置
 logging:
-  # 日 志 级 别
-  level:
-    # 日 志 包 配 置
-    com.pearadmin.*: DEBUG
+  config: classpath:logback-spring.xml
+
+
+

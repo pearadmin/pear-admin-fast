@@ -1,8 +1,8 @@
 package com.pearadmin.modules.gen.util;
 
 import java.util.Arrays;
-import com.pearadmin.common.constant.GeneratorConstant;
-import com.pearadmin.common.tools.text.StringUtils;
+import com.pearadmin.common.constant.GenerateConstant;
+import com.pearadmin.common.tools.string.StringUtil;
 import com.pearadmin.modules.gen.config.GenConfig;
 import com.pearadmin.modules.gen.domain.GenTable;
 import com.pearadmin.modules.gen.domain.GenTableColumn;
@@ -39,81 +39,81 @@ public class GenUtils
         column.setTableId(table.getTableId());
         column.setCreateBy(table.getCreateBy());
         // 设置java字段名
-        column.setJavaField(StringUtils.toCamelCase(columnName));
+        column.setJavaField(StringUtil.toCamelCase(columnName));
 
-        if (arraysContains(GeneratorConstant.COLUMNTYPE_STR, dataType))
+        if (arraysContains(GenerateConstant.COLUMNTYPE_STR, dataType))
         {
-            column.setJavaType(GeneratorConstant.TYPE_STRING);
+            column.setJavaType(GenerateConstant.TYPE_STRING);
             Integer columnLength = getColumnLength(column.getColumnType());
-            String htmlType = columnLength >= 500 ? GeneratorConstant.HTML_TEXTAREA : GeneratorConstant.HTML_INPUT;
+            String htmlType = columnLength >= 500 ? GenerateConstant.HTML_TEXTAREA : GenerateConstant.HTML_INPUT;
             column.setHtmlType(htmlType);
         }
-        else if (arraysContains(GeneratorConstant.COLUMNTYPE_TIME, dataType))
+        else if (arraysContains(GenerateConstant.COLUMNTYPE_TIME, dataType))
         {
-            column.setJavaType(GeneratorConstant.TYPE_DATE);
-            column.setHtmlType(GeneratorConstant.HTML_DATETIME);
+            column.setJavaType(GenerateConstant.TYPE_DATE);
+            column.setHtmlType(GenerateConstant.HTML_DATETIME);
         }
-        else if (arraysContains(GeneratorConstant.COLUMNTYPE_NUMBER, dataType))
+        else if (arraysContains(GenerateConstant.COLUMNTYPE_NUMBER, dataType))
         {
-            column.setHtmlType(GeneratorConstant.HTML_INPUT);
+            column.setHtmlType(GenerateConstant.HTML_INPUT);
 
             // 如果是浮点型
-            String[] str = StringUtils.split(StringUtils.substringBetween(column.getColumnType(), "(", ")"), ",");
+            String[] str = StringUtil.split(StringUtil.substringBetween(column.getColumnType(), "(", ")"), ",");
             if (str != null && str.length == 2 && Integer.parseInt(str[1]) > 0)
             {
-                column.setJavaType(GeneratorConstant.TYPE_BIGDECIMAL);
+                column.setJavaType(GenerateConstant.TYPE_BIGDECIMAL);
             }
             // 如果是整形
             else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= 10)
             {
-                column.setJavaType(GeneratorConstant.TYPE_INTEGER);
+                column.setJavaType(GenerateConstant.TYPE_INTEGER);
             }
             // 长整形
             else
             {
-                column.setJavaType(GeneratorConstant.TYPE_LONG);
+                column.setJavaType(GenerateConstant.TYPE_LONG);
             }
         }
 
         // 插入字段（默认所有字段都需要插入）
-        column.setIsInsert(GeneratorConstant.REQUIRE);
+        column.setIsInsert(GenerateConstant.REQUIRE);
 
         // 编辑字段
-        if (!arraysContains(GeneratorConstant.COLUMNNAME_NOT_EDIT, columnName) && !column.isPk())
+        if (!arraysContains(GenerateConstant.COLUMNNAME_NOT_EDIT, columnName) && !column.isPk())
         {
-            column.setIsEdit(GeneratorConstant.REQUIRE);
+            column.setIsEdit(GenerateConstant.REQUIRE);
         }
         // 列表字段
-        if (!arraysContains(GeneratorConstant.COLUMNNAME_NOT_LIST, columnName) && !column.isPk())
+        if (!arraysContains(GenerateConstant.COLUMNNAME_NOT_LIST, columnName) && !column.isPk())
         {
-            column.setIsList(GeneratorConstant.REQUIRE);
+            column.setIsList(GenerateConstant.REQUIRE);
         }
         // 查询字段
-        if (!arraysContains(GeneratorConstant.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk())
+        if (!arraysContains(GenerateConstant.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk())
         {
-            column.setIsQuery(GeneratorConstant.REQUIRE);
+            column.setIsQuery(GenerateConstant.REQUIRE);
         }
 
         // 查询字段类型
-        if (StringUtils.endsWithIgnoreCase(columnName, "name"))
+        if (StringUtil.endsWithIgnoreCase(columnName, "name"))
         {
-            column.setQueryType(GeneratorConstant.QUERY_LIKE);
+            column.setQueryType(GenerateConstant.QUERY_LIKE);
         }
         // 状态字段设置单选框
-        if (StringUtils.endsWithIgnoreCase(columnName, "status"))
+        if (StringUtil.endsWithIgnoreCase(columnName, "status"))
         {
-            column.setHtmlType(GeneratorConstant.HTML_RADIO);
+            column.setHtmlType(GenerateConstant.HTML_RADIO);
         }
         // 类型&性别字段设置下拉框
-        else if (StringUtils.endsWithIgnoreCase(columnName, "type")
-                || StringUtils.endsWithIgnoreCase(columnName, "sex"))
+        else if (StringUtil.endsWithIgnoreCase(columnName, "type")
+                || StringUtil.endsWithIgnoreCase(columnName, "sex"))
         {
-            column.setHtmlType(GeneratorConstant.HTML_SELECT);
+            column.setHtmlType(GenerateConstant.HTML_SELECT);
         }
         // 文件字段设置上传控件
-        else if (StringUtils.endsWithIgnoreCase(columnName, "file"))
+        else if (StringUtil.endsWithIgnoreCase(columnName, "file"))
         {
-            column.setHtmlType(GeneratorConstant.HTML_UPLOAD);
+            column.setHtmlType(GenerateConstant.HTML_UPLOAD);
         }
     }
 
@@ -139,7 +139,7 @@ public class GenUtils
     {
         int lastIndex = packageName.lastIndexOf(".");
         int nameLength = packageName.length();
-        String moduleName = StringUtils.substring(packageName, lastIndex + 1, nameLength);
+        String moduleName = StringUtil.substring(packageName, lastIndex + 1, nameLength);
         return moduleName;
     }
 
@@ -153,7 +153,7 @@ public class GenUtils
     {
         int lastIndex = tableName.lastIndexOf("_");
         int nameLength = tableName.length();
-        String businessName = StringUtils.substring(tableName, lastIndex + 1, nameLength);
+        String businessName = StringUtil.substring(tableName, lastIndex + 1, nameLength);
         return businessName;
     }
 
@@ -167,12 +167,12 @@ public class GenUtils
     {
         boolean autoRemovePre = GenConfig.getAutoRemovePre();
         String tablePrefix = GenConfig.getTablePrefix();
-        if (autoRemovePre && StringUtils.isNotEmpty(tablePrefix))
+        if (autoRemovePre && StringUtil.isNotEmpty(tablePrefix))
         {
-            String[] searchList = StringUtils.split(tablePrefix, ",");
+            String[] searchList = StringUtil.split(tablePrefix, ",");
             tableName = replaceFirst(tableName, searchList);
         }
-        return StringUtils.convertToCamelCase(tableName);
+        return StringUtil.convertToCamelCase(tableName);
     }
 
     /**
@@ -214,9 +214,9 @@ public class GenUtils
      */
     public static String getDbType(String columnType)
     {
-        if (StringUtils.indexOf(columnType, "(") > 0)
+        if (StringUtil.indexOf(columnType, "(") > 0)
         {
-            return StringUtils.substringBefore(columnType, "(");
+            return StringUtil.substringBefore(columnType, "(");
         }
         else
         {
@@ -232,9 +232,9 @@ public class GenUtils
      */
     public static Integer getColumnLength(String columnType)
     {
-        if (StringUtils.indexOf(columnType, "(") > 0)
+        if (StringUtil.indexOf(columnType, "(") > 0)
         {
-            String length = StringUtils.substringBetween(columnType, "(", ")");
+            String length = StringUtil.substringBetween(columnType, "(", ")");
             return Integer.valueOf(length);
         }
         else
@@ -254,7 +254,7 @@ public class GenUtils
         String[] values = new String[length];
         for (int i = 0; i < length; i++)
         {
-            values[i] = StringUtils.EMPTY;
+            values[i] = StringUtil.EMPTY;
         }
         return values;
     }

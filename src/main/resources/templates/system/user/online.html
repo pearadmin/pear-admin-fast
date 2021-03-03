@@ -32,15 +32,24 @@
 </body>
 
 <script type="text/html" id="online-bar">
-    <button sec:authorize="hasPermission('/system/online/remove','sys:online:remove')" class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove"><i class="pear-icon pear-icon-ashbin"></i></button>
+    <button sec:authorize="hasPermission('/system/online/remove','sys:online:remove')" class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove">
+        <i class="pear-icon pear-icon-ashbin"></i>
+    </button>
+</script>
+
+<script type="text/html" id="online-state">
+    <span class="pear-text">
+        在线
+    </span>
 </script>
 
 <th:block th:include="include :: footer"/>
 <script>
-    layui.use(['table', 'form', 'jquery'], function () {
+    layui.use(['table', 'form', 'jquery','popup'], function () {
         let table = layui.table;
         let form = layui.form;
         let $ = layui.jquery;
+        let popup = layui.popup;
 
         let MODULE_PATH = "/system/online/";
 
@@ -49,9 +58,10 @@
                 {type: 'checkbox'},
                 {title: '用户名', field: 'realName', align: 'center', width: 100},
                 {title: '账号', field: 'username', align: 'center'},
+                {title: '状态', field: 'username', align: 'center',templet: '#online-state'},
                 {title: '在线时长', field: 'onlineTime', align: 'center'},
                 {title: '登录时间', field: 'lastTime', align: 'center'},
-                {title: '操作', toolbar: '#online-bar', align: 'center', width: 195}
+                {title: '操作', toolbar: '#online-bar', align: 'center', width: 100}
             ]
         ]
 
@@ -80,17 +90,17 @@
                 layer.close(index);
                 let loading = layer.load();
                 $.ajax({
-                    url: MODULE_PATH + "remove/" + obj.data['onlineId'],
+                    url: MODULE_PATH + "remove/" + obj.data['userId'],
                     dataType: 'json',
                     type: 'delete',
                     success: function (result) {
                         layer.close(loading);
                         if (result.success) {
-                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            popup.success(result.msg, function () {
                                 obj.del();
                             });
                         } else {
-                            layer.msg(result.msg, {icon: 2, time: 1000});
+                            popup.failure(result.msg);
                         }
                     }
                 })

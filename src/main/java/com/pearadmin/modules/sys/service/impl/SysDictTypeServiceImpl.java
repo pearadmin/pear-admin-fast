@@ -4,12 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.sys.domain.SysDictType;
-import com.pearadmin.modules.sys.service.ISysDictTypeService;
 import com.pearadmin.modules.sys.mapper.SysDictDataMapper;
 import com.pearadmin.modules.sys.mapper.SysDictTypeMapper;
 import com.pearadmin.modules.sys.service.ISysDictDataService;
+import com.pearadmin.modules.sys.service.ISysDictTypeService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -26,7 +25,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     private SysDictTypeMapper sysDictTypeMapper;
 
     @Resource
-    ISysDictDataService iSysDictDataService;
+    private ISysDictDataService iSysDictDataService;
 
     @Resource
     private SysDictDataMapper sysDictDataMapper;
@@ -102,9 +101,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * Return: Boolean
      * */
     @Override
-    @Transactional
     public Boolean remove(String id) {
         SysDictType sysDictType =  sysDictTypeMapper.selectById(id);
+
         if(sysDictType!=null) {
              sysDictTypeMapper.deleteById(id);
              sysDictDataMapper.deleteByCode(sysDictType.getTypeCode());

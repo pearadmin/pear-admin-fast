@@ -3,9 +3,9 @@ package com.pearadmin.modules.job.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.modules.job.domain.ScheduleLogBean;
 import com.pearadmin.modules.job.mapper.ScheduleLogMapper;
 import com.pearadmin.modules.job.service.IScheduleLogService;
+import com.pearadmin.modules.job.domain.ScheduleLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -29,7 +29,7 @@ public class ScheduleLogServiceImpl implements IScheduleLogService {
      * Return: Boolean 执行结果
      * */
     @Override
-    public Boolean insert(ScheduleLogBean scheduleLogBean) {
+    public Boolean insert(ScheduleLog scheduleLogBean) {
         int  i = scheduleLogMapper.insert(scheduleLogBean);
         if(i>0){
             return true;
@@ -44,7 +44,7 @@ public class ScheduleLogServiceImpl implements IScheduleLogService {
      * Return: List
      * */
     @Override
-    public List<ScheduleLogBean> list(ScheduleLogBean scheduleLogBean) {
+    public List<ScheduleLog> list(ScheduleLog scheduleLogBean) {
         return scheduleLogMapper.selectList(scheduleLogBean);
     }
 
@@ -54,9 +54,9 @@ public class ScheduleLogServiceImpl implements IScheduleLogService {
      * Return: pageInfo
      * */
     @Override
-    public PageInfo<ScheduleLogBean> page(ScheduleLogBean scheduleLogBean, PageDomain pageDomain) {
+    public PageInfo<ScheduleLog> page(ScheduleLog scheduleLogBean, PageDomain pageDomain) {
         PageHelper.startPage(pageDomain.getPage(),pageDomain.getLimit());
-        List<ScheduleLogBean> list = scheduleLogMapper.selectList(scheduleLogBean);
+        List<ScheduleLog> list = scheduleLogMapper.selectList(scheduleLogBean);
         return new PageInfo<>(list);
     }
 }

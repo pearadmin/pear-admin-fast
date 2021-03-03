@@ -1,14 +1,15 @@
 package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.pearadmin.common.plugins.system.domain.SysDictDataModel;
-import com.pearadmin.common.plugins.system.service.ISysBaseAPI;
+import com.pearadmin.common.constant.ControllerConstant;
+import com.pearadmin.common.plugins.system.domain.SysBaseDict;
+import com.pearadmin.common.plugins.system.service.SysContext;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
-import com.pearadmin.common.tools.sql.SqlInjectionUtil;
+import com.pearadmin.common.tools.database.SqlInjectionUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.sys.domain.SysDictData;
 import com.pearadmin.modules.sys.service.ISysDictDataService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,24 +21,21 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Describe: 主页控制器
+ * Describe: 数据字典控制器
  * Author: 就 眠 仪 式
  * CreateTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("system/dictData")
+@RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "dictData")
 public class SysDictDataController extends BaseController {
 
-    /**
-     * 基础路径
-     * */
     private String MODULE_PATH = "system/dict/data/";
 
     @Resource
     private ISysDictDataService sysDictDataService;
 
     @Resource
-    private ISysBaseAPI iSysBaseAPI;
+    private SysContext iSysBaseAPI;
 
     /**
      * Describe: 数据字典列表视图
@@ -48,7 +46,7 @@ public class SysDictDataController extends BaseController {
     @PreAuthorize("hasPermission('/system/dictData/main','sys:dictData:main')")
     public ModelAndView main(Model model, String typeCode){
         model.addAttribute("typeCode",typeCode);
-        return JumpPage(MODULE_PATH + "main");
+        return jumpPage(MODULE_PATH + "main");
     }
 
     /**
@@ -74,31 +72,26 @@ public class SysDictDataController extends BaseController {
         List<SysDictData> list = sysDictDataService.selectByCode(typeCode);
         return success(list);
     }
+
     /**
-     * 获取字典数据
-     * @param dictCode 字典code
-     * @param dictCode 表名,文本字段,code字段  | 举例：sys_dept,dept_name,dept_id
-     * @return
+     * Describe: 获取字典数据
+     * Param: dictCode 字典code
+     * Return: Result
      */
     @GetMapping(value = "/getDictItems/{dictCode}")
-    public Result<List<SysDictDataModel>> getDictItems(@PathVariable String dictCode, @RequestParam(value = "sign",required = false) String sign,HttpServletRequest request) {
-
-        Result<List<SysDictDataModel>> result = new Result<List<SysDictDataModel>>();
-        List<SysDictDataModel> ls = null;
+    public Result<List<SysBaseDict>> getDictItems(@PathVariable String dictCode, @RequestParam(value = "sign",required = false) String sign, HttpServletRequest request) {
+        Result<List<SysBaseDict>> result = new Result<List<SysBaseDict>>();
+        List<SysBaseDict> ls = null;
         try {
             if(dictCode.indexOf(",")!=-1) {
-                //关联表字典（举例：sys_user,realname,id）
                 String[] params = dictCode.split(",");
 
                 if(params.length<3) {
                     return Result.failure("字典Code格式不正确！");
                 }
-                //SQL注入校验（只限制非法串改数据库）
                 final String[] sqlInjCheck = {params[0],params[1],params[2]};
                 SqlInjectionUtil.filterContent(sqlInjCheck);
-
                 if(params.length==4) {
-                    //SQL注入校验（查询条件SQL 特殊check，此方法仅供此处使用）
                     SqlInjectionUtil.specialFilterContent(params[3]);
                     ls = iSysBaseAPI.queryTableDictItemsByCodeAndFilter(params[0],params[1],params[2],params[3]);
                 }else if (params.length==3) {
@@ -107,26 +100,25 @@ public class SysDictDataController extends BaseController {
                     return Result.failure("字典Code格式不正确！");
                 }
             }else {
-                //字典表
                 ls = iSysBaseAPI.selectDictByCode(dictCode);
             }
-
             result.setSuccess(true);
             result.setData(ls);
-
         } catch (Exception e) {
             e.printStackTrace();
             return Result.failure("操作失败！");
         }
-
         return result;
     }
+
     /**
-     * 根据字典code加载字典text 返回
+     * Describe: 根据字典code加载字典text
+     * Param: dictCode 字典code
+     * Return: Result
      */
     @RequestMapping(value = "/loadDictItem/{dictCode}", method = RequestMethod.GET)
-    public Result<List<SysDictDataModel>> loadDictItem(@PathVariable String dictCode,@RequestParam(name="key") String keys, @RequestParam(value = "sign",required = false) String sign,HttpServletRequest request) {
-        Result<List<SysDictDataModel>> result = new Result<>();
+    public Result<List<SysBaseDict>> loadDictItem(@PathVariable String dictCode, @RequestParam(name="key") String keys, @RequestParam(value = "sign",required = false) String sign, HttpServletRequest request) {
+        Result<List<SysBaseDict>> result = new Result<>();
         try {
             if(dictCode.indexOf(",")!=-1) {
                 String[] params = dictCode.split(",");
@@ -134,7 +126,7 @@ public class SysDictDataController extends BaseController {
                     return Result.failure("字典Code格式不正确！");
                 }
                 String[] keyArray = keys.split(",");
-                List<SysDictDataModel> texts = iSysBaseAPI.queryTableDictByKeys(params[0], params[1], params[2], keyArray);
+                List<SysBaseDict> texts = iSysBaseAPI.queryTableDictByKeys(params[0], params[1], params[2], keyArray);
                 return Result.success(texts);
             }else {
                 return Result.failure("字典Code格式不正确！");
@@ -154,7 +146,7 @@ public class SysDictDataController extends BaseController {
     @PreAuthorize("hasPermission('/system/dictData/add','sys:dictData:add')")
     public ModelAndView add(Model model,String typeCode){
         model.addAttribute("typeCode",typeCode);
-        return JumpPage(MODULE_PATH+"add");
+        return jumpPage(MODULE_PATH+"add");
     }
 
     /**
@@ -179,7 +171,7 @@ public class SysDictDataController extends BaseController {
     @PreAuthorize("hasPermission('/system/dictData/edit','sys:dictData:edit')")
     public ModelAndView edit(Model model,String dataId){
         model.addAttribute("sysDictData",sysDictDataService.getById(dataId));
-        return JumpPage(MODULE_PATH+"edit");
+        return jumpPage(MODULE_PATH+"edit");
     }
 
     /**

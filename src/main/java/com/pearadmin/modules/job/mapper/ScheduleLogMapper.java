@@ -1,6 +1,6 @@
 package com.pearadmin.modules.job.mapper;
 
-import com.pearadmin.modules.job.domain.ScheduleLogBean;
+import com.pearadmin.modules.job.domain.ScheduleLog;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,12 +18,12 @@ public interface ScheduleLogMapper {
      * Param: ScheduleLogBean
      * Return: Integer 影响条数
      * */
-    Integer insert(ScheduleLogBean scheduleLog);
+    Integer insert(ScheduleLog scheduleLog);
 
     /**
      * Describe: 根据条件查询定时任务日志列表
      * Param: ScheduleLogBean
      * Return: Integer 影响条数
      * */
-    List<ScheduleLogBean> selectList(ScheduleLogBean scheduleLogBean);
+    List<ScheduleLog> selectList(ScheduleLog scheduleLogBean);
 }

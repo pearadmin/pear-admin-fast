@@ -1,7 +1,6 @@
 package com.pearadmin.modules.gen.service;
 
 import com.pearadmin.modules.gen.domain.GenTableColumn;
-
 import java.util.List;
 
 /**

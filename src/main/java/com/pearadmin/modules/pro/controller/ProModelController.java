@@ -3,10 +3,11 @@ package com.pearadmin.modules.pro.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.pro.domain.ProModel;
 import com.pearadmin.modules.pro.param.CreateModelParam;
 import org.activiti.bpmn.model.BpmnModel;
@@ -15,6 +16,8 @@ import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
+import org.activiti.engine.repository.ModelQuery;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,7 +32,7 @@ import java.util.List;
  * createTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("/process/model/")
+@RequestMapping(ControllerConstant.API_PROCESS_PREFIX + "model")
 public class ProModelController extends BaseController {
 
     private String modelPath = "process/model/";
@@ -69,8 +72,12 @@ public class ProModelController extends BaseController {
      * Return: ResultTable
      * */
     @GetMapping("data")
-    public ResultTable list(PageDomain pageDomain){
-        List<Model> list = repositoryService.createModelQuery().listPage(pageDomain.start(),pageDomain.end());
+    public ResultTable list(PageDomain pageDomain, String modelName){
+        ModelQuery modelQuery = repositoryService.createModelQuery();
+        if (StringUtils.hasText(modelName)){
+            modelQuery.modelNameLike(modelName);
+        }
+        List<Model> list = modelQuery.listPage(pageDomain.start(),pageDomain.end());
         List<ProModel> data = new ArrayList<>();
 
         list.forEach(model -> {
@@ -82,7 +89,7 @@ public class ProModelController extends BaseController {
             data.add(proModel);
         });
 
-        long count = repositoryService.createModelQuery().list().size();
+        long count = modelQuery.list().size();
         return pageTable(data,count);
     }
 

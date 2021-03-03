@@ -1,11 +1,12 @@
 package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.sys.domain.SysConfig;
 import com.pearadmin.modules.sys.service.ISysConfigService;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
  * CreateTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("system/config")
+@RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "config")
 public class SysConfigController extends BaseController {
 
     /**
@@ -44,7 +45,7 @@ public class SysConfigController extends BaseController {
     @GetMapping("main")
     @PreAuthorize("hasPermission('/system/config/main','sys:config:main')")
     public ModelAndView main(){
-        return JumpPage(MODULE_PATH + "main");
+        return jumpPage(MODULE_PATH + "main");
     }
 
     /**
@@ -67,7 +68,7 @@ public class SysConfigController extends BaseController {
     @GetMapping("add")
     @PreAuthorize("hasPermission('/system/config/add','sys:config:add')")
     public ModelAndView add(){
-        return JumpPage(MODULE_PATH + "add");
+        return jumpPage(MODULE_PATH + "add");
     }
 
     /**
@@ -80,6 +81,7 @@ public class SysConfigController extends BaseController {
     public Result save(@RequestBody SysConfig sysConfig){
         sysConfig.setConfigId(SequenceUtil.makeStringId());
         sysConfig.setCreateTime(LocalDateTime.now());
+        sysConfig.setConfigType("custom");
         boolean result = sysConfigService.save(sysConfig);
         return decide(result);
     }
@@ -93,7 +95,7 @@ public class SysConfigController extends BaseController {
     @PreAuthorize("hasPermission('/system/config/edit','sys:config:edit')")
     public ModelAndView edit(Model model, String configId){
         model.addAttribute("sysConfig",sysConfigService.getById(configId));
-        return JumpPage(MODULE_PATH + "edit");
+        return jumpPage(MODULE_PATH + "edit");
     }
 
     /**

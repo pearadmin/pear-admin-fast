@@ -1,13 +1,14 @@
 package com.pearadmin.modules.gen.service;
 
 import com.pearadmin.modules.gen.domain.GenTable;
-
 import java.util.List;
 import java.util.Map;
 
 /**
- * 业务 服务层
- */
+ * Describe: 业务表服务接口
+ * Author: 就眠仪式
+ * CreateTime: 2019/10/23
+ * */
 public interface IGenTableService
 {
     /**

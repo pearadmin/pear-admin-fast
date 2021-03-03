@@ -1,11 +1,12 @@
 package com.pearadmin.modules.job.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
+import com.pearadmin.modules.job.domain.ScheduleLog;
 import com.pearadmin.modules.job.service.IScheduleLogService;
-import com.pearadmin.modules.job.domain.ScheduleLogBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
  * createTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("schedule/log")
+@RequestMapping(ControllerConstant.API_SCHEDULE_PREFIX + "log")
 public class ScheduleLogController extends BaseController {
 
     /**
@@ -36,7 +37,7 @@ public class ScheduleLogController extends BaseController {
     @GetMapping("main")
     @PreAuthorize("hasPermission('/schdule/log/main','sch:log:main')")
     public ModelAndView main(){
-        return JumpPage("schedule/log/main");
+        return jumpPage("schedule/log/main");
     }
 
     /**
@@ -46,8 +47,8 @@ public class ScheduleLogController extends BaseController {
      * */
     @GetMapping("data")
     @PreAuthorize("hasPermission('/schdule/log/data','sch:log:data')")
-    public ResultTable data(ScheduleLogBean scheduleLogBean, PageDomain pageDomain){
-        PageInfo<ScheduleLogBean> pageInfo = scheduleLogService.page(scheduleLogBean,pageDomain);
+    public ResultTable data(ScheduleLog scheduleLogBean, PageDomain pageDomain){
+        PageInfo<ScheduleLog> pageInfo = scheduleLogService.page(scheduleLogBean,pageDomain);
         return pageTable(pageInfo.getList(),pageInfo.getTotal());
     }
 }

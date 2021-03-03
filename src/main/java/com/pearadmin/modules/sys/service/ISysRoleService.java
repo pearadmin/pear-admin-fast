@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.sys.domain.SysPower;
 import com.pearadmin.modules.sys.domain.SysRole;
-
 import java.util.List;
 
 /**

@@ -9,14 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
-import com.pearadmin.common.tools.text.Convert;
-import com.pearadmin.common.tools.text.StringUtils;
+import com.pearadmin.common.tools.string.Convert;
+import com.pearadmin.common.tools.string.StringUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.common.web.domain.response.ResultSelect;
+import com.pearadmin.common.web.domain.response.module.ResultSelect;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.gen.domain.GenTable;
 import com.pearadmin.modules.gen.domain.GenTableColumn;
 import com.pearadmin.modules.gen.service.IGenTableService;
@@ -38,10 +39,10 @@ import com.alibaba.fastjson.JSON;
  * CreateTime: 2019/10/23
  * */
 @Controller
-@RequestMapping("/generator")
+@RequestMapping(ControllerConstant.API_GENERATOR_PREFIX)
 public class GenController extends BaseController {
 
-    private String prefix = "generator";
+    private String prefix = "generate";
 
     @Resource
     private IGenTableService genTableService;
@@ -108,7 +109,7 @@ public class GenController extends BaseController {
             table.setTableId(SequenceUtil.makeStringId());
         });
         genTableService.importGenTable(tableList, "");
-        return success();
+        return success("导入成功");
     }
 
     /**
@@ -121,7 +122,7 @@ public class GenController extends BaseController {
         List<GenTable> genTables = genTableService.selectGenTableAll();
         List<ResultSelect> cxSelect = new ArrayList<ResultSelect>();
         for (GenTable genTable : genTables) {
-            if (!StringUtils.equals(table.getTableName(), genTable.getTableName())) {
+            if (!StringUtil.equals(table.getTableName(), genTable.getTableName())) {
                 ResultSelect cxTable = new ResultSelect(genTable.getTableName(), genTable.getTableName() + '：' + genTable.getTableComment());
                 List<ResultSelect> cxColumns = new ArrayList<ResultSelect>();
                 for (GenTableColumn tableColumn : genTable.getColumns()) {
@@ -144,7 +145,7 @@ public class GenController extends BaseController {
     public Result editSave(@Validated GenTable genTable) {
         genTableService.validateEdit(genTable);
         genTableService.updateGenTable(genTable);
-        return success();
+        return success("保存成功");
     }
 
     @PostMapping("/remove")

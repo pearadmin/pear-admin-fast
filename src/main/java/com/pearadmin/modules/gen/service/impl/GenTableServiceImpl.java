@@ -9,20 +9,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import com.pearadmin.common.constant.GeneratorConstant;
+
+import com.pearadmin.common.constant.GenerateConstant;
+import com.pearadmin.common.constant.SystemConstant;
 import com.pearadmin.common.exception.base.BusinessException;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
-import com.pearadmin.common.tools.text.CharsetKit;
-import com.pearadmin.common.tools.text.Convert;
-import com.pearadmin.common.tools.text.StringUtils;
+import com.pearadmin.common.tools.string.CharsetKit;
+import com.pearadmin.common.tools.string.Convert;
+import com.pearadmin.common.tools.string.StringUtil;
 import com.pearadmin.modules.gen.domain.GenTable;
 import com.pearadmin.modules.gen.domain.GenTableColumn;
 import com.pearadmin.modules.gen.service.IGenTableService;
 import com.pearadmin.modules.gen.util.VelocityInitializer;
-import com.pearadmin.modules.gen.mapper.GenTableColumnMapper;
-import com.pearadmin.modules.gen.mapper.GenTableMapper;
+import com.pearadmin.modules.gen.util.GenUtils;
 import com.pearadmin.modules.gen.util.VelocityUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
@@ -34,8 +34,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.pearadmin.modules.gen.util.GenUtils;
-import com.pearadmin.common.constant.SystemConstant;
+import com.pearadmin.modules.gen.mapper.GenTableColumnMapper;
+import com.pearadmin.modules.gen.mapper.GenTableMapper;
+
 import javax.annotation.Resource;
 
 /**
@@ -43,10 +44,11 @@ import javax.annotation.Resource;
  * Author: 就眠仪式
  * CreateTime: 2019/10/23
  * */
-@Slf4j
 @Service
 public class GenTableServiceImpl implements IGenTableService
 {
+    private static final Logger log = LoggerFactory.getLogger(GenTableServiceImpl.class);
+
     @Resource
     private GenTableMapper genTableMapper;
 
@@ -257,7 +259,7 @@ public class GenTableServiceImpl implements IGenTableService
 
         for (String template : templates)
         {
-            if (!StringUtils.contains(template, "sql.vm"))
+            if (!StringUtil.contains(template, "sql.vm"))
             {
                 StringWriter sw = new StringWriter();
                 Template tpl = Velocity.getTemplate(template, SystemConstant.UTF8);
@@ -271,7 +273,7 @@ public class GenTableServiceImpl implements IGenTableService
                 {
                     throw new BusinessException("渲染模板失败，表名：" + table.getTableName());
                 }
-            }else  if (StringUtils.contains(template, "sql.vm")){
+            }else  if (StringUtil.contains(template, "sql.vm")){
                 StringWriter sw = new StringWriter();
                 Template tpl = Velocity.getTemplate(template, SystemConstant.UTF8);
                 tpl.merge(context, sw);
@@ -305,12 +307,15 @@ public class GenTableServiceImpl implements IGenTableService
     private void generatorCode(String tableName, ZipOutputStream zip)
     {
         GenTable table = genTableMapper.selectGenTableByName(tableName);
+
         setSubTable(table);
+
         setPkColumn(table);
 
         VelocityInitializer.initVelocity();
         VelocityContext context = VelocityUtils.prepareContext(table);
 
+        // 获取模板列表
         List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
         for (String template : templates)
         {
@@ -340,30 +345,30 @@ public class GenTableServiceImpl implements IGenTableService
     @Override
     public void validateEdit(GenTable genTable)
     {
-        if (GeneratorConstant.TPL_TREE.equals(genTable.getTplCategory()))
+        if (GenerateConstant.TPL_TREE.equals(genTable.getTplCategory()))
         {
             String options = JSON.toJSONString(genTable.getParams());
             JSONObject paramsObj = JSONObject.parseObject(options);
-            if (StringUtils.isEmpty(paramsObj.getString(GeneratorConstant.TREE_CODE)))
+            if (StringUtil.isEmpty(paramsObj.getString(GenerateConstant.TREE_CODE)))
             {
                 throw new BusinessException("树编码字段不能为空");
             }
-            else if (StringUtils.isEmpty(paramsObj.getString(GeneratorConstant.TREE_PARENT_CODE)))
+            else if (StringUtil.isEmpty(paramsObj.getString(GenerateConstant.TREE_PARENT_CODE)))
             {
                 throw new BusinessException("树父编码字段不能为空");
             }
-            else if (StringUtils.isEmpty(paramsObj.getString(GeneratorConstant.TREE_NAME)))
+            else if (StringUtil.isEmpty(paramsObj.getString(GenerateConstant.TREE_NAME)))
             {
                 throw new BusinessException("树名称字段不能为空");
             }
         }
-        else if (GeneratorConstant.TPL_SUB.equals(genTable.getTplCategory()))
+        else if (GenerateConstant.TPL_SUB.equals(genTable.getTplCategory()))
         {
-            if (StringUtils.isEmpty(genTable.getSubTableName()))
+            if (StringUtil.isEmpty(genTable.getSubTableName()))
             {
                 throw new BusinessException("关联子表的表名不能为空");
             }
-            else if (StringUtils.isEmpty(genTable.getSubTableFkName()))
+            else if (StringUtil.isEmpty(genTable.getSubTableFkName()))
             {
                 throw new BusinessException("子表关联的外键名不能为空");
             }
@@ -385,11 +390,11 @@ public class GenTableServiceImpl implements IGenTableService
                 break;
             }
         }
-        if (StringUtils.isNull(table.getPkColumn()))
+        if (StringUtil.isNull(table.getPkColumn()))
         {
             table.setPkColumn(table.getColumns().get(0));
         }
-        if (GeneratorConstant.TPL_SUB.equals(table.getTplCategory()))
+        if (GenerateConstant.TPL_SUB.equals(table.getTplCategory()))
         {
             for (GenTableColumn column : table.getSubTable().getColumns())
             {
@@ -399,7 +404,7 @@ public class GenTableServiceImpl implements IGenTableService
                     break;
                 }
             }
-            if (StringUtils.isNull(table.getSubTable().getPkColumn()))
+            if (StringUtil.isNull(table.getSubTable().getPkColumn()))
             {
                 table.getSubTable().setPkColumn(table.getSubTable().getColumns().get(0));
             }
@@ -414,7 +419,7 @@ public class GenTableServiceImpl implements IGenTableService
     public void setSubTable(GenTable table)
     {
         String subTableName = table.getSubTableName();
-        if (StringUtils.isNotEmpty(subTableName))
+        if (StringUtil.isNotEmpty(subTableName))
         {
             table.setSubTable(genTableMapper.selectGenTableByName(subTableName));
         }
@@ -428,13 +433,13 @@ public class GenTableServiceImpl implements IGenTableService
     public void setTableFromOptions(GenTable genTable)
     {
         JSONObject paramsObj = JSONObject.parseObject(genTable.getOptions());
-        if (StringUtils.isNotNull(paramsObj))
+        if (StringUtil.isNotNull(paramsObj))
         {
-            String treeCode = paramsObj.getString(GeneratorConstant.TREE_CODE);
-            String treeParentCode = paramsObj.getString(GeneratorConstant.TREE_PARENT_CODE);
-            String treeName = paramsObj.getString(GeneratorConstant.TREE_NAME);
-            String parentMenuId = paramsObj.getString(GeneratorConstant.PARENT_MENU_ID);
-            String parentMenuName = paramsObj.getString(GeneratorConstant.PARENT_MENU_NAME);
+            String treeCode = paramsObj.getString(GenerateConstant.TREE_CODE);
+            String treeParentCode = paramsObj.getString(GenerateConstant.TREE_PARENT_CODE);
+            String treeName = paramsObj.getString(GenerateConstant.TREE_NAME);
+            String parentMenuId = paramsObj.getString(GenerateConstant.PARENT_MENU_ID);
+            String parentMenuName = paramsObj.getString(GenerateConstant.PARENT_MENU_NAME);
             genTable.setTreeCode(treeCode);
             genTable.setTreeParentCode(treeParentCode);
             genTable.setTreeName(treeName);
@@ -453,7 +458,7 @@ public class GenTableServiceImpl implements IGenTableService
     public static String getGenPath(GenTable table, String template)
     {
         String genPath = table.getGenPath();
-        if (StringUtils.equals(genPath, "/"))
+        if (StringUtil.equals(genPath, "/"))
         {
             return System.getProperty("user.dir") + File.separator + "src" + File.separator + VelocityUtils.getFileName(template, table);
         }

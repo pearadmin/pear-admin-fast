@@ -5,7 +5,7 @@ window.rootPath = (function(src) {
 
 layui.config({
 	base: rootPath + "module/",
-	version: true
+	version: "3.5.6"
 }).extend({
 	admin: "admin",
 	menu: "menu",
@@ -24,7 +24,6 @@ layui.config({
 	iconPicker:"iconPicker",
 	treetable:"treetable",
 	dtree:"dtree",
-	tinymce:"tinymce/tinymce",
 	area:"area",
 	count:"count",
 	topBar: "topBar",
@@ -33,5 +32,10 @@ layui.config({
 	common: "common",
 	eleTree: "eleTree",
 	dictionary: 'dictionary',
-	json: 'json'
+	json: 'json',
+	cropper:"cropper",
+	yaml: "yaml",
+	theme: "theme"
+}).use(['layer', 'theme'], function () {
+	layui.theme.changeTheme(window, false);
 });

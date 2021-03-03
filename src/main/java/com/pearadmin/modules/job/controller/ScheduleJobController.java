@@ -1,12 +1,13 @@
 package com.pearadmin.modules.job.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
-import com.pearadmin.common.web.domain.response.ResultTable;
-import com.pearadmin.modules.job.domain.ScheduleJobBean;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
+import com.pearadmin.modules.job.domain.ScheduleJob;
 import com.pearadmin.modules.job.service.IScheduleJobService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
  * createTime: 2019/10/23
  * */
 @RestController
-@RequestMapping("schedule/job")
+@RequestMapping(ControllerConstant.API_SCHEDULE_PREFIX + "job")
 public class ScheduleJobController extends BaseController {
 
     /**
@@ -38,7 +39,7 @@ public class ScheduleJobController extends BaseController {
     @GetMapping("main")
     @PreAuthorize("hasPermission('/schdule/job/main','sch:job:main')")
     public ModelAndView main(){
-        return JumpPage("schedule/job/main");
+        return jumpPage("schedule/job/main");
     }
 
     /**
@@ -48,8 +49,8 @@ public class ScheduleJobController extends BaseController {
      * */
     @GetMapping("data")
     @PreAuthorize("hasPermission('/schdule/job/data','sch:job:data')")
-    public ResultTable data(PageDomain pageDomain, ScheduleJobBean param){
-       PageInfo<ScheduleJobBean> pageInfo =  scheduleJobService.page(param,pageDomain);
+    public ResultTable data(PageDomain pageDomain, ScheduleJob param){
+       PageInfo<ScheduleJob> pageInfo =  scheduleJobService.page(param,pageDomain);
        return pageTable(pageInfo.getList(),pageInfo.getTotal());
     }
 
@@ -61,7 +62,7 @@ public class ScheduleJobController extends BaseController {
     @GetMapping("add")
     @PreAuthorize("hasPermission('/schdule/job/add','sch:job:add')")
     public ModelAndView add(){
-        return JumpPage("schedule/job/add");
+        return jumpPage("schedule/job/add");
     }
 
     /**
@@ -73,7 +74,7 @@ public class ScheduleJobController extends BaseController {
     @PreAuthorize("hasPermission('/schdule/job/edit','sch:job:edit')")
     public ModelAndView edit(Model model, String jobId){
         model.addAttribute("scheduleJob",scheduleJobService.getById(jobId));
-        return JumpPage("schedule/job/edit");
+        return jumpPage("schedule/job/edit");
     }
 
     /**
@@ -83,7 +84,7 @@ public class ScheduleJobController extends BaseController {
      * */
     @RequestMapping("/save")
     @PreAuthorize("hasPermission('/schdule/job/add','sch:job:add')")
-    public Result save (@RequestBody ScheduleJobBean scheduleJob){
+    public Result save (@RequestBody ScheduleJob scheduleJob){
         scheduleJob.setJobId(SequenceUtil.makeStringId());
         scheduleJob.setCreateTime(LocalDateTime.now());
         Boolean result = scheduleJobService.save(scheduleJob);
@@ -109,7 +110,7 @@ public class ScheduleJobController extends BaseController {
      * */
     @RequestMapping("/update")
     @PreAuthorize("hasPermission('/schdule/job/edit','sch:job:edit')")
-    public Result update (@RequestBody ScheduleJobBean scheduleJob){
+    public Result update (@RequestBody ScheduleJob scheduleJob){
         Boolean result = scheduleJobService.update(scheduleJob) ;
         return decide(result);
     }

@@ -170,6 +170,9 @@
              <if test="lastTime!=null">
                  last_time = #{lastTime},
              </if>
+             <if test="avatar!=null">
+                 avatar = #{avatar},
+             </if>
          </set>
          where user_id = #{userId}
     </update>
@@ -199,8 +202,8 @@
         update sys_user
         set dept_id = ""
         where dept_id in
-        <foreach collection ="deptIds" item="deptId"  separator ="," open="(" close=")">
-        #{deptId}
-    </foreach >
+        <foreach collection ="deptIds" item="deptId" open="(" separator="," close=")">
+            #{deptId}
+        </foreach >
     </update>
 </mapper>
