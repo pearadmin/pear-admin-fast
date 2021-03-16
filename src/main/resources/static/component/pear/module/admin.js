@@ -1,11 +1,11 @@
-layui.define(['table', 'jquery', 'element', 'yaml','form', 'tab', 'menu', 'frame', 'theme'],
+layui.define(['message','jquery', 'yaml','form', 'tab', 'menu', 'frame', 'theme'],
 	function(exports) {
 		"use strict";
 
 		const $ = layui.jquery,
 			form = layui.form,
-			element = layui.element,
 			yaml = layui.yaml,
+			message = layui.message,
 			pearTab = layui.tab,
 			pearMenu = layui.menu,
 			pearFrame = layui.frame,
@@ -16,6 +16,8 @@ layui.define(['table', 'jquery', 'element', 'yaml','form', 'tab', 'menu', 'frame
 		let bodyTab;
 		let config;
 		const body = $('body');
+		let logout = function() {};
+		let msgInstance;
 
 		const pearAdmin = new function() {
 
@@ -37,6 +39,11 @@ layui.define(['table', 'jquery', 'element', 'yaml','form', 'tab', 'menu', 'frame
 				} else {
 					applyConfig(pearAdmin.readConfig());
 				}
+			}
+
+			this.logout = function(callback) {
+
+				logout = callback;
 			}
 
 			this.readConfig = function() {
@@ -199,7 +206,42 @@ layui.define(['table', 'jquery', 'element', 'yaml','form', 'tab', 'menu', 'frame
 				pearAdmin.removeClass("dark-theme");
 				pearAdmin.addClass(theme);
 			}
+
+			this.messageRender = function(option) {
+				var option = {
+					elem: '.message',
+					url: option.header.message,
+					height: '250px'
+				};
+				msgInstance = message.render(option);
+			}
+
+			this.message = function(callback) {
+				if(callback!=null){
+					msgInstance.click(callback);
+				}else{
+					msgInstance.click(messageTip);
+				}
+			}
 		};
+
+		var messageTip = function(id, title, context, form) {
+			layer.open({
+				type: 1,
+				title: '消息', //标题
+				area: ['390px', '330px'], //宽高
+				shade: 0.4, //遮罩透明度
+				content: "<div style='background-color:whitesmoke;'><div class='layui-card'><div class='layui-card-body'>来源 : &nbsp; " +
+					form + "</div><div class='layui-card-header' >标题 : &nbsp; " + title +
+					"</div><div class='layui-card-body' >内容 : &nbsp; " + context + "</div></div></div>", //支持获取DOM元素
+				btn: ['确认'], //按钮组
+				scrollbar: false, //屏蔽浏览器滚动条
+				yes: function(index) { //layer.msg('yes');    //点击确定回调
+					layer.close(index);
+					showToast();
+				}
+			});
+		}
 
 		function collaspe() {
 			sideMenu.collaspe();
@@ -216,6 +258,17 @@ layui.define(['table', 'jquery', 'element', 'yaml','form', 'tab', 'menu', 'frame
 				admin.addClass("pear-mini");
 			}
 		}
+
+		body.on("click", ".logout", function() {
+			// 回调
+			let result = logout();
+
+			if (result) {
+				// 清空缓存
+				bodyTab.clear();
+			}
+		})
+
 
 		body.on("click", ".collaspe,.pear-cover", function() {
 			collaspe()
@@ -351,6 +404,9 @@ layui.define(['table', 'jquery', 'element', 'yaml','form', 'tab', 'menu', 'frame
 			pearAdmin.bodyRender(param);
 			pearAdmin.themeRender(param);
 			pearAdmin.keepLoad(param);
+			if(param.header.message!=false){
+				pearAdmin.messageRender(param);
+			}
 		}
 
 		function getColorById(id) {

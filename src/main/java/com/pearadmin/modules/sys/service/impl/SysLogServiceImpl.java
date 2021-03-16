@@ -2,9 +2,9 @@ package com.pearadmin.modules.sys.service.impl;
 
 import com.pearadmin.modules.sys.domain.SysLog;
 import com.pearadmin.modules.sys.mapper.SysLogMapper;
-import com.pearadmin.modules.sys.service.ISysLogService;
 import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
 import com.pearadmin.common.plugins.logging.aop.enums.RequestMethod;
+import com.pearadmin.modules.sys.service.ISysLogService;
 import com.pearadmin.common.tools.secure.SecurityUtil;
 import com.pearadmin.common.tools.servlet.ServletUtil;
 import org.springframework.stereotype.Service;
@@ -35,11 +35,7 @@ public class SysLogServiceImpl implements ISysLogService {
         sysLog.setSystemOs(ServletUtil.getSystem());
         sysLog.setOperateName(null != SecurityUtil.currentUser() ? SecurityUtil.currentUser().getName() : "未登录用户");
         int result = sysLogMapper.insert(sysLog);
-        if(result>0){
-            return true;
-        }else{
-            return false;
-        }
+        return result > 0;
     }
 
     @Override

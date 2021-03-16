@@ -1,6 +1,7 @@
 package com.pearadmin.modules.gen.util;
 
 import java.util.Properties;
+
 import com.pearadmin.common.constant.SystemConstant;
 import org.apache.velocity.app.Velocity;
 

@@ -1,7 +1,7 @@
 package com.pearadmin.modules.sys.mapper;
 
-import com.pearadmin.modules.sys.domain.SysMenu;
 import com.pearadmin.modules.sys.domain.SysPower;
+import com.pearadmin.modules.sys.domain.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

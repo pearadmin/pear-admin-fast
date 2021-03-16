@@ -21,7 +21,6 @@ import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.gen.domain.GenTable;
 import com.pearadmin.modules.gen.domain.GenTableColumn;
 import com.pearadmin.modules.gen.service.IGenTableService;
-import com.pearadmin.modules.gen.service.IGenTableColumnService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
+import com.pearadmin.modules.gen.service.IGenTableColumnService;
 
 /**
  * Describe: 代码生成控制器

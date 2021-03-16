@@ -1,6 +1,7 @@
 package com.pearadmin.modules.sys.service;
 
 import com.pearadmin.modules.sys.domain.SysPower;
+
 import java.util.List;
 
 /**

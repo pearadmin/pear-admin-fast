@@ -4,8 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.sys.domain.SysDept;
-import com.pearadmin.modules.sys.mapper.SysDeptMapper;
 import com.pearadmin.modules.sys.mapper.SysUserMapper;
+import com.pearadmin.modules.sys.mapper.SysDeptMapper;
 import com.pearadmin.modules.sys.service.ISysDeptService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,11 +51,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public boolean save(SysDept sysDept) {
         int result = sysDeptMapper.insert(sysDept);
-        if(result>0){
-            return true;
-        }else{
-            return false;
-        }
+        return result > 0;
     }
 
     /**
@@ -76,11 +72,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public boolean update(SysDept sysDept) {
         Integer result = sysDeptMapper.updateById(sysDept);
-        if(result > 0){
-            return true;
-        }else{
-            return false;
-        }
+        return result > 0;
     }
 
     /**

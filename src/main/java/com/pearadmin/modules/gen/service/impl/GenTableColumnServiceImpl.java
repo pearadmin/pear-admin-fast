@@ -3,10 +3,9 @@ package com.pearadmin.modules.gen.service.impl;
 import java.util.List;
 import com.pearadmin.common.tools.string.Convert;
 import com.pearadmin.modules.gen.domain.GenTableColumn;
-import com.pearadmin.modules.gen.service.IGenTableColumnService;
-import org.springframework.stereotype.Service;
 import com.pearadmin.modules.gen.mapper.GenTableColumnMapper;
-
+import org.springframework.stereotype.Service;
+import com.pearadmin.modules.gen.service.IGenTableColumnService;
 import javax.annotation.Resource;
 
 /**

@@ -119,7 +119,7 @@ public class GenUtils
 
     /**
      * 校验数组是否包含指定值
-     * 
+     *
      * @param arr 数组
      * @param targetValue 值
      * @return 是否包含
@@ -131,7 +131,7 @@ public class GenUtils
 
     /**
      * 获取模块名
-     * 
+     *
      * @param packageName 包名
      * @return 模块名
      */
@@ -139,27 +139,47 @@ public class GenUtils
     {
         int lastIndex = packageName.lastIndexOf(".");
         int nameLength = packageName.length();
-        String moduleName = StringUtil.substring(packageName, lastIndex + 1, nameLength);
-        return moduleName;
+        return StringUtil.substring(packageName, lastIndex + 1, nameLength);
     }
 
     /**
      * 获取业务名
-     * 
+     *
      * @param tableName 表名
      * @return 业务名
      */
     public static String getBusinessName(String tableName)
     {
-        int lastIndex = tableName.lastIndexOf("_");
+        int lastIndex = tableName.indexOf("_");
         int nameLength = tableName.length();
-        String businessName = StringUtil.substring(tableName, lastIndex + 1, nameLength);
-        return businessName;
+        String end =  StringUtil.substring(tableName, lastIndex + 1, nameLength);
+        String[] arr = end.split("_");
+        String businessName = "";
+        for (String s : arr) {
+            businessName+= upperCaptureName(s);
+        }
+        return lowerCaptureName(businessName);
+    }
+
+    /**
+     * 首字母小写
+     * */
+    public static String lowerCaptureName(String name) {
+        name = name.substring(0, 1).toLowerCase() + name.substring(1);
+        return name;
+    }
+
+    /**
+     * 首字母大写
+     * */
+    public static String upperCaptureName(String name) {
+        name = name.substring(0, 1).toUpperCase() + name.substring(1);
+        return name;
     }
 
     /**
      * 表名转换成Java类名
-     * 
+     *
      * @param tableName 表名称
      * @return 类名
      */
@@ -177,7 +197,7 @@ public class GenUtils
 
     /**
      * 批量替换前缀
-     * 
+     *
      * @param replacementm 替换值
      * @param searchList 替换列表
      * @return
@@ -208,7 +228,7 @@ public class GenUtils
 
     /**
      * 获取数据库类型字段
-     * 
+     *
      * @param columnType 列类型
      * @return 截取后的列类型
      */
@@ -226,7 +246,7 @@ public class GenUtils
 
     /**
      * 获取字段长度
-     * 
+     *
      * @param columnType 列类型
      * @return 截取后的列类型
      */
@@ -245,7 +265,7 @@ public class GenUtils
 
     /**
      * 获取空数组列表
-     * 
+     *
      * @param length 长度
      * @return 数组信息
      */

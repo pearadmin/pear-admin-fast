@@ -4,6 +4,7 @@ import com.pearadmin.modules.sys.domain.*;
 import com.pearadmin.modules.sys.mapper.*;
 import com.pearadmin.modules.sys.service.ISysDictDataService;
 import com.pearadmin.modules.sys.service.ISysLogService;
+import com.pearadmin.modules.sys.domain.SysLog;
 import com.pearadmin.common.plugins.system.domain.*;
 import com.pearadmin.common.plugins.system.service.SysContext;
 import org.springframework.beans.BeanUtils;
@@ -50,7 +51,7 @@ public class SysContextService implements SysContext {
                         SysBasePower sysPowerModel = new SysBasePower();
                         BeanUtils.copyProperties(sysPower, sysPowerModel);
                         sysPowerModelList.add(sysPowerModel);
-                    }catch (Exception e){
+                    }catch (Exception ignored){
 
                     }
                 }
