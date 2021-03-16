@@ -60,32 +60,79 @@ Spring Boot + Security + MyBatis + Thymeleaf + Activiti 快速开发平台
 13. 在线构建器：拖动表单元素生成相应的HTML代码。
 14. 连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
 
+#### 项目结构
+
+Pear Admin Boot
+│
+├─annex  项目SQL文件
+│
+├─pear-common 公共模块
+│  │
+│  ├─config 框架集成配置
+│  │
+│  ├─constant 通用常量
+│  │
+│  ├─exception 异常处理
+│  │
+│  ├─plugins 封装组件
+│  │
+│  ├─tools 工具类
+│  │
+│  └─web WEB 处理封装
+│
+├─pear-entrance 启动模块
+│  │
+│  ├─api 通用接口
+│  │
+│  ├─secure 安全框架
+│  │
+│  └─EntranceApplication 启动类
+│
+├─pear-entrance 启动模块
+│  │
+│  ├─static 静态资源
+│  │
+│  ├─templates 页面文件
+│  │
+│  ├─logback-spring.xml 日志配置
+│  │
+│  ├─application-dev.yml 开发环境配置
+│  │
+│  ├─application-prod.yml 线上环境配置
+│  │
+│  ├─application-test.yml 测试环境配置
+│  │
+│  └─application.yml 配置文件
+│
+├─pear-modules 业务模块
+│  │
+│  ├─pear-generator 代码生成
+│  │
+│  ├─pear-system 系统业务
+│  │
+│  ├─pear-schedule 定时任务
+│  │
+│  └─pear-process 工作流程
+│  
+└─pom.xml  Maven 配置
+
 #### 开源共建
 
-1. 欢迎提交 [pull request](https://gitee.com/Jmysy/Pear-Admin-Boot/pulls)，注意对应提交对应 `master` 分支
+1. 欢迎提交 [pull request](https://gitee.com/pear-admin/Pear-Admin-Fast/pulls)，注意对应提交对应 `master` 分支
 
-2. 欢迎提交 [issue](https://gitee.com/Jmysy/Pear-Admin-Boot/issues)，请写清楚遇到问题的原因、开发环境、复显步骤。
+2. 欢迎提交 [issue](https://gitee.com/pear-admin/Pear-Admin-Fast/issues)，请写清楚遇到问题的原因、开发环境、复显步骤。
 
-#### 软件截图
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0409/232343_75438e29_4835367.png "1DC_YSZ{{Z__FA_)D22ZV~K.png")
+#### 预览项目
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0409/232400_fbeaaab5_4835367.png "FV{6]DVHU_]7@WAOX4O$(7Q.png")
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0409/232408_9bd7fff2_4835367.png "FH1)%5~7(Q8$@%69D0D20$5.png")
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0913/162014_9f59485b_4835367.png "文件管理.png")
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0409/232417_fd3a4c75_4835367.png "}_QW$N(7@_O]%(3U@ES~XGM.png")
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0912/000746_282ce497_4835367.png "QQ图片20200912000740.png")
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0409/232427_f20eecfd_4835367.png "_HYELQRSQ(B8]8BXK[0J}@T.png")
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0409/232438_4dbe9ace_4835367.png "9XFJLJMCRL@`945V{B04K~L.png")
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0409/232506_04c112d6_4835367.png "0Z`V9H`PUT4E_2282@KAB]K.png")
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0409/233500_61ecc41d_4835367.png "UGF{USQ1(YWCG(JMI[JG@FP.png")
-
-Pear Admin 开发 进行中  :camel: 
+| |  |
+|---------------------|---------------------|
+| ![](readmes/1.jpg)  | ![](readmes/2.jpg)  |
+| ![](readmes/3.jpg) | ![](readmes/4.jpg)  |
+| ![](readmes/5.jpg) | ![](readmes/6.jpg)  |
+| ![](readmes/7.jpg) | ![](readmes/9.jpg) |
+| ![](readmes/10.jpg) | ![](readmes/11.jpg) |
+|![](readmes/12.jpg) | ![](readmes/13.jpg) |
+|![](readmes/14.jpg) | ![](readmes/15.jpg) |
+|![](readmes/16.jpg) | ![](readmes/17.jpg) |
+|![](readmes/18.jpg) | ![](readmes/19.jpg)|
