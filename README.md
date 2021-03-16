@@ -62,6 +62,7 @@ Spring Boot + Security + MyBatis + Thymeleaf + Activiti 快速开发平台
 
 #### 项目结构
 
+```
 Pear Admin Boot
 │
 ├─annex  项目SQL文件
@@ -115,6 +116,9 @@ Pear Admin Boot
 │  └─pear-process 工作流程
 │  
 └─pom.xml  Maven 配置
+
+```
+
 
 #### 开源共建
 
