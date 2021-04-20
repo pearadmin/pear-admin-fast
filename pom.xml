@@ -310,7 +310,7 @@
                     <include>**/*.xml</include>
                 </includes>
             </resource>
-            <!-- 加载 .Java 下的 XML 文件 -->
+            <!-- 加载 .resources 下的 资源文件 -->
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
