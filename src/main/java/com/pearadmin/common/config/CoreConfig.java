@@ -7,17 +7,16 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.pearadmin.common.constant.ConfigurationConstant;
-import com.pearadmin.common.plugins.system.service.SysContext;
+import com.pearadmin.common.plugin.system.service.SysContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -37,7 +36,7 @@ public class CoreConfig {
         mailAccount.setFrom(sysContext.getConfig(ConfigurationConstant.MAIN_FROM));
         mailAccount.setUser(sysContext.getConfig(ConfigurationConstant.MAIN_USER));
         mailAccount.setPass(sysContext.getConfig(ConfigurationConstant.MAIN_PASS));
-        mailAccount.setCharset(Charset.forName("UTF-8"));
+        mailAccount.setCharset(StandardCharsets.UTF_8);
         mailAccount.setAuth(true);
         return mailAccount;
     }

@@ -1,7 +1,7 @@
 package com.pearadmin.modules.sys.service;
 
 import com.pearadmin.modules.sys.domain.SysLog;
-import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
+import com.pearadmin.common.plugin.logging.aop.enums.LoggingType;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface ISysLogService {
      * Param: loggingType
      * Return: 日志列表
      */
-    List<SysLog> data(LoggingType loggingType, LocalDateTime startTime, LocalDateTime endTime);
+    List<SysLog> data(LoggingType loggingType, LocalDateTime startTime,LocalDateTime endTime);
 
     /**
      * Describe: 根 据 id 查 询 日 志

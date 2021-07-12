@@ -1,9 +1,9 @@
 package com.pearadmin.modules.sys.service.impl;
 
-import com.pearadmin.modules.sys.domain.SysLog;
 import com.pearadmin.modules.sys.mapper.SysLogMapper;
-import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
-import com.pearadmin.common.plugins.logging.aop.enums.RequestMethod;
+import com.pearadmin.modules.sys.domain.SysLog;
+import com.pearadmin.common.plugin.logging.aop.enums.LoggingType;
+import com.pearadmin.common.plugin.logging.aop.enums.RequestMethod;
 import com.pearadmin.modules.sys.service.ISysLogService;
 import com.pearadmin.common.tools.secure.SecurityUtil;
 import com.pearadmin.common.tools.servlet.ServletUtil;

@@ -1,18 +1,18 @@
 package com.pearadmin.common.secure.domain;
 
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Describe: Token 记录服务

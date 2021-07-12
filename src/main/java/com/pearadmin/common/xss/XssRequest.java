@@ -2,7 +2,6 @@ package com.pearadmin.common.xss;
 
 import com.pearadmin.common.tools.jsoup.JsoupUtil;
 import com.pearadmin.common.tools.string.StringUtil;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 

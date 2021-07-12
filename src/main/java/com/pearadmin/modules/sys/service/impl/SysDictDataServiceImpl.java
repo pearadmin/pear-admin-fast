@@ -11,7 +11,6 @@ import com.pearadmin.modules.sys.domain.SysDictData;
 import com.pearadmin.modules.sys.mapper.SysDictDataMapper;
 import com.pearadmin.modules.sys.service.ISysDictDataService;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +27,15 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
 
     @Resource
     private SysDictDataMapper sysDictDataMapper;
-    //字典缓存 10分钟失效
+
     public static LoadingCache<String, List<SysDictData>> loadingCacheSysDictData = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(600, TimeUnit.SECONDS).build(new CacheLoader<String,List<SysDictData>>() {
         @Override
         public List<SysDictData> load(String typeCode) {
-            SysDictDataMapper tempSysDictDataMapper =SpringUtil.getBean("sysDictDataMapper",SysDictDataMapper.class);
+            SysDictDataMapper tempSysDictDataMapper = SpringUtil.getBean("sysDictDataMapper",SysDictDataMapper.class);
             return tempSysDictDataMapper.selectByCode(typeCode);
         }
     });
+
     @Override
     public List<SysDictData> list(SysDictData sysDictData) {
         return sysDictDataMapper.selectList(sysDictData);
@@ -53,7 +53,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     }
 
     @Override
-    public void refreshChcheTypeCode(String typeCode) {
+    public void refreshCacheTypeCode(String typeCode) {
         try {
             loadingCacheSysDictData.refresh(typeCode);
         }catch (Exception e){
@@ -72,7 +72,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     public Boolean save(SysDictData sysDictData) {
         Integer result = sysDictDataMapper.insert(sysDictData);
         if(result>0){
-            refreshChcheTypeCode(sysDictData.getTypeCode());
+            refreshCacheTypeCode(sysDictData.getTypeCode());
             return true;
         }else{
             return false;
@@ -88,7 +88,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     public Boolean updateById(SysDictData sysDictData) {
         int result = sysDictDataMapper.updateById(sysDictData);
         if(result > 0){
-            refreshChcheTypeCode(sysDictData.getTypeCode());
+            refreshCacheTypeCode(sysDictData.getTypeCode());
             return true;
         }else{
             return false;
@@ -101,7 +101,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
         if(sysDictData!=null) {
              sysDictDataMapper.deleteById(id);
         }
-        refreshChcheTypeCode(sysDictData.getTypeCode());
+        refreshCacheTypeCode(sysDictData.getTypeCode());
         return true;
     }
 }

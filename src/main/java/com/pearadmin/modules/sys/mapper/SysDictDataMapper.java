@@ -69,7 +69,7 @@ public interface SysDictDataMapper {
      * @param code value
      * @return
      */
-    public List<SysDictData> queryTableDictItemsByCode(@Param("table") String table, @Param("text") String text, @Param("code") String code);
+    public List<SysDictData> queryTableDictItemsByCode(@Param("table") String table,@Param("text") String text,@Param("code") String code);
 
     /**
      * 通过查询指定table的 text code 获取字典（指定查询条件）
@@ -78,7 +78,7 @@ public interface SysDictDataMapper {
      * @param code value
      * @return
      */
-    public List<SysDictData> queryTableDictItemsByCodeAndFilter(@Param("table") String table, @Param("text") String text, @Param("code") String code, @Param("filterSql") String filterSql);
+    public List<SysDictData> queryTableDictItemsByCodeAndFilter(@Param("table") String table,@Param("text") String text,@Param("code") String code,@Param("filterSql") String filterSql);
 
     /**
      * 通过查询指定table的 text code key 获取字典值，包含value

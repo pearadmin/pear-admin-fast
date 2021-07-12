@@ -2,14 +2,14 @@ package com.pearadmin.common.xss;
 
 import com.pearadmin.common.tools.string.StringUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.BooleanUtils;
-
-import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.BooleanUtils;
+import javax.servlet.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,13 +22,11 @@ public class XssSupport implements Filter {
 
     public List<String> excludes = new ArrayList<String>();
 
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        if(log.isDebugEnabled()){
-            log.debug("xss filter is open");
-        }
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        if(handleExcludeURL(req, resp)){
+        if(handleExcludeURL(req)){
             filterChain.doFilter(request, response);
             return;
         }
@@ -36,7 +34,7 @@ public class XssSupport implements Filter {
         filterChain.doFilter(xssRequest, response);
     }
 
-    private boolean handleExcludeURL(HttpServletRequest request, HttpServletResponse response) {
+    private boolean handleExcludeURL(HttpServletRequest request) {
         if (excludes == null || excludes.isEmpty()) {
             return false;
         }
@@ -52,10 +50,7 @@ public class XssSupport implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        if(log.isDebugEnabled()){
-            log.debug("xss filter init~~~~~~~~~~~~");
-        }
+    public void init(FilterConfig filterConfig) {
         String isIncludeRichText = filterConfig.getInitParameter("isIncludeRichText");
         if(StringUtil.isNotBlank(isIncludeRichText)){
             IS_INCLUDE_RICH_TEXT = BooleanUtils.toBoolean(isIncludeRichText);
@@ -63,9 +58,7 @@ public class XssSupport implements Filter {
         String temp = filterConfig.getInitParameter("excludes");
         if (temp != null) {
             String[] url = temp.split(",");
-            for (int i = 0; url != null && i < url.length; i++) {
-                excludes.add(url[i]);
-            }
+            excludes.addAll(Arrays.asList(url));
         }
     }
 

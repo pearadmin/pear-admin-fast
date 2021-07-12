@@ -1,8 +1,8 @@
 package com.pearadmin.modules.sys.service.impl;
 
+import com.pearadmin.modules.sys.mapper.SysRolePowerMapper;
 import com.pearadmin.modules.sys.domain.SysPower;
 import com.pearadmin.modules.sys.mapper.SysPowerMapper;
-import com.pearadmin.modules.sys.mapper.SysRolePowerMapper;
 import com.pearadmin.modules.sys.service.ISysPowerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

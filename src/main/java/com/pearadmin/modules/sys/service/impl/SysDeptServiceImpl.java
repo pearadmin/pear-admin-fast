@@ -3,9 +3,9 @@ package com.pearadmin.modules.sys.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.modules.sys.domain.SysDept;
-import com.pearadmin.modules.sys.mapper.SysUserMapper;
 import com.pearadmin.modules.sys.mapper.SysDeptMapper;
+import com.pearadmin.modules.sys.mapper.SysUserMapper;
+import com.pearadmin.modules.sys.domain.SysDept;
 import com.pearadmin.modules.sys.service.ISysDeptService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +50,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * */
     @Override
     public boolean save(SysDept sysDept) {
+        if(null==sysDept.getParentId()){
+            sysDept.setParentId("0");
+        }
         int result = sysDeptMapper.insert(sysDept);
         return result > 0;
     }

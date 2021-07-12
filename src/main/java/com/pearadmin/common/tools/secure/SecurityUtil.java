@@ -1,5 +1,6 @@
 package com.pearadmin.common.tools.secure;
 
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,11 +31,14 @@ public class SecurityUtil {
     public static boolean isAuthentication(){
         // if security session eq s-id is not null to index
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return true;
-        }else{
-            return false;
-        }
+        return !(auth instanceof AnonymousAuthenticationToken);
+    }
+    /**
+     * 获取当前登录用户对象
+     * retrun SysUser
+     * */
+    public static Object currentUserObj(){
+        return SecurityUtil.currentUser().getPrincipal();
     }
 
 }

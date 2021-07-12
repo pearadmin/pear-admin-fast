@@ -1,18 +1,17 @@
 package com.pearadmin.common.secure.support;
 
-import com.alibaba.fastjson.JSON;
-import com.pearadmin.common.tools.servlet.ServletUtil;
-import com.pearadmin.common.tools.string.StringUtil;
-import com.pearadmin.common.web.domain.response.Result;
-import com.wf.captcha.utils.CaptchaUtil;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import com.alibaba.fastjson.JSON;
 import javax.servlet.ServletException;
+import com.wf.captcha.utils.CaptchaUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import com.pearadmin.common.tools.string.StringUtil;
+import com.pearadmin.common.tools.servlet.ServletUtil;
+import com.pearadmin.common.web.domain.response.Result;
+import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
@@ -38,7 +37,7 @@ public class SecureCaptchaSupport extends OncePerRequestFilter implements Filter
                 response.getWriter().write(JSON.toJSONString(Result.failure("验证码不能为空!")));
                 return;
             }
-            if (!CaptchaUtil.ver(ServletUtil.getRequest().getParameter("captcha"), ServletUtil.getRequest())){
+            if (!CaptchaUtil.ver(ServletUtil.getRequest().getParameter("captcha"),ServletUtil.getRequest())){
                 response.getWriter().write(JSON.toJSONString(Result.failure("验证码错误!")));
                 return;
             }

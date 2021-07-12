@@ -1,8 +1,8 @@
 package com.pearadmin.modules.sys.domain;
 
-import com.pearadmin.common.plugins.logging.aop.enums.BusinessType;
-import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
-import com.pearadmin.common.plugins.logging.aop.enums.RequestMethod;
+import com.pearadmin.common.plugin.logging.aop.enums.BusinessType;
+import com.pearadmin.common.plugin.logging.aop.enums.LoggingType;
+import com.pearadmin.common.plugin.logging.aop.enums.RequestMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

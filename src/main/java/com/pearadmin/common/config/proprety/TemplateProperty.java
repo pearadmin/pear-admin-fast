@@ -1,9 +1,10 @@
 package com.pearadmin.common.config.proprety;
 
-import com.pearadmin.common.constant.SystemConstant;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
 
 /**
  * Describe: 接 口 文 档 配 置 类
@@ -16,11 +17,6 @@ import org.springframework.stereotype.Component;
 public class TemplateProperty {
 
     /**
-     * 当前系统环境
-     * */
-    private String os;
-
-    /**
      *  windows 系统文件上传路径
      * */
     private String windowsPath;
@@ -31,10 +27,35 @@ public class TemplateProperty {
     private String linuxPath;
 
     /**
+     * 是否启用ftp服务器
+     */
+    private boolean ftpUse;
+
+    /**
+     * ftp服务器url
+     */
+    private String hostname;
+
+    /**
+     * ftp服务器端口号
+     */
+    private int port;
+
+    /**
+     * ftp服务器用户名
+     */
+    private String username;
+
+    /**
+     * ftp服务器密码
+     */
+    private String password;
+
+    /**
      * upload path 根据系统环境获取上传路径
      * */
     public String getUploadPath(){
-        return this.os.equals(SystemConstant.WINDOWS)?this.windowsPath:this.linuxPath;
+        return '\\' == File.separatorChar ? this.windowsPath : this.linuxPath;
     }
 
 }

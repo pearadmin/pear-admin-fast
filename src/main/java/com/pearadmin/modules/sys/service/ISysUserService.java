@@ -2,10 +2,9 @@ package com.pearadmin.modules.sys.service;
 
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.modules.sys.domain.SysMenu;
 import com.pearadmin.modules.sys.domain.SysRole;
 import com.pearadmin.modules.sys.domain.SysUser;
-
+import com.pearadmin.modules.sys.domain.SysMenu;
 import java.util.List;
 
 /**
@@ -69,7 +68,7 @@ public interface ISysUserService {
      * Param: SysUser
      * Return: 操作结果
      * */
-    boolean saveUserRole(String userId, List<String> roleIds);
+    boolean saveUserRole(String userId,List<String> roleIds);
 
     /**
      * Describe: 获取用户角色数据
@@ -90,7 +89,7 @@ public interface ISysUserService {
      * Param: sysMenus
      * Return: 操作结果
      * */
-    List<SysMenu> toUserMenu(List<SysMenu> sysMenus, String parentId);
+    List<SysMenu> toUserMenu(List<SysMenu> sysMenus,String parentId);
 
 }
 

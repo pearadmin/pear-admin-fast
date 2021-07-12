@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include :: header('代码生成列表')"/>
+    <th:block th:include="include :: header('代码生成')"/>
 </head>
 <body class="pear-container">
 <div class="layui-card">
@@ -44,10 +44,18 @@
         </script>
         <table id="table_gen" lay-filter="table_gen"></table>
         <script type="text/html" id="col_operation">
-            <a href="javascript:;" lay-event="preview" class="pear-btn pear-btn-sm pear-btn-warming">预览</a>
-            <a href="javascript:;" lay-event="edit" class="pear-btn pear-btn-sm pear-btn-primary">编辑</a>
-            <a href="javascript:;" lay-event="del" class="pear-btn pear-btn-sm pear-btn-danger">删除</a>
-            <a href="javascript:;" lay-event="gencode" class="pear-btn pear-btn-sm pear-btn-success">生成</a>
+            <a href="javascript:;" lay-event="preview" class="pear-btn pear-btn-sm pear-btn-warming">
+                <i class="pear-icon pear-icon-browse"></i>
+            </a>
+            <a href="javascript:;" lay-event="edit" class="pear-btn pear-btn-sm pear-btn-primary">
+                <i class="layui-icon layui-icon-edit"></i>
+            </a>
+            <a href="javascript:;" lay-event="del" class="pear-btn pear-btn-sm pear-btn-danger">
+                <i class="layui-icon layui-icon-delete"></i>
+            </a>
+            <a href="javascript:;" lay-event="gencode" class="pear-btn pear-btn-sm pear-btn-success">
+                <i class="pear-icon pear-icon-export"></i>
+            </a>
         </script>
     </div>
 </div>
@@ -131,7 +139,7 @@
             }, {
                 title: '操作',
                 align: 'center',
-                width: 280,
+                width: 220,
                 toolbar: '#col_operation'
             }])
         });
@@ -197,6 +205,9 @@
                             });
                         } else if (genType === "1") {
                             common.ajax.get(prefix + "/genCode/" + tableName);
+                            layer.msg('执行成功,请稍后刷新自定义代码生成目录…', {
+                                icon: 1
+                            });
                         }
                     });
                     break;

@@ -34,7 +34,7 @@ public class ResultTable extends BaseDomain {
     /**
      * 构 建
      * */
-    public static ResultTable pageTable(long count, Object data){
+    public static ResultTable pageTable(long count,Object data){
         ResultTable resultTable = new ResultTable();
         resultTable.setData(data);
         resultTable.setCode(0);

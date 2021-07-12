@@ -2,11 +2,10 @@ package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.constant.ControllerConstant;
-import com.pearadmin.common.plugins.logging.aop.annotation.Logging;
-import com.pearadmin.common.plugins.logging.aop.enums.BusinessType;
-import com.pearadmin.modules.sys.domain.SysUser;
+import com.pearadmin.common.plugin.logging.aop.annotation.Logging;
+import com.pearadmin.common.plugin.logging.aop.enums.BusinessType;
 import com.pearadmin.modules.sys.service.ISysLogService;
-import com.pearadmin.common.plugins.repeat.annotation.RepeatSubmit;
+import com.pearadmin.common.plugin.submit.annotation.RepeatSubmit;
 import com.pearadmin.common.tools.secure.SecurityUtil;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.tools.servlet.ServletUtil;
@@ -14,6 +13,7 @@ import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
 import com.pearadmin.common.web.domain.response.module.ResultTable;
+import com.pearadmin.modules.sys.domain.SysUser;
 import com.pearadmin.modules.sys.domain.SysMenu;
 import com.pearadmin.modules.sys.param.EditPassword;
 import com.pearadmin.modules.sys.service.ISysRoleService;
@@ -39,8 +39,8 @@ import java.util.List;
  * CreateTime: 2019/10/23
  */
 @RestController
+@Api(tags = {"用户管理"})
 @RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "user")
-@Api(value = "用户controller", tags = {"用户操作接口"})
 public class SysUserController extends BaseController {
 
     /**
@@ -148,7 +148,7 @@ public class SysUserController extends BaseController {
      */
     @GetMapping("editPassword")
     public ModelAndView editPasswordView() {
-        return jumpPage(MODULE_PATH + "editPassword");
+        return jumpPage(MODULE_PATH + "password");
     }
 
     /**
@@ -201,10 +201,9 @@ public class SysUserController extends BaseController {
      */
     @PutMapping("updateAvatar")
     @ApiOperation(value = "修改用户头像")
-    @PreAuthorize("hasPermission('/system/user/edit','sys:user:edit')")
     @Logging(title = "修改头像", describe = "修改头像", type = BusinessType.EDIT)
     public Result updateAvatar(@RequestBody SysUser sysUser) {
-        sysUser.setUserId(((SysUser)SecurityUtil.currentUser().getPrincipal()).getUserId());
+        sysUser.setUserId(((SysUser)SecurityUtil.currentUserObj()).getUserId());
         boolean result = sysUserService.update(sysUser);
         return decide(result);
     }
@@ -234,7 +233,6 @@ public class SysUserController extends BaseController {
     @PreAuthorize("hasPermission('/system/user/remove','sys:user:remove')")
     @Logging(title = "删除用户", describe = "删除用户", type = BusinessType.REMOVE)
     public Result remove(@PathVariable String id) {
-        // TODO remove userRole data
         boolean result = sysUserService.remove(id);
         return decide(result);
     }
@@ -244,10 +242,10 @@ public class SysUserController extends BaseController {
      * Param SysRole
      * Return 执行结果
      */
-    @GetMapping("getUserMenu")
+    @GetMapping("menu")
     @ApiOperation(value = "获取用户菜单数据")
     public List<SysMenu> getUserMenu() {
-        SysUser sysUser = (SysUser) SecurityUtil.currentUser().getPrincipal();
+        SysUser sysUser = (SysUser)SecurityUtil.currentUserObj();
         List<SysMenu> menus = sysUserService.getUserMenu(sysUser.getUsername());
         return sysUserService.toUserMenu(menus, "0");
     }
@@ -286,7 +284,7 @@ public class SysUserController extends BaseController {
     @GetMapping("center")
     @ApiOperation(value = "个人资料")
     public ModelAndView center(Model model) {
-        SysUser sysUser = (SysUser) SecurityUtil.currentUser().getPrincipal();
+        SysUser sysUser = (SysUser) SecurityUtil.currentUserObj();
         model.addAttribute("userInfo", sysUserService.getById(sysUser.getUserId()));
         model.addAttribute("logs", sysLogService.selectTopLoginLog(sysUser.getUsername()));
         return jumpPage(MODULE_PATH + "center");

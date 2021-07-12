@@ -2,8 +2,8 @@ package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.constant.ControllerConstant;
-import com.pearadmin.common.plugins.system.domain.SysBaseDict;
-import com.pearadmin.common.plugins.system.service.SysContext;
+import com.pearadmin.common.plugin.system.domain.SysBaseDict;
+import com.pearadmin.common.plugin.system.service.SysContext;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.tools.database.SqlInjectionUtil;
 import com.pearadmin.common.web.base.BaseController;
@@ -12,6 +12,7 @@ import com.pearadmin.common.web.domain.response.Result;
 import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.sys.domain.SysDictData;
 import com.pearadmin.modules.sys.service.ISysDictDataService;
+import io.swagger.annotations.Api;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import java.util.List;
  * CreateTime: 2019/10/23
  * */
 @RestController
+@Api(tags = {"字典类型"})
 @RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "dictData")
 public class SysDictDataController extends BaseController {
 

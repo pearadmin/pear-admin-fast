@@ -5,13 +5,17 @@ logo:
   ## 网站图标
   image: "admin/images/logo.png"
 ## 菜单配置
-menu: 
+menu:
+  ## 侧边默认折叠状态
+  collaspe: false
   ## 菜单数据来源
-  data: /system/user/getUserMenu
+  data: /system/user/menu
   ## 是否同时只打开一个菜单目录
   accordion: true
   ## 是否开启多系统菜单模式
   control: false
+  ## 顶部菜单宽度 PX
+  controlWidth: 300
   ## 默认选中的菜单项
   select: "10"
   ## 是否开启异步菜单，false 时 data 属性设置为菜单数据，false 时为 json 文件或后端接口
@@ -20,7 +24,7 @@ menu:
 tab: 
   ## 是否开启多选项卡
   muiltTab: true
-  ## 切换选项卡时，是否刷新页面状态
+  ## 切换选项卡时，是否保持页面状态
   keepState: true
   ## 最大可打开的选项卡数量
   tabMax: 30
@@ -68,7 +72,7 @@ links:
 ## 其他配置
 other: 
   ## 主页动画时长
-  keepLoad: "1200"
+  keepLoad: "1000"
   ## 布局顶部主题
   autoHead: false
 header:

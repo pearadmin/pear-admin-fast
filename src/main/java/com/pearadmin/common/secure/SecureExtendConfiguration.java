@@ -13,7 +13,6 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
-
 import javax.annotation.Resource;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -93,13 +92,11 @@ public class SecureExtendConfiguration {
      */
     @Bean
     public ScheduledThreadPoolExecutor manageSessionThreadPool() {
-        ScheduledThreadPoolExecutor executor =
-                new ScheduledThreadPoolExecutor(1, r -> {
-                    Thread t = new Thread(r);
-                    t.setName("removeSession");
-                    t.setDaemon(true);
-                    return t;
-                });
-        return executor;
+        return new ScheduledThreadPoolExecutor(1, r -> {
+            Thread t = new Thread(r);
+            t.setName("removeSession");
+            t.setDaemon(true);
+            return t;
+        });
     }
 }

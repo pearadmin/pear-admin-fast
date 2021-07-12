@@ -5,14 +5,14 @@ import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.config.proprety.SecurityProperty;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.modules.sys.domain.SysMenu;
+import com.pearadmin.modules.sys.mapper.SysUserMapper;
+import com.pearadmin.modules.sys.mapper.SysUserRoleMapper;
 import com.pearadmin.modules.sys.domain.SysRole;
 import com.pearadmin.modules.sys.domain.SysUser;
 import com.pearadmin.modules.sys.domain.SysUserRole;
 import com.pearadmin.modules.sys.mapper.SysPowerMapper;
 import com.pearadmin.modules.sys.mapper.SysRoleMapper;
-import com.pearadmin.modules.sys.mapper.SysUserMapper;
-import com.pearadmin.modules.sys.mapper.SysUserRoleMapper;
+import com.pearadmin.modules.sys.domain.SysMenu;
 import com.pearadmin.modules.sys.service.ISysUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -165,12 +165,13 @@ public class SysUserServiceImpl implements ISysUserService {
      * Param: SysUser
      * Return: 操作结果
      * */
+    @Override
     public List<SysRole> getUserRole(String userId){
         List<SysRole> allRole = sysRoleMapper.selectList(null);
         List<SysUserRole> myRole = sysUserRoleMapper.selectByUserId(userId);
         allRole.forEach(sysRole->{
             myRole.forEach(sysUserRole->{
-                if(sysRole.getRoleId().equals(sysUserRole.getRoleId()))sysRole.setChecked(true);
+                if(sysRole.getRoleId().equals(sysUserRole.getRoleId())){sysRole.setChecked(true);}
             });
         });
         return allRole;
@@ -186,6 +187,7 @@ public class SysUserServiceImpl implements ISysUserService {
         String name = !(securityProperty.isSuperAuthOpen() && username.equals(securityProperty.getSuperAdmin()))?username:"";
         return sysPowerMapper.selectMenuByUsername(name);
     }
+
     /**
      * Describe: 递归获取菜单tree
      * Param: sysMenus

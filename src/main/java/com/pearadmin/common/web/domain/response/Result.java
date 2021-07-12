@@ -58,21 +58,21 @@ public class Result<T> implements Serializable {
     /**
      * 成 功 操 作, 携 带 消 息 和 携 带 数 据
      * */
-    public static<T> Result<T> success(String message, T data){
+    public static<T> Result<T> success(String message,T data){
         return success(ResultCode.SUCCESS.getCode(),message,data);
     }
 
     /**
      * 成 功 操 作, 携 带 自 定 义 状 态 码 和 消 息
      * */
-    public static<T> Result<T> success(int code, String message){
+    public static<T> Result<T> success(int code,String message){
         return success(code,message,null);
     }
 
     /**
      * 成 功 操 作, 携 带 自 定义 状 态 码, 消 息 和 数 据
      * */
-    public static<T> Result<T> success(int code, String message, T data){
+    public static<T> Result<T> success(int code,String message,T data){
         Result<T> result = new Result<T>();
         result.setCode(code);
         result.setMsg(message);
@@ -98,21 +98,21 @@ public class Result<T> implements Serializable {
     /**
      * 失 败 操 作, 携 带 自 定 义 消 息 和 数 据
      * */
-    public static<T> Result<T> failure(String message, T data){
+    public static<T> Result<T> failure(String message,T data){
         return failure(ResultCode.FAILURE.getCode(),message,data);
     }
 
     /**
      * 失 败 操 作, 携 带 自 定 义 状 态 码 和 自 定 义 消 息
      * */
-    public static<T> Result<T> failure(int code , String message){
+    public static<T> Result<T> failure(int code ,String message){
         return failure(ResultCode.FAILURE.getCode(),message,null);
     }
 
     /**
      * 失 败 操 作, 携 带 自 定 义 状 态 码 , 消 息 和 数 据
      * */
-    public static<T> Result<T> failure(int code, String message, T data){
+    public static<T> Result<T> failure(int code,String message,T data){
         Result<T> result = new Result<T>();
         result.setCode(code);
         result.setMsg(message);
@@ -125,13 +125,13 @@ public class Result<T> implements Serializable {
      * Boolean 返 回 操 作, 携 带 默 认 返 回 值
      * */
     public static<T> Result<T> decide(boolean b){
-        return decide(b, ResultCode.SUCCESS.getMessage(), ResultCode.FAILURE.getMessage());
+        return decide(b,ResultCode.SUCCESS.getMessage(),ResultCode.FAILURE.getMessage());
     }
 
     /**
      * Boolean 返 回 操 作, 携 带 自 定 义 消 息
      * */
-    public static<T> Result<T> decide(boolean b, String success, String failure){
+    public static<T> Result<T> decide(boolean b,String success,String failure){
         if(b){
             return success(success);
         }else{

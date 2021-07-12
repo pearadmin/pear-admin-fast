@@ -21,6 +21,8 @@ import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.gen.domain.GenTable;
 import com.pearadmin.modules.gen.domain.GenTableColumn;
 import com.pearadmin.modules.gen.service.IGenTableService;
+import com.pearadmin.modules.gen.service.IGenTableColumnService;
+import io.swagger.annotations.Api;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,7 +33,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
-import com.pearadmin.modules.gen.service.IGenTableColumnService;
 
 /**
  * Describe: 代码生成控制器
@@ -39,6 +40,7 @@ import com.pearadmin.modules.gen.service.IGenTableColumnService;
  * CreateTime: 2019/10/23
  * */
 @Controller
+@Api(tags = {"代码生成"})
 @RequestMapping(ControllerConstant.API_GENERATOR_PREFIX)
 public class GenController extends BaseController {
 
@@ -179,7 +181,7 @@ public class GenController extends BaseController {
      */
     @GetMapping("/genCode/{tableName}")
     @ResponseBody
-    public Result genCode(HttpServletResponse response, @PathVariable("tableName") String tableName) {
+    public Result genCode(@PathVariable("tableName") String tableName) {
         genTableService.generatorCode(tableName);
         return success();
     }

@@ -1,6 +1,7 @@
 package com.pearadmin.common.tools.system;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 public class SysFileInfo {

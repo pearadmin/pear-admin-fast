@@ -3,7 +3,6 @@ package com.pearadmin.modules.sys.service;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.modules.sys.domain.SysDictData;
-
 import java.util.List;
 
 /**
@@ -31,7 +30,8 @@ public interface ISysDictDataService {
      * 刷新字典缓存
      * @param typeCode
      */
-    void refreshChcheTypeCode(String typeCode);
+    void refreshCacheTypeCode(String typeCode);
+
     /**
      * Describe: 根据条件查询字典类型列表数据 分页
      * Param: SysDictData

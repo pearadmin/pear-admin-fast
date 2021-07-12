@@ -2,13 +2,12 @@ package com.pearadmin.common.secure.domain;
 
 import com.pearadmin.modules.sys.domain.SysPower;
 import com.pearadmin.modules.sys.domain.SysUser;
-import com.pearadmin.modules.sys.mapper.SysPowerMapper;
 import com.pearadmin.modules.sys.mapper.SysUserMapper;
+import com.pearadmin.modules.sys.mapper.SysPowerMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
 import java.util.List;
 

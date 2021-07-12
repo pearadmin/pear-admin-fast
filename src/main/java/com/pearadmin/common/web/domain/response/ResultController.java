@@ -1,9 +1,8 @@
 package com.pearadmin.common.web.domain.response;
 
-import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.common.web.domain.response.module.ResultTree;
+import com.pearadmin.common.web.domain.response.module.ResultTable;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.Map;
 
 /**

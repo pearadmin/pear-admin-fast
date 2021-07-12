@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import javax.annotation.Resource;
+import javax.annotation.sql.DataSourceDefinition;
 import javax.sql.DataSource;
 import java.util.Properties;
 

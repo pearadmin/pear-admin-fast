@@ -4,8 +4,8 @@ import cn.hutool.core.map.MapUtil;
 import com.pearadmin.common.constant.ConfigurationConstant;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.modules.sys.domain.SysConfig;
-import com.pearadmin.modules.sys.domain.SysSetup;
-import com.pearadmin.common.listener.event.MailConfigEvent;
+import com.pearadmin.common.listener.event.SetupEvent;
+import io.swagger.annotations.Api;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.response.Result;
+import com.pearadmin.modules.sys.domain.SysSetup;
 import com.pearadmin.modules.sys.service.ISysConfigService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ import java.util.HashMap;
  * CreateTime: 2019/10/23
  */
 @RestController
+@Api(tags = {"系统设置"})
 @RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "setup")
 public class SysSetupController extends BaseController implements ApplicationEventPublisherAware {
 
@@ -92,8 +94,8 @@ public class SysSetupController extends BaseController implements ApplicationEve
         map.put(ConfigurationConstant.MAIN_PASS, pass);
         map.put(ConfigurationConstant.MAIN_PORT, port);
         map.put(ConfigurationConstant.MAIN_HOST, host);
-        MailConfigEvent mailConfigEvent = new MailConfigEvent(this, map);
-        applicationEventPublisher.publishEvent(mailConfigEvent);
+        SetupEvent setupEvent = new SetupEvent(this, map);
+        applicationEventPublisher.publishEvent(setupEvent);
         return success("保存成功");
     }
 

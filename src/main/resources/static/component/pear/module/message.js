@@ -10,19 +10,24 @@ layui.define(['table', 'jquery', 'element'], function(exports) {
 	};
 
 	message.prototype.render = function(opt) {
-		//默认配置值
 		var option = {
 			elem: opt.elem,
 			url: opt.url ? opt.url : false,
 			height: opt.height,
 			data: opt.data
 		}
-
 		if (option.url != false) {
 			option.data = getData(option.url);
 			var notice = createHtml(option);
 			$(option.elem).html(notice);
 		}
+		setTimeout(function(){
+			element.init();
+			$(opt.elem+" li").click(function(e){
+				$(this).siblings().removeClass('pear-this');
+				$(this).addClass('pear-this');
+			})
+		},300);
 		return new message(option);
 	}
 	
@@ -54,21 +59,19 @@ layui.define(['table', 'jquery', 'element'], function(exports) {
 
 	function createHtml(option) {
 
-        var notice = '<li class="layui-nav-item" lay-unselect="">' +
+		var notice = '<li class="layui-nav-item" lay-unselect="">' +
 			'<a href="#" class="notice layui-icon layui-icon-notice"><span class="layui-badge-dot"></span></a>' +
-			'<div class="layui-nav-child layui-tab pear-notice" style="left: -200px;">';
+			'<div class="layui-nav-child layui-tab pear-notice" style="margin-top: 0px;;left: -200px;">';
 
 		var noticeTitle = '<ul class="layui-tab-title">';
-
 		var noticeContent = '<div class="layui-tab-content" style="height:' + option.height + ';overflow-x: hidden;">'
-
 		var index = 0;
 
 		// 根据 data 便利数据
 		$.each(option.data, function(i, item) {
 
 			if (index === 0) {
-				noticeTitle += '<li class="layui-this">' + item.title + '</li>';
+				noticeTitle += '<li class="layui-this pear-this">' + item.title + '</li>';
 				noticeContent += '<div class="layui-tab-item layui-show">';
 			} else {
 				noticeTitle += '<li>' + item.title + '</li>';

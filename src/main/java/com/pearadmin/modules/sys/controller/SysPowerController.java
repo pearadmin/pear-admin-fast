@@ -8,6 +8,7 @@ import com.pearadmin.common.web.domain.response.Result;
 import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.sys.domain.SysPower;
 import com.pearadmin.modules.sys.service.ISysPowerService;
+import io.swagger.annotations.Api;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
@@ -22,8 +23,8 @@ import java.util.List;
  * Author: 就 眠 仪 式
  * CreateTime: 2019/10/23
  * */
-
 @RestController
+@Api(tags = {"系统权限"})
 @RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "power")
 public class SysPowerController extends BaseController {
 

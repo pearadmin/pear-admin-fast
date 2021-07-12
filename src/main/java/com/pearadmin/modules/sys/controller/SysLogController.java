@@ -4,11 +4,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.modules.sys.domain.SysLog;
-import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
+import com.pearadmin.common.plugin.logging.aop.enums.LoggingType;
 import com.pearadmin.modules.sys.service.ISysLogService;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.module.ResultTable;
+import io.swagger.annotations.Api;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +20,12 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
- * Describe: 日 志 控 制 器
+ * Describe: 日志控制器
  * Author: 就 眠 仪 式
  * CreateTime: 2019/10/23
  */
 @RestController
+@Api(tags = {"系统日志"})
 @RequestMapping(ControllerConstant.API_SYSTEM_PREFIX + "log")
 public class SysLogController extends BaseController {
 

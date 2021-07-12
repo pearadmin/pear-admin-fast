@@ -1,7 +1,7 @@
 package com.pearadmin.modules.sys.mapper;
 
 import com.pearadmin.modules.sys.domain.SysLog;
-import com.pearadmin.common.plugins.logging.aop.enums.LoggingType;
+import com.pearadmin.common.plugin.logging.aop.enums.LoggingType;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDateTime;
@@ -27,7 +27,7 @@ public interface SysLogMapper {
      * Param: LoggingType
      * Return: 日志列表
      * */
-    List<SysLog> selectList(LoggingType loggingType, LocalDateTime startTime, LocalDateTime endTime);
+    List<SysLog> selectList(LoggingType loggingType, LocalDateTime startTime,LocalDateTime endTime);
 
     /**
      * Describe: 根据 id 查询日志信息

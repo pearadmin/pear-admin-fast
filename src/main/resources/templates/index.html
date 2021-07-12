@@ -23,10 +23,10 @@
             <li class="layui-nav-item layui-hide-xs"><a href="#" class="fullScreen layui-icon layui-icon-screen-full"></a></li>
             <li class="layui-nav-item layui-hide-xs"><a href="http://www.pearadmin.com" class="layui-icon layui-icon-website"></a></li>
             <li class="layui-nav-item layui-hide-xs message"></li>
-            <li class="layui-nav-item">
+            <li class="layui-nav-item user">
                 <!-- 头 像 -->
                 <a href="javascript:;">
-                    <img src="" id="avatar" class="avatar">
+                    <img src="" id="avatar" class="layui-nav-img">
                     <span th:text="${#authentication.principal.realName}"></span>
                 </a>
                 <!-- 功 能 菜 单 -->
@@ -53,14 +53,16 @@
     <div class="layui-body">
         <div id="content"></div>
     </div>
+    <!-- 遮 盖 层 -->
+    <div class="pear-cover"></div>
+    <!-- 加 载 动 画-->
+    <div class="loader-main">
+        <div class="loader"></div>
+    </div>
 </div>
-<!-- 遮 盖 层 -->
-<div class="pear-cover"></div>
 <!-- 移 动 端 便 捷 操 作 -->
-<div class="pear-collasped-pe collaspe"><a href="#" class="layui-icon layui-icon-shrink-right"></a></div>
-<!-- 加 载 动 画-->
-<div class="loader-main">
-    <div class="loader"></div>
+<div class="pear-collasped-pe collaspe">
+    <a href="#" class="layui-icon layui-icon-shrink-right"></a>
 </div>
 <!-- 依 赖 脚 本 -->
 <th:block th:include="include :: footer"/>
@@ -79,7 +81,7 @@
 
         admin.render();
 
-        $('#avatar').attr("src","/system/file/download/"+[[${session.currentUser.avatar}]]);
+        $('.layui-nav-img').attr("src","/system/file/download/"+[[${session.currentUser.avatar}]]);
 
         // 注销实现
         admin.logout(function(){
@@ -98,7 +100,6 @@
                     }
                 }
             })
-            return true;
         })
 
         // 初始化消息事件

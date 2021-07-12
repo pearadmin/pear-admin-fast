@@ -5,12 +5,14 @@ window.rootPath = (function(src) {
 
 layui.config({
 	base: rootPath + "module/",
-	version: "3.6.7"
+	version: "3.7.9"
 }).extend({
 	admin: "admin",
 	menu: "menu",
 	frame: "frame",
 	tab: "tab",
+	convert: "convert",
+	tinymce:"tinymce/tinymce",
 	echarts: "echarts",
 	echartsTheme: "echartsTheme",
 	hash: "hash",
