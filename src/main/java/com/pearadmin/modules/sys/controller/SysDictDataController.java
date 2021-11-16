@@ -160,6 +160,7 @@ public class SysDictDataController extends BaseController {
     @PreAuthorize("hasPermission('/system/dictData/add','sys:dictData:add')")
     public Result save(@RequestBody SysDictData sysDictData){
         sysDictData.setDataId(SequenceUtil.makeStringId());
+        sysDictData.setCreate();
         Boolean result = sysDictDataService.save(sysDictData);
         return decide(result);
     }
@@ -184,6 +185,7 @@ public class SysDictDataController extends BaseController {
     @PutMapping("update")
     @PreAuthorize("hasPermission('/system/dictData/edit','sys:dictData:edit')")
     public Result update(@RequestBody SysDictData sysDictData){
+        sysDictData.setUpdate();
         boolean result =  sysDictDataService.updateById(sysDictData);
         return decide(result);
     }

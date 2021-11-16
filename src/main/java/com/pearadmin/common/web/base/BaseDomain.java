@@ -1,5 +1,6 @@
 package com.pearadmin.common.web.base;
 
+import com.pearadmin.common.tools.secure.SecurityUtil;
 import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -52,4 +53,15 @@ public class BaseDomain implements Serializable {
      *  请求参数
      *  */
     private Map<String, Object> params;
+
+    public void setCreate(){
+        createBy = SecurityUtil.currentUserObj().getUserId();
+        createName = SecurityUtil.currentUserObj().getUsername();
+        createTime = LocalDateTime.now();
+    }
+    public void setUpdate(){
+        updateBy = SecurityUtil.currentUserObj().getUserId();
+        updateName = SecurityUtil.currentUserObj().getUsername();
+        updateTime = LocalDateTime.now();
+    }
 }

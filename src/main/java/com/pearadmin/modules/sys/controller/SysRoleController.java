@@ -87,6 +87,7 @@ public class SysRoleController extends BaseController {
     @PreAuthorize("hasPermission('/system/role/add','sys:role:add')")
     public Result save(@RequestBody SysRole sysRole){
         sysRole.setRoleId(SequenceUtil.makeStringId());
+        sysRole.setCreate();
         boolean result = sysRoleService.save(sysRole);
         return decide(result);
     }
@@ -114,6 +115,7 @@ public class SysRoleController extends BaseController {
     @ApiOperation(value="修改角色数据")
     @PreAuthorize("hasPermission('/system/role/edit','sys:role:edit')")
     public Result update(@RequestBody  SysRole sysRole){
+        sysRole.setUpdate();
         boolean result = sysRoleService.update(sysRole);
         return decide(result);
     }

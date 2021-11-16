@@ -2,6 +2,7 @@ package com.pearadmin.modules.sys.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.constant.ControllerConstant;
+import com.pearadmin.common.tools.secure.SecurityUtil;
 import com.pearadmin.common.tools.sequence.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
@@ -37,7 +38,7 @@ public class SysConfigController extends BaseController {
     /**
      * 基础路径
      * */
-    private String MODULE_PATH = "system/config/";
+    private final String MODULE_PATH = "system/config/";
 
     /**
      * Describe: 数据字典列表视图
@@ -82,7 +83,7 @@ public class SysConfigController extends BaseController {
     @PreAuthorize("hasPermission('/system/config/add','sys:config:add')")
     public Result save(@RequestBody SysConfig sysConfig){
         sysConfig.setConfigId(SequenceUtil.makeStringId());
-        sysConfig.setCreateTime(LocalDateTime.now());
+        sysConfig.setCreate();
         sysConfig.setConfigType("custom");
         boolean result = sysConfigService.save(sysConfig);
         return decide(result);
@@ -108,7 +109,7 @@ public class SysConfigController extends BaseController {
     @PutMapping("update")
     @PreAuthorize("hasPermission('/system/config/edit','sys:config:edit')")
     public Result update(@RequestBody SysConfig sysConfig){
-        sysConfig.setUpdateTime(LocalDateTime.now());
+        sysConfig.setUpdate();
         boolean result = sysConfigService.updateById(sysConfig);
         return decide(result);
     }

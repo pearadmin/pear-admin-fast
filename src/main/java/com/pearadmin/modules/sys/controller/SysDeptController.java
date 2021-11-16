@@ -93,6 +93,7 @@ public class SysDeptController extends BaseController {
     @PreAuthorize("hasPermission('/system/dept/add','sys:dept:add')")
     public Result save(@RequestBody SysDept sysDept) {
         sysDept.setDeptId(SequenceUtil.makeStringId());
+        sysDept.setCreate();
         boolean result = sysDeptService.save(sysDept);
         return decide(result);
     }
@@ -118,6 +119,7 @@ public class SysDeptController extends BaseController {
     @PutMapping("update")
     @PreAuthorize("hasPermission('/system/dept/edit','sys:dept:edit')")
     public Result update(@RequestBody SysDept SysDept) {
+        SysDept.setUpdate();
         boolean result = sysDeptService.update(SysDept);
         return decide(result);
     }

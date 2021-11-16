@@ -86,6 +86,7 @@ public class SysDictTypeController extends BaseController {
     @PreAuthorize("hasPermission('/system/dictType/add','sys:dictType:add')")
     public Result save(@RequestBody SysDictType sysDictType){
         sysDictType.setId(SequenceUtil.makeStringId());
+        sysDictType.setCreate();
         boolean result = sysDictTypeService.save(sysDictType);
         return decide(result);
     }
@@ -110,6 +111,7 @@ public class SysDictTypeController extends BaseController {
     @PutMapping("update")
     @PreAuthorize("hasPermission('/system/dictType/edit','sys:dictType:edit')")
     public Result update(@RequestBody SysDictType sysDictType){
+        sysDictType.setUpdate();
         boolean result =  sysDictTypeService.updateById(sysDictType);
         return decide(result);
     }

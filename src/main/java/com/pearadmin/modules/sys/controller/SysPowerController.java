@@ -96,6 +96,7 @@ public class SysPowerController extends BaseController {
         if(Strings.isBlank(sysPower.getParentId())){
             return failure("请选择上级菜单");
         }
+        sysPower.setCreate();
         sysPower.setPowerId(SequenceUtil.makeStringId());
         boolean result = sysPowerService.save(sysPower);
         return decide(result);
@@ -112,6 +113,7 @@ public class SysPowerController extends BaseController {
         if(Strings.isBlank(sysPower.getParentId())){
             return failure("请选择上级菜单");
         }
+        sysPower.setUpdate();
         boolean result = sysPowerService.update(sysPower);
         return decide(result);
     }
