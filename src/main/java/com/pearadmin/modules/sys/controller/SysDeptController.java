@@ -1,11 +1,11 @@
 package com.pearadmin.modules.sys.controller;
 
 import com.pearadmin.common.constant.ControllerConstant;
-import com.pearadmin.common.tools.sequence.SequenceUtil;
+import com.pearadmin.common.tools.SequenceUtil;
 import com.pearadmin.common.web.base.BaseController;
-import com.pearadmin.common.web.domain.response.module.ResultTree;
 import com.pearadmin.common.web.domain.response.Result;
 import com.pearadmin.common.web.domain.response.module.ResultTable;
+import com.pearadmin.common.web.domain.response.module.ResultTree;
 import com.pearadmin.modules.sys.domain.SysDept;
 import com.pearadmin.modules.sys.service.ISysDeptService;
 import io.swagger.annotations.Api;
@@ -93,7 +93,6 @@ public class SysDeptController extends BaseController {
     @PreAuthorize("hasPermission('/system/dept/add','sys:dept:add')")
     public Result save(@RequestBody SysDept sysDept) {
         sysDept.setDeptId(SequenceUtil.makeStringId());
-        sysDept.setCreate();
         boolean result = sysDeptService.save(sysDept);
         return decide(result);
     }
@@ -118,9 +117,8 @@ public class SysDeptController extends BaseController {
      */
     @PutMapping("update")
     @PreAuthorize("hasPermission('/system/dept/edit','sys:dept:edit')")
-    public Result update(@RequestBody SysDept SysDept) {
-        SysDept.setUpdate();
-        boolean result = sysDeptService.update(SysDept);
+    public Result update(@RequestBody SysDept sysDept) {
+        boolean result = sysDeptService.update(sysDept);
         return decide(result);
     }
 
@@ -132,6 +130,9 @@ public class SysDeptController extends BaseController {
     @DeleteMapping("remove/{id}")
     @PreAuthorize("hasPermission('/system/dept/remove','sys:dept:remove')")
     public Result remove(@PathVariable String id) {
+        if (sysDeptService.selectByParentId(id).size() > 0) {
+            return failure("请先删除下级部门");
+        }
         boolean result = sysDeptService.remove(id);
         return decide(result);
     }
@@ -155,9 +156,9 @@ public class SysDeptController extends BaseController {
      */
     @PutMapping("enable")
     @PreAuthorize("hasPermission('/system/dept/edit','sys:dept:edit')")
-    public Result enable(@RequestBody SysDept SysDept) {
-        SysDept.setStatus("0");
-        boolean result = sysDeptService.update(SysDept);
+    public Result enable(@RequestBody SysDept sysDept) {
+        sysDept.setStatus("0");
+        boolean result = sysDeptService.update(sysDept);
         return decide(result);
     }
 
@@ -168,9 +169,9 @@ public class SysDeptController extends BaseController {
      */
     @PutMapping("disable")
     @PreAuthorize("hasPermission('/system/dept/edit','sys:dept:edit')")
-    public Result disable(@RequestBody SysDept SysDept) {
-        SysDept.setStatus("1");
-        boolean result = sysDeptService.update(SysDept);
+    public Result disable(@RequestBody SysDept sysDept) {
+        sysDept.setStatus("1");
+        boolean result = sysDeptService.update(sysDept);
         return decide(result);
     }
 }

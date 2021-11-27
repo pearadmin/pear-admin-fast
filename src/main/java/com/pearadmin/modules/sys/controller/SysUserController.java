@@ -4,18 +4,18 @@ import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.constant.ControllerConstant;
 import com.pearadmin.common.plugin.logging.aop.annotation.Logging;
 import com.pearadmin.common.plugin.logging.aop.enums.BusinessType;
-import com.pearadmin.modules.sys.service.ISysLogService;
 import com.pearadmin.common.plugin.submit.annotation.RepeatSubmit;
-import com.pearadmin.common.tools.secure.SecurityUtil;
-import com.pearadmin.common.tools.sequence.SequenceUtil;
-import com.pearadmin.common.tools.servlet.ServletUtil;
+import com.pearadmin.common.tools.SecurityUtil;
+import com.pearadmin.common.tools.SequenceUtil;
+import com.pearadmin.common.tools.ServletUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
 import com.pearadmin.common.web.domain.response.Result;
 import com.pearadmin.common.web.domain.response.module.ResultTable;
-import com.pearadmin.modules.sys.domain.SysUser;
 import com.pearadmin.modules.sys.domain.SysMenu;
+import com.pearadmin.modules.sys.domain.SysUser;
 import com.pearadmin.modules.sys.param.EditPassword;
+import com.pearadmin.modules.sys.service.ISysLogService;
 import com.pearadmin.modules.sys.service.ISysRoleService;
 import com.pearadmin.modules.sys.service.ISysUserService;
 import io.swagger.annotations.Api;
@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -120,7 +119,6 @@ public class SysUserController extends BaseController {
         sysUser.setEnable("1");
         sysUser.setStatus("1");
         sysUser.setUserId(SequenceUtil.makeStringId());
-        sysUser.setCreate();
         sysUser.setPassword(new BCryptPasswordEncoder().encode(sysUser.getPassword()));
         sysUserService.saveUserRole(sysUser.getUserId(), Arrays.asList(sysUser.getRoleIds().split(",")));
         Boolean result = sysUserService.save(sysUser);
@@ -190,7 +188,6 @@ public class SysUserController extends BaseController {
     @Logging(title = "修改用户", describe = "修改用户", type = BusinessType.EDIT)
     public Result update(@RequestBody SysUser sysUser) {
         sysUserService.saveUserRole(sysUser.getUserId(), Arrays.asList(sysUser.getRoleIds().split(",")));
-        sysUser.setUpdate();
         boolean result = sysUserService.update(sysUser);
         return decide(result);
     }
@@ -204,7 +201,8 @@ public class SysUserController extends BaseController {
     @ApiOperation(value = "修改用户头像")
     @Logging(title = "修改头像", describe = "修改头像", type = BusinessType.EDIT)
     public Result updateAvatar(@RequestBody SysUser sysUser) {
-        sysUser.setUserId(((SysUser)SecurityUtil.currentUserObj()).getUserId());
+        String userId = ((SysUser) SecurityUtil.currentUserObj()).getUserId();
+        sysUser.setUserId(userId);
         boolean result = sysUserService.update(sysUser);
         return decide(result);
     }
@@ -228,7 +226,7 @@ public class SysUserController extends BaseController {
      * Param: id
      * Return: Result
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @DeleteMapping("remove/{id}")
     @ApiOperation(value = "删除用户数据")
     @PreAuthorize("hasPermission('/system/user/remove','sys:user:remove')")
@@ -246,7 +244,7 @@ public class SysUserController extends BaseController {
     @GetMapping("menu")
     @ApiOperation(value = "获取用户菜单数据")
     public List<SysMenu> getUserMenu() {
-        SysUser sysUser = (SysUser)SecurityUtil.currentUserObj();
+        SysUser sysUser = (SysUser) SecurityUtil.currentUserObj();
         List<SysMenu> menus = sysUserService.getUserMenu(sysUser.getUsername());
         return sysUserService.toUserMenu(menus, "0");
     }
@@ -310,8 +308,8 @@ public class SysUserController extends BaseController {
      * Return: ModelAndView
      */
     @GetMapping("profile/{id}")
-    public ModelAndView profile(Model model,@PathVariable("id")String userId){
-        model.addAttribute("userId",userId);
+    public ModelAndView profile(Model model, @PathVariable("id") String userId) {
+        model.addAttribute("userId", userId);
         return jumpPage(MODULE_PATH + "profile");
     }
 }

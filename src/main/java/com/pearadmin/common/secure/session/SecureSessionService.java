@@ -5,6 +5,7 @@ import com.pearadmin.modules.sys.domain.SysUser;
 import org.activiti.engine.impl.util.CollectionUtil;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;

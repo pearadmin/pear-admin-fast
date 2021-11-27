@@ -2,11 +2,11 @@ package com.pearadmin.modules.sys.service.impl;
 
 import com.pearadmin.common.config.proprety.TemplateProperty;
 import com.pearadmin.common.constant.SystemConstant;
-import com.pearadmin.common.tools.common.FileUtil;
-import com.pearadmin.common.tools.sequence.SequenceUtil;
-import com.pearadmin.common.tools.servlet.ServletUtil;
-import com.pearadmin.modules.sys.mapper.SysFileMapper;
+import com.pearadmin.common.tools.upload.FileUtil;
+import com.pearadmin.common.tools.SequenceUtil;
+import com.pearadmin.common.tools.ServletUtil;
 import com.pearadmin.modules.sys.domain.SysFile;
+import com.pearadmin.modules.sys.mapper.SysFileMapper;
 import com.pearadmin.modules.sys.service.ISysFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -51,9 +51,9 @@ public class SysFileServiceImpl implements ISysFileService {
     @Override
     public List<String> fileDirs() {
         List<String> fileDirs = new ArrayList<>();
-        java.io.File file = new java.io.File("/home/upload");
+        File file = new File("/home/upload");
         if (file.isDirectory()) {
-            java.io.File[] files = file.listFiles();
+            File[] files = file.listFiles();
             for (int i = 0; i < files.length; i++) {
                 if (files[i].isDirectory()) {
                     String dirName = files[i].getName();
@@ -70,7 +70,7 @@ public class SysFileServiceImpl implements ISysFileService {
      * Return: id
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public String upload(MultipartFile file) {
         String result = "";
         try {
@@ -81,7 +81,7 @@ public class SysFileServiceImpl implements ISysFileService {
             String fileName = fileId + suffixName;
             String fileDir = LocalDate.now().toString();
             String parentPath = uploadProperty.getUploadPath() + fileDir;
-            java.io.File filepath = new java.io.File(parentPath, fileName);
+            File filepath = new File(parentPath, fileName);
             if (!filepath.getParentFile().exists()) {
                 filepath.getParentFile().mkdirs();
             }
@@ -117,11 +117,11 @@ public class SysFileServiceImpl implements ISysFileService {
     public void download(String id) {
         try {
             SysFile file = fileMapper.selectById(id);
-            if( null==file ){
+            if (null == file) {
                 file = new SysFile();
                 file.setFilePath(SystemConstant.EMPTY);
             }
-            java.io.File files = new java.io.File(file.getFilePath());
+            File files = new File(file.getFilePath());
             if (files.exists()) {
                 FileCopyUtils.copy(new FileInputStream(file.getFilePath()), ServletUtil.getResponse().getOutputStream());
             }

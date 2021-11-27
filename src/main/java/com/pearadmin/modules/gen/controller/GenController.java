@@ -1,50 +1,47 @@
 package com.pearadmin.modules.gen.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pearadmin.common.constant.ControllerConstant;
-import com.pearadmin.common.tools.sequence.SequenceUtil;
+import com.pearadmin.common.tools.SequenceUtil;
 import com.pearadmin.common.tools.string.Convert;
 import com.pearadmin.common.tools.string.StringUtil;
 import com.pearadmin.common.web.base.BaseController;
 import com.pearadmin.common.web.domain.request.PageDomain;
-import com.pearadmin.common.web.domain.response.module.ResultSelect;
 import com.pearadmin.common.web.domain.response.Result;
+import com.pearadmin.common.web.domain.response.module.ResultSelect;
 import com.pearadmin.common.web.domain.response.module.ResultTable;
 import com.pearadmin.modules.gen.domain.GenTable;
 import com.pearadmin.modules.gen.domain.GenTableColumn;
-import com.pearadmin.modules.gen.service.IGenTableService;
 import com.pearadmin.modules.gen.service.IGenTableColumnService;
+import com.pearadmin.modules.gen.service.IGenTableService;
 import io.swagger.annotations.Api;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.alibaba.fastjson.JSON;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Describe: 代码生成控制器
  * Author: 就 眠 仪 式
  * CreateTime: 2019/10/23
- * */
+ */
 @Controller
 @Api(tags = {"代码生成"})
 @RequestMapping(ControllerConstant.API_GENERATOR_PREFIX)
 public class GenController extends BaseController {
 
-    private String prefix = "generate";
+    private String prefix = "generate/";
 
     @Resource
     private IGenTableService genTableService;
@@ -52,33 +49,44 @@ public class GenController extends BaseController {
     @Resource
     private IGenTableColumnService genTableColumnService;
 
+    /**
+     * 代码生成页面
+     *
+     * @return {@link ModelAndView}
+     */
     @GetMapping("main")
-    public String gen() {
-        return prefix + "/gen";
+    public ModelAndView gen() {
+        return jumpPage(prefix + "gen");
     }
 
     /**
      * 查询代码生成列表
+     *
+     * @param genTable   查询参数
+     * @param pageDomain 分页参数
      */
     @GetMapping("/list")
     @ResponseBody
     public ResultTable genList(GenTable genTable, PageDomain pageDomain) {
-        PageHelper.startPage(pageDomain.getPage(),pageDomain.getLimit());
+        PageHelper.startPage(pageDomain.getPage(), pageDomain.getLimit());
         List<GenTable> data = genTableService.selectGenTableList(genTable);
         PageInfo<GenTable> pageInfo = new PageInfo<>(data);
-        return pageTable(pageInfo.getList(),pageInfo.getTotal());
+        return pageTable(pageInfo.getList(), pageInfo.getTotal());
     }
 
     /**
      * 查询数据库列表
+     *
+     * @param genTable   查询参数
+     * @param pageDomain 分页参数
      */
     @GetMapping("/db/list")
     @ResponseBody
-    public ResultTable dataList(GenTable genTable,PageDomain pageDomain) {
-        PageHelper.startPage(pageDomain.getPage(),pageDomain.getLimit());
-        List<GenTable> data =genTableService.selectDbTableList(genTable);
+    public ResultTable dataList(GenTable genTable, PageDomain pageDomain) {
+        PageHelper.startPage(pageDomain.getPage(), pageDomain.getLimit());
+        List<GenTable> data = genTableService.selectDbTableList(genTable);
         PageInfo<GenTable> pageInfo = new PageInfo<>(data);
-        return pageTable(pageInfo.getList(),pageInfo.getTotal());
+        return pageTable(pageInfo.getList(), pageInfo.getTotal());
     }
 
     /**
@@ -96,7 +104,7 @@ public class GenController extends BaseController {
      */
     @GetMapping("/importTable")
     public String importTable() {
-        return prefix + "/importTable";
+        return prefix + "importTable";
     }
 
     /**
@@ -107,7 +115,7 @@ public class GenController extends BaseController {
     public Result importTableSave(String tables) {
         String[] tableNames = Convert.toStrArray(tables);
         List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
-        tableList.forEach(table->{
+        tableList.forEach(table -> {
             table.setTableId(SequenceUtil.makeStringId());
         });
         genTableService.importGenTable(tableList, "");
@@ -116,10 +124,12 @@ public class GenController extends BaseController {
 
     /**
      * 修改代码生成业务
+     *
+     * @param tableId  编号
+     * @param modelMap 数据
      */
     @GetMapping("/edit")
-    public String edit(String tableId, ModelMap mmap) {
-        System.out.println("表格编号:"+tableId);
+    public String edit(String tableId, ModelMap modelMap) {
         GenTable table = genTableService.selectGenTableById(tableId);
         List<GenTable> genTables = genTableService.selectGenTableAll();
         List<ResultSelect> cxSelect = new ArrayList<ResultSelect>();
@@ -134,13 +144,15 @@ public class GenController extends BaseController {
                 cxSelect.add(cxTable);
             }
         }
-        mmap.put("table", table);
-        mmap.put("data", JSON.toJSON(cxSelect));
-        return prefix + "/edit";
+        modelMap.put("table", table);
+        modelMap.put("data", JSON.toJSON(cxSelect));
+        return prefix + "edit";
     }
 
     /**
      * 修改保存代码生成业务
+     *
+     * @param genTable 代码生成实体
      */
     @PostMapping("/edit")
     @ResponseBody
@@ -150,6 +162,11 @@ public class GenController extends BaseController {
         return success("保存成功");
     }
 
+    /**
+     * 根据 编号 删除代码生成配置
+     *
+     * @param ids 代码生成编号
+     */
     @PostMapping("/remove")
     @ResponseBody
     public Result remove(String ids) {
@@ -159,6 +176,8 @@ public class GenController extends BaseController {
 
     /**
      * 预览代码
+     *
+     * @param tableId 表格编号
      */
     @GetMapping("/preview/{tableId}")
     @ResponseBody
@@ -168,7 +187,9 @@ public class GenController extends BaseController {
     }
 
     /**
-     * 生成代码（下载方式）
+     * 下载代码
+     *
+     * @param tableName 表格名称
      */
     @GetMapping("/download/{tableName}")
     public void download(HttpServletResponse response, @PathVariable("tableName") String tableName) throws IOException {
@@ -177,7 +198,9 @@ public class GenController extends BaseController {
     }
 
     /**
-     * 生成代码（自定义路径）
+     * 生成代码
+     *
+     * @param tableName 表格名称
      */
     @GetMapping("/genCode/{tableName}")
     @ResponseBody
@@ -198,7 +221,7 @@ public class GenController extends BaseController {
     }
 
     /**
-     * 生成zip文件
+     * 下载压缩文件
      */
     private void genCode(HttpServletResponse response, byte[] data) throws IOException {
         response.reset();

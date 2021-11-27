@@ -4,9 +4,8 @@ package com.pearadmin.common.constant;
  * Describe: 代 码 生 成 通 用 常 量
  * Author: 就 眠 仪 式
  * CreateTime: 2019/10/23
- * */
-public class GenerateConstant
-{
+ */
+public class GenerateConstant {
 
     /** 单表（增删改查） */
     public static final String TPL_CRUD = "crud";
@@ -33,32 +32,35 @@ public class GenerateConstant
     public static final String PARENT_MENU_NAME = "parentMenuName";
 
     /** 数据库字符串类型 */
-    public static final String[] COLUMNTYPE_STR = { "char", "varchar", "narchar", "varchar2", "tinytext", "text",
-            "mediumtext", "longtext" };
+    public static final String[] COLUMNTYPE_STR = {"char", "varchar", "nvarchar", "varchar2", "tinytext", "text",
+            "mediumtext", "longtext"};
 
     /** 数据库时间类型 */
-    public static final String[] COLUMNTYPE_TIME = { "datetime", "time", "date", "timestamp" };
+    public static final String[] COLUMNTYPE_TIME = {"datetime", "time", "date", "timestamp"};
+
+    /** 数据库布尔类型 */
+    public static final String[] COLUMNTYPE_BOOL = {"bit"};
 
     /** 数据库数字类型 */
-    public static final String[] COLUMNTYPE_NUMBER = { "tinyint", "smallint", "mediumint", "int", "number", "integer",
-            "bigint", "float", "float", "double", "decimal" };
+    public static final String[] COLUMNTYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "integer",
+            "bigint", "float", "float", "double", "decimal"};
 
     /** 页面不需要编辑字段 */
-    public static final String[] COLUMNNAME_NOT_EDIT = { "id", "create_by", "create_time", "del_flag" };
+    public static final String[] COLUMNNAME_NOT_EDIT = {"id", "create_by", "create_time", "del_flag"};
 
     /** 页面不需要显示的列表字段 */
-    public static final String[] COLUMNNAME_NOT_LIST = { "id", "create_by", "create_time", "del_flag", "update_by",
-            "update_time" };
+    public static final String[] COLUMNNAME_NOT_LIST = {"id", "create_by", "create_time", "del_flag", "update_by",
+            "update_time"};
 
     /** 页面不需要查询字段 */
-    public static final String[] COLUMNNAME_NOT_QUERY = { "id", "create_by", "create_time", "del_flag", "update_by",
-            "update_time", "remark" };
+    public static final String[] COLUMNNAME_NOT_QUERY = {"id", "create_by", "create_time", "del_flag", "update_by",
+            "update_time", "remark"};
 
     /** Entity基类字段 */
-    public static final String[] BASE_ENTITY = { "createBy", "createTime", "updateBy", "updateTime", "remark" };
+    public static final String[] BASE_ENTITY = {"createBy", "createTime", "updateBy", "updateTime", "remark"};
 
     /** Tree基类字段 */
-    public static final String[] TREE_ENTITY = { "parentName", "parentId", "orderNum", "ancestors" };
+    public static final String[] TREE_ENTITY = {"parentName", "parentId"};
 
     /** 文本框 */
     public static final String HTML_INPUT = "input";
@@ -98,6 +100,8 @@ public class GenerateConstant
 
     /** 时间类型 */
     public static final String TYPE_DATE = "Date";
+
+    public static final String TYPE_BOOLEAN = "Boolean";
 
     /** 模糊查询 */
     public static final String QUERY_LIKE = "LIKE";

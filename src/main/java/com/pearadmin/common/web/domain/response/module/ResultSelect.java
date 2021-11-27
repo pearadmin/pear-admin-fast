@@ -1,5 +1,7 @@
 package com.pearadmin.common.web.domain.response.module;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,10 +9,9 @@ import java.util.List;
  * Describe: 前 端 下 拉 树
  * Author: 就 眠 仪 式
  * CreateTime: 2019/10/23
- * */
-public class ResultSelect implements Serializable
-{
-    private static final long serialVersionUID = 1L;
+ */
+@Data
+public class ResultSelect implements Serializable {
 
     /**
      * 数据值字段名称
@@ -27,43 +28,10 @@ public class ResultSelect implements Serializable
      */
     private List<ResultSelect> s;
 
-    public ResultSelect()
-    {
-    }
+    public ResultSelect() {}
 
-    public ResultSelect(String v, String n)
-    {
+    public ResultSelect(String v, String n) {
         this.v = v;
         this.n = n;
-    }
-
-    public List<ResultSelect> getS()
-    {
-        return s;
-    }
-
-    public void setN(String n)
-    {
-        this.n = n;
-    }
-
-    public String getN()
-    {
-        return n;
-    }
-
-    public void setS(List<ResultSelect> s)
-    {
-        this.s = s;
-    }
-
-    public String getV()
-    {
-        return v;
-    }
-
-    public void setV(String v)
-    {
-        this.v = v;
     }
 }

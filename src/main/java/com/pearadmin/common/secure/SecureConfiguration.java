@@ -1,21 +1,22 @@
 package com.pearadmin.common.secure;
 
+import com.pearadmin.common.config.proprety.SecurityProperty;
 import com.pearadmin.common.secure.process.*;
 import com.pearadmin.common.secure.support.SecureCaptchaSupport;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import com.pearadmin.common.config.proprety.SecurityProperty;
-import com.pearadmin.common.secure.domain.SecureUserDetailsService;
-import com.pearadmin.common.secure.domain.SecureUserTokenService;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
 import javax.annotation.Resource;
 
 /**
@@ -39,25 +40,25 @@ public class SecureConfiguration extends WebSecurityConfigurerAdapter {
      * 登录成功处理类
      */
     @Resource
-    private SecureAuthenticationSuccessHandler securityAccessSuccessHander;
+    private SecureAuthenticationSuccessHandler securityAccessSuccessHandler;
 
     /**
      * 登录失败处理类
      */
     @Resource
-    private SecureAuthenticationFailureHandler securityAccessFailureHander;
+    private SecureAuthenticationFailureHandler securityAccessFailureHandler;
 
     /**
      * 退出登录处理类
      */
     @Resource
-    private SecureLogoutSuccessHandler securityAccessLogoutHander;
+    private SecureLogoutSuccessHandler securityAccessLogoutHandler;
 
     /**
      * 没有权限处理类
      */
     @Resource
-    private SecureAccessDeniedHandler securityAccessDeniedHander;
+    private SecureAccessDeniedHandler securityAccessDeniedHandler;
 
     /**
      * 配置不拦截url
@@ -69,13 +70,13 @@ public class SecureConfiguration extends WebSecurityConfigurerAdapter {
      * 实现userservice
      */
     @Resource
-    private SecureUserDetailsService securityUserDetailsService;
+    private UserDetailsService securityUserDetailsService;
 
     /**
      * remember me redis持久化
      */
     @Resource
-    private SecureUserTokenService securityUserTokenService;
+    private PersistentTokenRepository securityUserTokenService;
 
     /**
      * 自定义验证码验证
@@ -135,20 +136,20 @@ public class SecureConfiguration extends WebSecurityConfigurerAdapter {
                 // 登录接口
                 .loginProcessingUrl("/login")
                 // 配置登录成功自定义处理类
-                .successHandler(securityAccessSuccessHander)
+                .successHandler(securityAccessSuccessHandler)
                 // 配置登录失败自定义处理类
-                .failureHandler(securityAccessFailureHander)
+                .failureHandler(securityAccessFailureHandler)
                 .and()
                 .logout()
                 .addLogoutHandler(securityLogoutHandler)
                 // 退出登录删除 cookie缓存
                 .deleteCookies("JSESSIONID")
                 // 配置用户登出自定义处理类
-                .logoutSuccessHandler(securityAccessLogoutHander)
+                .logoutSuccessHandler(securityAccessLogoutHandler)
                 .and()
                 .exceptionHandling()
                 // 配置没有权限自定义处理类
-                .accessDeniedHandler(securityAccessDeniedHander)
+                .accessDeniedHandler(securityAccessDeniedHandler)
                 .and()
                 .rememberMe()
                 .rememberMeParameter("remember-me")

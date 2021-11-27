@@ -1,11 +1,11 @@
 package com.pearadmin.modules.sys.service.impl;
 
 import com.pearadmin.common.config.proprety.TemplateProperty;
-import com.pearadmin.common.tools.common.FTPUtil;
-import com.pearadmin.common.tools.sequence.SequenceUtil;
-import com.pearadmin.common.tools.servlet.ServletUtil;
-import com.pearadmin.modules.sys.mapper.SysFileMapper;
+import com.pearadmin.common.tools.upload.FTPUtil;
+import com.pearadmin.common.tools.SequenceUtil;
+import com.pearadmin.common.tools.ServletUtil;
 import com.pearadmin.modules.sys.domain.SysFile;
+import com.pearadmin.modules.sys.mapper.SysFileMapper;
 import com.pearadmin.modules.sys.service.ISysFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -100,8 +99,8 @@ public class SysFileFTPServiceImpl implements ISysFileService {
         //如果文件不存在
         if (file != null && file.getFilePath() != null) {
             FTPClient ftpClient = FTPUtil.open(uploadProperty.getHostname(), uploadProperty.getUsername(), uploadProperty.getPassword());
-            if (ftpClient.isConnected()){
-                FTPUtil.remove(ftpClient,file.getFilePath());
+            if (ftpClient.isConnected()) {
+                FTPUtil.remove(ftpClient, file.getFilePath());
             }
             FTPUtil.close(ftpClient);
         } else {

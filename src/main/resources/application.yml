@@ -1,7 +1,7 @@
 # Tomcat
 server:
   # 端 口
-  port: 80
+  port: 8080
   # Servlet
   servlet:
     # Session
@@ -22,12 +22,6 @@ spring:
     # 是 否 检 查 流 程 定 义 文 件
     check-process-definitions: false
 
-# Mybatis 配 置
-mybatis:
-  # 配 置 扫 描
-  mapper-locations: classpath*:**/xml/**.xml
-  # 别 名 扫 描
-  type-aliases-package: com.pearadmin
 
 # Pear 插 件 配 置 信 息
 pear:
@@ -44,15 +38,15 @@ pear:
     # 协 议
     licence: MIT
     # 协 议 地 址
-    licence-url: https://gitee.com/pear_community
+    licence-url: https://gitee.com/pear-admin/Pear-Admin-Boot/blob/master/LICENSE
     # 组 织 信 息
-    terms-of-service-url: https://gitee.com/pear_community
+    terms-of-service-url: https://gitee.com/pear-admin
     # 版 本 信 息
     version: Release 2.0.0
     # 扩 展 信 息
     contact:
       # 作 者
-      name: 就 眠 仪 式
+      name: 就 眠 儀 式
       # 连 接
       url: www.pearadmin.cn
       # 邮 箱
@@ -101,8 +95,17 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
 
+# 日志配置
 logging:
   config: classpath:logback-spring.xml
 
-
-
+# Mybatis 配 置
+mybatis-plus:
+  # 配 置 扫 描
+  mapper-locations: classpath*:**/xml/**.xml
+  # 别 名 扫 描
+  type-aliases-package: com.pearadmin
+  ## 日志打印
+  configuration:
+    ## 日志实现
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

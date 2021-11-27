@@ -32,7 +32,7 @@ public class SysMailController extends BaseController {
     /**
      * 基 础 路 径
      */
-    private String MODULE_PATH = "system/mail/";
+    private final String MODULE_PATH = "system/mail/";
 
     @Resource
     private ISysMailService sysMailService;
@@ -113,5 +113,4 @@ public class SysMailController extends BaseController {
         ArrayList<String> idList = CollectionUtil.newArrayList(StringUtil.split(ids, ","));
         return decide(sysMailService.removeByIds(idList));
     }
-
 }
